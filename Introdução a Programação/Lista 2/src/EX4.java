@@ -3,7 +3,7 @@ public class EX4 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int nota1, nota2, nota3;
+        double nota1, nota2, nota3;
         double media;
 
         System.out.println("Nota 1:");
@@ -13,7 +13,7 @@ public class EX4 {
         System.out.println("Nota 3:");
         nota3 = sc.nextInt();
 
-        media = (nota1 * 5) + (nota2 * 3) + (nota3 * 2) / 10;
+        media = ((nota1 * 5) + (nota2 * 3) + (nota3 * 2)) / 10;
 
         System.out.println(media);
 

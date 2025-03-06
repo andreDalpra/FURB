@@ -1,0 +1,337 @@
+Exercícios 1
+
+1. Calculadora Simples:  
+Implemente um algoritmo em pseudocódigo que solicite dois números ao usuário e realize as quatro 
+operações básicas (adição, subtração, multiplicação e divisão). Certifique-se de tratar o caso de divisão por 
+zero. 
+
+nr1, nr2
+
+escreva("Digite um numero: ")
+leia(nr1)
+escreva("Digite outro numero: ")
+leia(nr2)
+
+escreva(nr1 + nr2)
+escreva(nr1 - nr2)
+escreva(nr1 * nr2)
+
+se( nr2 == 0)
+escreva("impossível realizar a operação"))
+
+senao(
+escreva(nr1 / nr2))
+
+_______________________________________________________________________________________________
+
+
+2. Cálculo do raio de um círculo: 
+Escreva um algoritmo em pseudocódigo que peça ao usuário o valor do raio de um círculo e implemente 
+uma função para calcular e exibir a área desse círculo. Utilize 3,14 como valor de Pi.
+
+
+raio
+
+
+funcao areaCirculo(
+
+area = raio * 3.14
+escreva(area)
+)
+escreva("Digite o raio o circulo: ")
+leia(raio)
+areaCirculo()
+
+_______________________________________________________________________________________________
+
+3. Gerenciamento de Retângulos: 
+Desenvolva um algoritmo em pseudocódigo que peça ao usuário as medidas de comprimento e largura de 
+um retângulo. Implemente funções para calcular e exibir a área e o perímetro do retângulo.
+
+largura, comprimento
+
+funcao perimetroRet(
+
+leia(largura)
+leia(comprimento)
+
+escreva(largura + largura + comprimento + comprimento))
+
+funcao areaRet(
+
+leia(largura)
+leia(comprimento)
+escreva(largura * comprimento)
+)
+escreva("Digite a largura: ")
+leia(largura)
+escreva("Digite o comprimento")
+leia(comprimento)
+
+perimetroRet()
+areaRet()
+
+
+_______________________________________________________________________________________________
+
+
+
+4. Conta Bancária: 
+Implemente um algoritmo em pseudocódigo que represente uma Conta Bancária e que possua os atributos 
+número da conta e saldo. Crie funções para depositar e sacar dinheiro da conta, garantindo que não seja 
+possível sacar um valor maior que o saldo disponível. 
+
+nrConta, saldo, opcao
+
+funcao depositar(
+
+vlrDeposito
+
+escreva("Informe o valor de depósito: ")
+leia(vlrDeposito)
+
+saldo += vlrDeposito
+)
+
+funcao sacar(
+
+vlrSaque
+
+escreva("Informe o valor do saque")
+leia(vlrSaque)
+
+se(vlrSaque > saldo)(
+
+escreva("Saldo insuficiente"))
+
+senao(
+escreva("Saque efetuado"))
+
+)
+
+escreva("Informe o numero da conta")
+leia(nrConta)
+
+escreva("Digite 1 para sacar ou 2 para depositar")
+leia(opcao)
+
+escolha( opcao )
+
+caso 1: depositar()
+
+caso 2: sacar()
+
+
+
+_______________________________________________________________________________________________
+
+
+
+5. Gerenciar uma Loja: 
+Crie um algoritmo em pseudocódigo para representar um item de uma loja (Produto). O Produto deve 
+possuir os atributos nome, preço e quantidade em estoque. Implemente funções para adicionar e remover 
+produtos do estoque e uma função para calcular o valor total do estoque.
+
+nome, preco, qtd
+
+funcao addProduto(
+
+escreva("Informe o nome do produto")
+leia(nome)
+escreva("Informe o preco do produto")
+leia(preco)
+escreva("Informe a quantidade do produto")
+leia(qtd)
+
+)
+
+funcao deleteProduto(
+
+escreva("Informe o nome do produto a ser deletado")
+leia(nome)
+
+)
+
+_______________________________________________________________________________________________
+
+6. Consumo de combustível de um veículo: 
+Desenvolva um algoritmo em pseudocódigo que represente um Veículo e possua os atributos modelo, 
+capacidade do tanque e quilometragem rodada na última viagem. Implemente um método que calcule e 
+exiba a média de consumo do veículo, considerando que o motorista encheu o tanque antes da viagem.
+
+
+modelo, tanque, kmRodado
+
+funcao mostrarConsumo(
+
+media
+
+leia(tanque)
+leia(kmRodado)
+
+media = kmRodado / tanque)
+
+)
+
+escreva("Informe o capacidade do tanque do carro")
+escreva("Informe a distancia percorrida")
+mostrarCOnsumo()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,4 @@
+package Questao2;
 
 import java.util.Scanner;
 
@@ -14,6 +15,6 @@ public class App {
 
         double imc = p1.calcularIMC();
         System.out.println("Seu IMC é" + imc);
-
+        sc.close();
     }
 }

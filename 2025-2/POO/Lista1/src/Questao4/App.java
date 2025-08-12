@@ -1,3 +1,4 @@
+package Questao4;
 
 import java.util.Scanner;
 
@@ -18,12 +19,12 @@ public class App {
         }
         System.out.println("Relatório IMC");
         //IMPRIMINDO OS DADOS
-        for (int i = 0; i < p.altura.length; i--) {
+        for (int i = p.altura.length - 1 ; i >= 0 ; i--) {
             System.out.println("Nome: "+ p.nome[i]);
             System.out.println("\nPeso: "+ p.peso[i]);
             System.out.println("\nAltura: "+ p.altura[i]);
             System.out.println("\nIMC: "+ p.calcularIMC(i));
         }
-
+        
     }
 }

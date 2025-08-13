@@ -3,7 +3,7 @@ package Questao4;
 import java.util.Scanner;
 
 public class App {
-
+ 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Pessoa p = new Pessoa();
@@ -14,8 +14,7 @@ public class App {
             System.out.println("Qual seu peso? ");
             p.peso[i] = sc.nextDouble();
             System.out.println("Qual sua altura? ");
-            p.altura[i] = sc.nextDouble();
-
+            p.altura[i] = sc.nextDouble();           
         }
         System.out.println("Relatório IMC");
         //IMPRIMINDO OS DADOS

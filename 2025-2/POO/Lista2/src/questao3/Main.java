@@ -32,6 +32,6 @@ public class Main {
         System.out.println(conta1.getTitular() + ": R$" + conta1.getSaldo());
         System.out.println(conta2.getTitular() + ": R$" + conta2.getSaldo());
 
-
+        sc.close();
     }
 }

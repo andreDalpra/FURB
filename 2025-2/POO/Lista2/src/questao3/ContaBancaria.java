@@ -29,7 +29,7 @@ public class ContaBancaria {
         }  
     }
 
-    public boolean transferir(ContaBancaria conta , double valor){
+    public boolean transferir(ContaBancaria contaDestino , double valor){
       if(valor <= 0) {
             System.out.println("Valor inválido para transferência.");
             return false;
@@ -38,7 +38,7 @@ public class ContaBancaria {
             System.out.println("O valor do saque não pode ser maior que o saldo da conta");
       }
         this.saldo -= valor;
-        conta.saldo += valor;
+        contaDestino.saldo += valor;
         System.out.println("Transferência de "+valor+" realizada com sucesso.");
         return true;
     }

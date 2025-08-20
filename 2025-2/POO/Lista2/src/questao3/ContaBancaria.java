@@ -5,6 +5,7 @@ public class ContaBancaria {
     private String numero;
     private String titular;
     private double saldo;
+    public static double teste;
     
     public void depositar(double valor){
         if(valor<0){

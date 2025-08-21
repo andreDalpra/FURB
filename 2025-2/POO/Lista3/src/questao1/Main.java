@@ -1,3 +1,4 @@
+package questao1;
 
 import java.util.Scanner;
 
@@ -15,6 +16,15 @@ public class Main {
             System.out.println("Informe o salário do(a) "+ f_funcionario[i].getNome()+":");
             f_funcionario[i].setSalario(sc.nextDouble());
         }
-
+        
+        System.out.println("---IMPRIMINDO IRPF---");
+        for (int i = 0; i < f_funcionario.length; i++) {
+			System.out.println("Nome: "+ f_funcionario[i].getNome());
+			System.out.println("Salário: "+ f_funcionario[i].getSalario());
+			System.out.println("IRPF: " + f_funcionario[i].calculaIRPF());
+		}
+       
+    sc.close();
     }
+   
 }

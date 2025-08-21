@@ -5,7 +5,8 @@ public class Funcionario {
     private double salario;
 
     public double calculaIRPF(){
-        double l_aliipo;
+        double vlripo = 0.0;
+        double l_aliipo = 0.0;
         if (salario > 1903.98 && salario <= 2826.65){
             l_aliipo = 0.075;
         }else if(salario >2826.65 && salario <= 3751.05){//REVER
@@ -17,7 +18,7 @@ public class Funcionario {
         }else{
             l_aliipo = 0;
         }
-        return salario * l_aliipo;
+        return vlripo;
     }
 
     public double getSalario() {

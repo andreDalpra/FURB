@@ -13,10 +13,10 @@ public class Livro {
 		totalLivros++;
 	}
 
-	public Livro(String titulo, String autor, int anoPublicacao) {
+	public Livro(String titulo, String autor, int ano) {
 		this.titulo = titulo;
 		this.autor = autor;
-		this.anoPublicacao = anoPublicacao;
+		anoPublicacao = ano;
 		totalLivros++;
 	}
 
@@ -31,10 +31,8 @@ public class Livro {
 	public String exibirInfo(boolean resumido) {
 		if (resumido) {
 			return "Título:" + titulo;
-		} else {
+		} 
 			return exibirInfo();
-		}
-
 	}
 
 	public String getTitulo() {

@@ -1,4 +1,5 @@
 package questao1;
+import java.lang.*;
 
 public class Funcionario {
 
@@ -42,7 +43,7 @@ public class Funcionario {
 
 	public void setSalario(double salario) {
 		if(salario < 0) {
-			System.out.println("Valor Inválido");
+			throw new IllegalArgumentException();
 		}
 		this.salario = salario;
 	}

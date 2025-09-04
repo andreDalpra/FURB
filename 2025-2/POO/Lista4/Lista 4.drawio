@@ -1,0 +1,62 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.2">
+  <diagram name="Página-1" id="68e15GcEW_7KHQM4oKyJ">
+    <mxGraphModel dx="872" dy="439" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-5" value="Aluno" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="100" y="40" width="200" height="220" as="geometry">
+            <mxRectangle x="190" y="50" width="100" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-6" value="- nome : string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="26" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-7" value="- matricula : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="52" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-8" value="- idade : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="78" width="200" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-10" value="- altura : double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="100" width="200" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-9" value="- peso : double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="122" width="200" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-12" value="+ Aluno( nome, idada, matricula, altura, peso" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="150" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-11" value="+ Aluno ( nome, idade,&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;matricula)&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-5">
+          <mxGeometry y="190" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-13" value="Plano Treino" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="390" y="40" width="200" height="210" as="geometry">
+            <mxRectangle x="190" y="50" width="100" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-14" value="- descricao : string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="26" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-15" value="- nivel : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="52" width="200" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-16" value="- ativo : boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="78" width="200" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-17" value="+ ativar()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="100" width="200" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-18" value="+ desativar()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="122" width="200" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-19" value="+ PlaTreino( descricao, nivel, ativo)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="150" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TbE3bt5Q5N9zBTFCUuKq-20" value="+ PlanoTreino(ativo)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fontStyle=0;horizontal=1;" vertex="1" parent="TbE3bt5Q5N9zBTFCUuKq-13">
+          <mxGeometry y="180" width="200" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

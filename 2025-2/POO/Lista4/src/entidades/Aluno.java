@@ -14,6 +14,8 @@ public class Aluno {
 	private int idade;
 	private double peso;
 	private double altura;
+	private Instrutor instrutor;
+	private PlanoTreino treino;
 
 	/**
 	 * Constrói um aluno com todas as informações fornecidas.
@@ -148,5 +150,13 @@ public class Aluno {
 	public String toString() {
 		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "
 				+ altura;
+	}
+	
+	public Instrutor getInstrutor() {
+		return instrutor;
+	}
+
+	public void setInstrutor(Instrutor instrutor) {
+		this.instrutor = instrutor;
 	}
 }

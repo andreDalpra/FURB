@@ -1,5 +1,8 @@
 package entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Representa um plano de treino dentro da academia.
  * 
@@ -13,6 +16,8 @@ public class PlanoTreino {
 
     private String descricao;
     private boolean ativo;
+    private List<Aluno> alunos  = new ArrayList<>();
+    private List<Exercicios> exercicio;
 
     /**
      * Construtor completo para criar um plano de treino.
@@ -21,9 +26,17 @@ public class PlanoTreino {
      * @param ativo indica se o plano será criado ativo ou não
      * @throws IllegalArgumentException se a descrição for nula ou vazia
      */
-    public PlanoTreino(String descricao, boolean ativo) {
+    
+    public void incluirTreino(Aluno aluno) {
+    	if (alunos.size() == 1 ) {
+    		throw new RuntimeException("Não da para incluir mais que 1 aluno");
+    	}
+    	alunos.add(aluno);
+    }
+    public PlanoTreino(String descricao, boolean ativo, String nome, int series, int reps, double carga) {
         setDescricao(descricao);
         this.ativo = ativo;
+        this.exercicio = exercicio.add(exercicio e);
     }
 
     /**
@@ -91,4 +104,16 @@ public class PlanoTreino {
     public String toString() {
         return "PlanoTreino: " + descricao + " (Ativo: " + ativo + ")";
     }
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 }

@@ -20,31 +20,20 @@ public class Main {
         System.out.println("Testando Alunos e Planos:\n");
 
         Aluno a1 = new Aluno("Ana", "231", 25, 62.0, 1.68);
-        Aluno a2 = new Aluno("Andre", "322");
-        a2.setIdade(30);
-        a2.setPeso(82.5);
-        a2.setAltura(1.80);
-
-        PlanoTreino p1 = new PlanoTreino("Treino de força", true);
-        PlanoTreino p2 = new PlanoTreino("Cardio");
-        p2.ativar();
-
-        System.out.println(a1);
-        System.out.println(a2);
-        System.out.println(p1);
-        System.out.println(p2);
-
-        System.out.println("\nTestando Exceções:\n");
-        try {
-            new Aluno("Pedro", "302", -5, 70, 1.75);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro (idade): " + e.getMessage());
-        }
-
-        try {
-            new PlanoTreino("   ");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro (descrição): " + e.getMessage());
-        }
+        Instrutor i1 = new Instrutor("JOSILDO", "024", "PARKOUR POV", null);
+        Instrutor i2 = new Instrutor("JOSILDO PAI", "025", "PARKOUR MESTRE", i1);
+        
+        //TESTANDO PLANO TREINO
+        
+        PlanoTreino p1 = new PlanoTreino("Treino de força");
+        p1.incluirTreino(a1);
+        System.out.println(p1.toString());
+        p1.ativar();
+        p1.adicionarExercicio(new Exercicio("TESTE MAIN", 1, 0, 0.0));
+        System.out.println(p1.toString());
+        p1.adicionarExercicio(new Exercicio("TESTE CORRDIA", 2, 3, 0.0));
+        System.out.println(p1.toString());
+     
+        
     }
 }

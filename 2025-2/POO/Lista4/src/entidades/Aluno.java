@@ -33,6 +33,8 @@ public class Aluno {
 		setIdade(idade);
 		this.peso = peso;
 		this.altura = altura;
+		this.instrutor = instrutor;
+		this.treino = treino;
 	}
 
 	/**
@@ -158,5 +160,13 @@ public class Aluno {
 
 	public void setInstrutor(Instrutor instrutor) {
 		this.instrutor = instrutor;
+	}
+
+	public PlanoTreino getTreino() {
+		return treino;
+	}
+
+	public void setTreino(PlanoTreino treino) {
+		this.treino = treino;
 	}
 }

@@ -17,7 +17,7 @@ public class PlanoTreino {
     private String descricao;
     private boolean ativo;
     private List<Aluno> alunos  = new ArrayList<>();
-    private List<Exercicios> exercicio;
+    private List<Exercicio> exercicio = new ArrayList<>();
 
     /**
      * Construtor completo para criar um plano de treino.
@@ -27,16 +27,12 @@ public class PlanoTreino {
      * @throws IllegalArgumentException se a descrição for nula ou vazia
      */
     
-    public void incluirTreino(Aluno aluno) {
-    	if (alunos.size() == 1 ) {
-    		throw new RuntimeException("Não da para incluir mais que 1 aluno");
-    	}
-    	alunos.add(aluno);
-    }
+    
     public PlanoTreino(String descricao, boolean ativo, String nome, int series, int reps, double carga) {
         setDescricao(descricao);
         this.ativo = ativo;
-        this.exercicio = exercicio.add(exercicio e);
+        this.exercicio = new ArrayList<>();
+        this.exercicio.add(new Exercicio(nome, series, reps, carga));
     }
 
     /**
@@ -49,7 +45,20 @@ public class PlanoTreino {
         setDescricao(descricao);
         this.ativo = false;
     }
-
+    
+ //MÉTODOS
+    
+    public void incluirTreino(Aluno p_aluno) {
+    	if (alunos.size() == 1 ) {
+    		throw new RuntimeException("Não da para incluir mais que 1 aluno");
+    	}
+    	alunos.add(p_aluno);
+    }
+    
+    public void adicionarExercicio(Exercicio exercicio) {
+    	this.exercicio.add(exercicio);
+    }
+   
     /**
      * Retorna a descrição do plano.
      * 
@@ -65,11 +74,11 @@ public class PlanoTreino {
      * @param descricao descrição do plano (não pode ser nula ou vazia)
      * @throws IllegalArgumentException se a descrição for nula ou vazia
      */
-    public void setDescricao(String descricao) {
-        if (descricao == null || descricao.trim().isEmpty()) {
+    public void setDescricao(String p_descricao) {
+        if (p_descricao == null || p_descricao.isBlank()) {
             throw new IllegalArgumentException("Descrição do plano não pode ser vazia.");
         }
-        this.descricao = descricao;
+        this.descricao = p_descricao;
     }
 
     /**
@@ -102,7 +111,7 @@ public class PlanoTreino {
      */
     @Override
     public String toString() {
-        return "PlanoTreino: " + descricao + " (Ativo: " + ativo + ")";
+        return "PlanoTreino: " + descricao + " (Ativo: " + ativo + ")" + "EXERCICIOS: " + exercicio;
     }
 
 	public List<Aluno> getAlunos() {

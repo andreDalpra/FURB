@@ -3,19 +3,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Instrutor {
+    private String nome;
+    private String cref;
+    private String especialidade;
+    private List<Aluno> alunos  = new ArrayList<>();
+    private Instrutor mentor;
 
-	private String nome;
-	private String cref;
-	private String especialidade;
-	private List<Aluno> alunos  = new ArrayList<>();
-	private Instrutor mentor;
-	
-	public Instrutor(String nome, String cref, String especialidade, Instrutor mentor) {
-		this.nome = nome;
-		this.cref = cref;
-		this.especialidade = especialidade;
-		this.mentor = mentor;
-	}
+    public Instrutor(String nome, String cref, String especialidade, Instrutor mentor) {
+        this.nome = nome;
+        this.cref = cref;
+        this.especialidade = especialidade;
+        this.mentor = mentor;
+    }
 	
 	public void adicionarAluno(Aluno aluno) {
 		alunos.add(aluno);
@@ -69,7 +68,8 @@ public class Instrutor {
 	public void setMentor(Instrutor mentor) {
 		this.mentor = mentor;
 	}
-	
+
+    
 
 
 }

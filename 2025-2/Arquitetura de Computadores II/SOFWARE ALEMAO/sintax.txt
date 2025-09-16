@@ -1,0 +1,1 @@
+nasm HiWorld.asm -o HiWorld.com

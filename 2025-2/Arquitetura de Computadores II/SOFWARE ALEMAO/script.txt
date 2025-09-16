@@ -1,0 +1,7 @@
+s
+reset
+scr
+cs=1100
+scr
+exe .\star.com
+e

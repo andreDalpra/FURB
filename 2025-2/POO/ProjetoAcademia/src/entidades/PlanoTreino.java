@@ -3,126 +3,107 @@ package entidades;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Representa um plano de treino dentro da academia.
- * 
- * <p>Um plano de treino possui uma descrição e pode estar ativo ou inativo.
- * Ele pode ser criado já ativo ou inicialmente desativado, e possui métodos
- * para alterar seu estado.</p>
- * 
- * @author SEU_NOME_AQUI
- */
+enum Nivel {
+	INICIANTE, INTERMEDIARIO, AVANCADO
+}
+
 public class PlanoTreino {
 
-    private String descricao;
-    private boolean ativo;
-    private List<Aluno> alunos  = new ArrayList<>();
-    private List<Exercicio> exercicio = new ArrayList<>();
+	private String descricao;
+	private boolean ativo;
+	private Aluno aluno;
+	private Nivel nivel;
+	private List<Exercicio> exercicio = new ArrayList<>();
 
-    /**
-     * Construtor completo para criar um plano de treino.
-     * 
-     * @param descricao descrição do plano (não pode ser nula ou vazia)
-     * @param ativo indica se o plano será criado ativo ou não
-     * @throws IllegalArgumentException se a descrição for nula ou vazia
-     */
-    
-    
-    public PlanoTreino(String descricao, boolean ativo, String nome, int series, int reps, double carga) {
-        setDescricao(descricao);
-        this.ativo = ativo;
-        this.exercicio = new ArrayList<>();
-        this.exercicio.add(new Exercicio(nome, series, reps, carga));
-    }
-
-    /**
-     * Construtor alternativo que cria um plano inicialmente inativo.
-     * 
-     * @param descricao descrição do plano (não pode ser nula ou vazia)
-     * @throws IllegalArgumentException se a descrição for nula ou vazia
-     */
-    public PlanoTreino(String descricao) {
-        setDescricao(descricao);
-        this.ativo = false;
-    }
-    
- //MÉTODOS
-    
-    public void incluirTreino(Aluno p_aluno) {
-    	if (alunos.size() == 1 ) {
-    		throw new RuntimeException("Não da para incluir mais que 1 aluno");
-    	}
-    	alunos.add(p_aluno);
-    }
-    
-    public void adicionarExercicio(Exercicio exercicio) {
-    	this.exercicio.add(exercicio);
-    }
-   
-    /**
-     * Retorna a descrição do plano.
-     * 
-     * @return a descrição do plano
-     */
-    public String getDescricao() {
-        return descricao;
-    }
-
-    /**
-     * Define a descrição do plano.
-     * 
-     * @param descricao descrição do plano (não pode ser nula ou vazia)
-     * @throws IllegalArgumentException se a descrição for nula ou vazia
-     */
-    public void setDescricao(String p_descricao) {
-        if (p_descricao == null || p_descricao.isBlank()) {
-            throw new IllegalArgumentException("Descrição do plano não pode ser vazia.");
-        }
-        this.descricao = p_descricao;
-    }
-
-    /**
-     * Verifica se o plano está ativo.
-     * 
-     * @return {@code true} se o plano estiver ativo, {@code false} caso contrário
-     */
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    /**
-     * Ativa o plano de treino.
-     */
-    public void ativar() {
-        this.ativo = true;
-    }
-
-    /**
-     * Desativa o plano de treino.
-     */
-    public void desativar() {
-        this.ativo = false;
-    }
-
-    /**
-     * Retorna uma representação textual do plano de treino.
-     * 
-     * @return string representando o plano
-     */
-    @Override
-    public String toString() {
-        return "PlanoTreino: " + descricao + " (Ativo: " + ativo + ")" + "EXERCICIOS: " + exercicio;
-    }
-
-	public List<Aluno> getAlunos() {
-		return alunos;
+	public PlanoTreino(String descricao, boolean ativo, Aluno aluno, Nivel nivel, String nome, int series, int reps,
+			double carga) {
+		setDescricao(descricao);
+		this.ativo = ativo;
+		this.exercicio = new ArrayList<>();
+		this.exercicio.add(new Exercicio(nome, series, reps, carga));
 	}
 
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
+	public PlanoTreino(String p_descricao) {
+		setDescricao(p_descricao);
+		this.ativo = false;
+	}
+
+	// MÉTODOS
+
+	public void incluirTreino(Aluno p_aluno) {
+		this.aluno = p_aluno;
+		aluno.setTreino(this);
+	}
+
+	public void listarExercicios() {
+		String exerciciosStr = "";
+		for (Exercicio ex : exercicio) {
+			exerciciosStr += ex + "\n";
+		}
+		System.out.println(exerciciosStr);
+	}
+
+	public void adicionarExercicio(Exercicio exercicio) {
+		this.exercicio.add(exercicio);
+	}
+
+	public void removerExercicio(Exercicio exercicio) {
+		this.exercicio.remove(exercicio);
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String p_descricao) {
+		if (p_descricao == null || p_descricao.isBlank()) {
+			throw new IllegalArgumentException("Descrição do plano não pode ser vazia.");
+		}
+		this.descricao = p_descricao;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void ativar() {
+		this.ativo = true;
+	}
+
+	public void desativar() {
+		this.ativo = false;
+	}
+
+	public List<Exercicio> getExercicio() {
+		return exercicio;
+	}
+
+	@Override
+	public String toString() {
+		String exerciciosStr = "";
+		for (Exercicio ex : exercicio) {
+			exerciciosStr += ex + "\n";
+		}
+		return "\nPlanoTreino: " + descricao + "\n (Ativo: " + ativo + ")\n EXERCICIOS: " + exerciciosStr;
 	}
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+
+	public Nivel getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
 	}
 }

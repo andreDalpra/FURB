@@ -94,4 +94,5 @@ public class Aluno {
 	public void setTreino(PlanoTreino treino) {
 		this.treino = treino;
 	}
+	
 }

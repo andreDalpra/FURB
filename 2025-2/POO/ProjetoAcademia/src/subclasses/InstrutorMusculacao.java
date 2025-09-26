@@ -1,0 +1,22 @@
+package subclasses;
+import entidades.Instrutor;
+
+public class InstrutorMusculacao extends Instrutor{
+
+	public InstrutorMusculacao(String nome, String cref, String especialidade, Instrutor mentor) {
+		super(nome, cref, especialidade, mentor);
+	}
+	
+	@Override
+	public String getResumo (String resumo) {
+	
+		return "Este é um isntrutor de musculação" + super.getResumo(resumo);
+	}
+	
+	@Override
+	public String toString() {
+		String l_resumo = "";
+		return getResumo(l_resumo);
+	}
+
+}

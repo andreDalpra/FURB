@@ -23,11 +23,9 @@ public class Main {
         System.out.println(p1.toString());
         p1.ativar();
         p1.adicionarExercicio(new Exercicio("TESTE MAIN", 1, 0, 0.0));
-        PlanoTreino p2 = null;
         System.out.println(p1.toString());
         p1.adicionarExercicio(new Exercicio("TESTE CORRDIA", 2, 3, 0.0));
         System.out.println(p1.toString());
-        System.out.println(p2.toString());
         Mensagem.mostrarMensagem(101, new String[] { a1.getNome(), a1.getMatricula()});
               
     }

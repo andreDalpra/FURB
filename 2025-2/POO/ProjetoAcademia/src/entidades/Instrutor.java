@@ -76,6 +76,16 @@ public class Instrutor {
 		this.mentor = mentor;
 	}
 
+	@Override
+	public String toString() {
+		return "Instrutor [nome=" + nome + ", cref=" + cref + ", especialidade=" + especialidade + ", alunos=" + alunos
+				+ ", mentor=" + mentor + ", getNome()=" + getNome() + ", getCref()=" + getCref()
+				+ ", getEspecialidade()=" + getEspecialidade() + ", getAlunos()=" + getAlunos() + ", getMentor()="
+				+ getMentor() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
+	
+
     
 
 

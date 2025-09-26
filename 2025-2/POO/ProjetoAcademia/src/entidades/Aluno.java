@@ -72,7 +72,11 @@ public class Aluno {
 	public void setAltura(double altura) {
 		this.altura = altura;
 	}
-
+	
+	public String getResumo(String resumo) {
+		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "
+				+ altura;
+	}
 	@Override
 	public String toString() {
 		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "

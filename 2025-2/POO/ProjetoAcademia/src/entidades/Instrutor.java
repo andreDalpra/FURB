@@ -31,9 +31,8 @@ public class Instrutor {
 		alunos.remove(aluno);
 	}
 	
-	public String getResumo(String resumo) {
-		resumo = "Nome: " + nome + " / CREF: " + cref + " / Especialidade: " + especialidade + " / Mentor: " + mentor + "\n";
-		return resumo;
+	public String getResumo() {
+		return "Nome: " + nome + " / CREF: " + cref + " / Especialidade: " + especialidade + " / Mentor: " + mentor + "\n";
 	}
 
 	public String getNome() {
@@ -78,11 +77,7 @@ public class Instrutor {
 
 	@Override
 	public String toString() {
-		return "Instrutor [nome=" + nome + ", cref=" + cref + ", especialidade=" + especialidade + ", alunos=" + alunos
-				+ ", mentor=" + mentor + ", getNome()=" + getNome() + ", getCref()=" + getCref()
-				+ ", getEspecialidade()=" + getEspecialidade() + ", getAlunos()=" + getAlunos() + ", getMentor()="
-				+ getMentor() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		return getResumo();
 	}
 	
 

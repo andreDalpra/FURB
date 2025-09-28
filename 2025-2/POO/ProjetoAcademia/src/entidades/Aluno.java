@@ -18,7 +18,6 @@ public class Aluno {
 		this.altura = altura;
 	}
 
-	
 	public Aluno(String nome, String matricula) {
 		this.nome = nome;
 		this.matricula = matricula;
@@ -28,12 +27,10 @@ public class Aluno {
 		return nome;
 	}
 
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	
 	public String getMatricula() {
 		return matricula;
 	}
@@ -41,7 +38,6 @@ public class Aluno {
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-
 
 	public int getIdade() {
 		return idade;
@@ -54,11 +50,9 @@ public class Aluno {
 		this.idade = idade;
 	}
 
-
 	public double getPeso() {
 		return peso;
 	}
-
 
 	public void setPeso(double peso) {
 		this.peso = peso;
@@ -68,21 +62,21 @@ public class Aluno {
 		return altura;
 	}
 
-
 	public void setAltura(double altura) {
 		this.altura = altura;
 	}
-	
+
 	public String getResumo(String resumo) {
 		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "
 				+ altura;
 	}
+
 	@Override
 	public String toString() {
 		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "
 				+ altura;
 	}
-	
+
 	public Instrutor getInstrutor() {
 		return instrutor;
 	}
@@ -98,5 +92,5 @@ public class Aluno {
 	public void setTreino(PlanoTreino treino) {
 		this.treino = treino;
 	}
-	
+
 }

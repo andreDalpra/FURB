@@ -18,14 +18,15 @@ public class Instrutor {
         this.mentor = mentor;
     }
 	
-	public void adicionarAluno(Aluno aluno, String op_msg) {
-		if (!alunos.contains(aluno)) {
-			alunos.add(aluno);
-		} else {
-			op_msg = Mensagem.montaMensagem(102, new String[] {aluno.getMatricula(), aluno.getNome()});
-			return;
-		}
-	}
+    public void adicionarAluno(Aluno aluno) {
+        if (!alunos.contains(aluno)) {
+            alunos.add(aluno);
+        } else {
+            Mensagem.montaMensagem(102, new String[] { aluno.getMatricula(), aluno.getNome() });
+            return; 
+        }
+    }
+
 	
 	public void removerAluno(Aluno aluno) {
 		alunos.remove(aluno);

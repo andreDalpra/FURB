@@ -1,6 +1,9 @@
 package entidades;
+import javax.swing.SwingUtilities;
+
 import mensagem.CadastraMensagem;
-import subclasses.InstrutorMusculacao;
+import mensagem.MensagemUI;
+import mensagem.TipoMensagem;
 
 @SuppressWarnings("unused")
 public class Main {
@@ -27,8 +30,29 @@ public class Main {
         p1.adicionarExercicio(new Exercicio("TESTE CORRDIA", 2, 3, 0.0));
         System.out.println(p1.toString());
         
-        InstrutorMusculacao im = new InstrutorMusculacao("TESTE", "123", "MUSCULACAO", i2);
-        System.out.println(im.getResumo());
+        //InstrutorMusculacao im = new InstrutorMusculacao("TESTE", "123", "MUSCULACAO", i2);
+        //System.out.println(im.getResumo());
+        i1.adicionarAluno(a1);
+        i1.adicionarAluno(a1); // Tentativa de adicionar o mesmo aluno novamente
+        SwingUtilities.invokeLater(() -> {
+            new MensagemUI(
+                "Erro Crítico",
+                "Não foi possível cadastrar o aluno no sistema.<br>Tente novamente mais tarde.",
+                TipoMensagem.ERROR
+            ).setVisible(true);
+
+            new MensagemUI(
+                "Aviso",
+                "Aluno já cadastrado anteriormente!",
+                TipoMensagem.WARNING
+            ).setVisible(true);
+
+            new MensagemUI(
+                "Sucesso",
+                "Aluno cadastrado com sucesso! 🎉",
+                TipoMensagem.OK
+            ).setVisible(true);
+        });
         
     }
 }

@@ -9,38 +9,40 @@ public class Mensagem {
 	private static int codmsg;
 	private static String desmsg;
 	private static boolean temMensagem;
+	public static TipoMensagem tipmsg;
 	private static Map<Integer, String> mensagens = new HashMap<>();
 
 	public static void cadastrarMensagem(int codmsg, String desmsg) {
 		mensagens.put(codmsg, desmsg);
 	}
 
-	public static void inicializaMensagem(Mensagem msg) {
-		// Usar em classes
-		msg = new Mensagem();
+	// 🔹 Inicializa (zera estado)
+	public static void inicializaMensagem() {
 		codmsg = 0;
 		desmsg = "";
 		temMensagem = false;
+		tipmsg = TipoMensagem.OK;
 	}
 
 	public static String montaMensagem(int codmsg, String[] params) {
-		String desmsg = mensagens.getOrDefault(codmsg, "Mensagem não cadastrada");
+		String formato = mensagens.getOrDefault(codmsg, "Mensagem não cadastrada");
 		String msg;
 		try {
-			msg = String.format(desmsg, (Object[]) params);
+			msg = String.format(formato, (Object[]) params);
 		} catch (Exception e) {
-			msg = desmsg + "\n" + codmsg;
-			for (int i = 0; i < params.length; i++) {
-				msg += " p_param" + (i + 1) + ": " + params[i];
-			}
+			msg = formato + "\n(cód. " + codmsg + ")";
 		}
+		desmsg = msg;
 		temMensagem = true;
 		return msg;
 	}
 
-	public static void mostrarMensagem(int p_codmsg, String[] params) {
-		String mensagem = montaMensagem(p_codmsg, params);
-		JOptionPane.showMessageDialog(null, mensagem);
+	// 🎨 Mostra mensagem com o design moderno
+	public static void mostrarMensagem(TipoMensagem tipo) {
+		if (temMensagem) {
+			new MensagemUI(tipo.name(), desmsg, tipo).setVisible(true);
+			temMensagem = false;
+		}
 	}
 
 	public static void mostrarMensagem(String mensagem) {
@@ -93,6 +95,14 @@ public class Mensagem {
 
 	public static void setMensagens(Map<Integer, String> mensagens) {
 		Mensagem.mensagens = mensagens;
+	}
+
+	public TipoMensagem getTipmsg() {
+		return tipmsg;
+	}
+
+	public void setTipmsg(TipoMensagem tipmsg) {
+		this.tipmsg = tipmsg;
 	}
 
 }

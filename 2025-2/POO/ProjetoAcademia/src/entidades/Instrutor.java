@@ -2,11 +2,13 @@ package entidades;
 import java.util.ArrayList;
 import java.util.List;
 
+import mensagem.Mensagem;
+
 public class Instrutor {
     private String nome;
     private String cref;
     private String especialidade;
-    private List<Aluno> alunos  = new ArrayList<>();
+    private List<Aluno> alunos = new ArrayList<>();
     private Instrutor mentor;
 
     public Instrutor(String nome, String cref, String especialidade, Instrutor mentor) {
@@ -16,17 +18,21 @@ public class Instrutor {
         this.mentor = mentor;
     }
 	
-	public void adicionarAluno(Aluno aluno) {
-		alunos.add(aluno);
+	public void adicionarAluno(Aluno aluno, String op_msg) {
+		if (!alunos.contains(aluno)) {
+			alunos.add(aluno);
+		} else {
+			op_msg = Mensagem.montaMensagem(102, new String[] {aluno.getMatricula(), aluno.getNome()});
+			return;
+		}
 	}
 	
 	public void removerAluno(Aluno aluno) {
 		alunos.remove(aluno);
 	}
 	
-	public String getResumo(String resumo) {
-		resumo = "Nome: " + nome + " / CREF: " + cref + " / Especialidade: " + especialidade + " / Mentor: " + mentor + "\n";
-		return resumo;
+	public String getResumo() {
+		return "Nome: " + nome + " / CREF: " + cref + " / Especialidade: " + especialidade + " / Mentor: " + mentor + "\n";
 	}
 
 	public String getNome() {
@@ -68,6 +74,12 @@ public class Instrutor {
 	public void setMentor(Instrutor mentor) {
 		this.mentor = mentor;
 	}
+
+	@Override
+	public String toString() {
+		return getResumo();
+	}
+	
 
     
 

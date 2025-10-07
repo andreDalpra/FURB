@@ -1,10 +1,12 @@
 package entidades;
-import mensagem.Mensagem;
+import mensagem.CadastraMensagem;
+import subclasses.InstrutorMusculacao;
 
 @SuppressWarnings("unused")
 public class Main {
 
     public static void main(String[] args) {
+    	CadastraMensagem.cadastro();
         System.out.println("Testando Alunos e Planos:\n");
 
         Aluno a1 = new Aluno("Ana", "231", 25, 62.0, 1.68);
@@ -24,9 +26,9 @@ public class Main {
         System.out.println(p1.toString());
         p1.adicionarExercicio(new Exercicio("TESTE CORRDIA", 2, 3, 0.0));
         System.out.println(p1.toString());
-        Mensagem.mostrarMensagem(101, new String[] {"Parabéns!", "Você completou seu treino!"});
         
-     
+        InstrutorMusculacao im = new InstrutorMusculacao("TESTE", "123", "MUSCULACAO", i2);
+        System.out.println(im.getResumo());
         
     }
 }

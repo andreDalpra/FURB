@@ -10,13 +10,16 @@ public class Mensagem {
 	private static String desmsg;
 	private static boolean temMensagem;
 	public static TipoMensagem tipmsg;
-	private static Map<Integer, String> mensagens = new HashMap<>();
 
-	public static void cadastrarMensagem(int codmsg, String desmsg) {
-		mensagens.put(codmsg, desmsg);
+	// {código → [descrição, tipo]}
+	private static Map<Integer, Object[]> mensagens = new HashMap<>();
+
+	//Cadastra uma nova Mensagem
+	public static void cadastrarMensagem(int codmsg, String desmsg, TipoMensagem tipo) {
+		mensagens.put(codmsg, new Object[] { desmsg, tipo });
 	}
 
-	// 🔹 Inicializa (zera estado)
+	// inicaliza as variaveis de mensagem
 	public static void inicializaMensagem() {
 		codmsg = 0;
 		desmsg = "";
@@ -24,29 +27,48 @@ public class Mensagem {
 		tipmsg = TipoMensagem.OK;
 	}
 
+	// Monta a mensagem com base no código e os parametros passados na classe
 	public static String montaMensagem(int codmsg, String[] params) {
-		String formato = mensagens.getOrDefault(codmsg, "Mensagem não cadastrada");
-		String msg;
-		try {
-			msg = String.format(formato, (Object[]) params);
-		} catch (Exception e) {
-			msg = formato + "\n(cód. " + codmsg + ")";
+		Object[] dados = mensagens.get(codmsg);
+
+		String formato;
+		if (dados == null) {
+			formato = "Mensagem não cadastrada (cód. " + codmsg + ")";
+			tipmsg = TipoMensagem.WARNING;
+		} else {
+			formato = (String) dados[0];
+			tipmsg = (TipoMensagem) dados[1];
 		}
-		desmsg = msg;
+
+		String msgFormatada;
+		try {
+			msgFormatada = String.format(formato, (Object[]) params);
+		} catch (Exception e) {
+			msgFormatada = formato + "\n(cód. " + codmsg + ")";
+		}
+
+		desmsg = msgFormatada;
 		temMensagem = true;
-		return msg;
+
+		return msgFormatada;
 	}
 
-	// 🎨 Mostra mensagem com o design moderno
-	public static void mostrarMensagem(TipoMensagem tipo) {
+	// Mostra a mensagem cadastrada com desing JDialog
+	public static void mostrarMensagem() {
 		if (temMensagem) {
-			new MensagemUI(tipo.name(), desmsg, tipo).setVisible(true);
+			String textoHTML = converteHTML(desmsg);
+			new MensagemUI(tipmsg.name(), textoHTML, tipmsg).setVisible(true);
 			temMensagem = false;
 		}
 	}
 
+	// mostra no JOptionPane, se nao houve um codmsg cadastrado
 	public static void mostrarMensagem(String mensagem) {
 		JOptionPane.showMessageDialog(null, mensagem);
+	}
+
+	private static String converteHTML(String p_txtHTML) {
+		return "<html>" + p_txtHTML.replace("\n", "<br>") + "</html>";
 	}
 
 	public int getCodmsg() {
@@ -89,11 +111,11 @@ public class Mensagem {
 		Mensagem.temMensagem = temMensagem;
 	}
 
-	public static Map<Integer, String> getMensagens() {
+	public static Map<Integer, Object[]> getMensagens() {
 		return mensagens;
 	}
 
-	public static void setMensagens(Map<Integer, String> mensagens) {
+	public static void setMensagens(Map<Integer, Object[]> mensagens) {
 		Mensagem.mensagens = mensagens;
 	}
 
@@ -104,5 +126,4 @@ public class Mensagem {
 	public void setTipmsg(TipoMensagem tipmsg) {
 		this.tipmsg = tipmsg;
 	}
-
 }

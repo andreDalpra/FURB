@@ -21,8 +21,9 @@ public class Instrutor {
     public void adicionarAluno(Aluno aluno) {
         if (!alunos.contains(aluno)) {
             alunos.add(aluno);
+            Mensagem.montaMensagem(101, new String[] { aluno.getNome(), aluno.getMatricula()});
         } else {
-            Mensagem.montaMensagem(102, new String[] { aluno.getMatricula(), aluno.getNome() });
+            Mensagem.montaMensagem(102, new String[] { aluno.getNome()});
             return; 
         }
     }

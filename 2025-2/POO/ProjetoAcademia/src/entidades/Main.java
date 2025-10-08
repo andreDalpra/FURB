@@ -2,6 +2,7 @@ package entidades;
 import javax.swing.SwingUtilities;
 
 import mensagem.CadastraMensagem;
+import mensagem.Mensagem;
 import mensagem.MensagemUI;
 import mensagem.TipoMensagem;
 
@@ -34,25 +35,9 @@ public class Main {
         //System.out.println(im.getResumo());
         i1.adicionarAluno(a1);
         i1.adicionarAluno(a1); // Tentativa de adicionar o mesmo aluno novamente
-        SwingUtilities.invokeLater(() -> {
-            new MensagemUI(
-                "Erro Crítico",
-                "Não foi possível cadastrar o aluno no sistema.<br>Tente novamente mais tarde.",
-                TipoMensagem.ERROR
-            ).setVisible(true);
-
-            new MensagemUI(
-                "Aviso",
-                "Aluno já cadastrado anteriormente!",
-                TipoMensagem.WARNING
-            ).setVisible(true);
-
-            new MensagemUI(
-                "Sucesso",
-                "Aluno cadastrado com sucesso! 🎉",
-                TipoMensagem.OK
-            ).setVisible(true);
-        });
+        if (Mensagem.isTemMensagem()) {
+			Mensagem.mostrarMensagem();
+		}
         
     }
 }

@@ -46,7 +46,7 @@ public class MensagemUI extends JDialog {
 		header.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 
 		JLabel tituloLabel = new JLabel(iconeEmoji + "  " + titulo);
-		tituloLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
+		tituloLabel.setFont(new Font("COMIC SANS", Font.BOLD, 18));
 		tituloLabel.setForeground(Color.WHITE);
 		header.add(tituloLabel);
 
@@ -55,11 +55,14 @@ public class MensagemUI extends JDialog {
 		body.setBackground(new Color(250, 250, 250));
 		body.setLayout(new GridBagLayout());
 
-		JLabel msgLabel = new JLabel(
-				"<html><div style='text-align:center; width:380px;'>" + mensagem + "</div></html>");
-		msgLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		JLabel msgLabel = new JLabel("<html><div style='text-align:center;'>" + mensagem + "</div></html>");
+		msgLabel.setFont(new Font("COMIC SANS", Font.PLAIN, 16));
 		msgLabel.setForeground(new Color(60, 60, 60));
+		msgLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o texto dentro do JLabel
+		msgLabel.setVerticalAlignment(SwingConstants.CENTER);   // Centraliza verticalmente também
+		msgLabel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30)); // Margem interna
 		body.add(msgLabel);
+
 
 		// 🔘 Painel inferior (botão)
 		JPanel footer = new JPanel();
@@ -67,7 +70,7 @@ public class MensagemUI extends JDialog {
 		footer.setPreferredSize(new Dimension(getWidth(), 60));
 
 		JButton okButton = new JButton("OK");
-		okButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		okButton.setFont(new Font("COMIC SANS", Font.BOLD, 14));
 		okButton.setFocusPainted(false);
 		okButton.setBackground(corPrincipal);
 		okButton.setForeground(Color.WHITE);

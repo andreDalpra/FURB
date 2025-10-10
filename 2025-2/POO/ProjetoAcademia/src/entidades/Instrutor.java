@@ -1,49 +1,55 @@
 package entidades;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import mensagem.Mensagem;
 
-public class Instrutor {
-    private String nome;
-    private String cref;
-    private String especialidade;
-    private List<Aluno> alunos = new ArrayList<>();
-    private Instrutor mentor;
+public class Instrutor extends Pessoa {
+	private String cref;
+	private String especialidade;
+	private List<Aluno> alunos = new ArrayList<>();
+	private Instrutor mentor;
 
-    public Instrutor(String nome, String cref, String especialidade, Instrutor mentor) {
-        this.nome = nome;
-        this.cref = cref;
-        this.especialidade = especialidade;
-        this.mentor = mentor;
-    }
-	
-    public void adicionarAluno(Aluno aluno) {
-        if (!alunos.contains(aluno)) {
-            alunos.add(aluno);
-            Mensagem.montaMensagem(101, new String[] { aluno.getNome(), aluno.getMatricula()});
-        } else {
-            Mensagem.montaMensagem(102, new String[] { aluno.getNome()});
-            return; 
-        }
-    }
+	public Instrutor(String nome, String cpf, String cref, String especialidade, Instrutor mentor) {
+		super(nome, cpf);
+		this.cref = cref;
+		this.especialidade = especialidade;
+		this.mentor = mentor;
+	}
 
+	public void adicionarAluno(Aluno aluno) {
+		if (!alunos.contains(aluno)) {
+			alunos.add(aluno);
+			Mensagem.montaMensagem(101, new String[] { aluno.getNome(), aluno.getMatricula() });
+		} else {
+			Mensagem.montaMensagem(102, new String[] { aluno.getNome() });
+			return;
+		}
+	}
 	
+	public boolean validaInstrutor(String nome, String cpf, String cref, String especialidade, Instrutor mentor) {
+		if (nome.isBlank()) {
+			Mensagem.montaMensagem(104, new String[] {getNome()});
+			return false;
+		}
+		
+		return true;
+	}
+
 	public void removerAluno(Aluno aluno) {
 		alunos.remove(aluno);
 	}
-	
+
+	@Override
 	public String getResumo() {
-		return "Nome: " + nome + " / CREF: " + cref + " / Especialidade: " + especialidade + " / Mentor: " + mentor + "\n";
+	    String mentorNome = (mentor != null) ? mentor.getNome() : "Não possui mentor";
+	    return "Instrutor: " + getNome()
+	         + " | CREF: " + cref
+	         + " | Especialidade: " + especialidade
+	         + " | Mentor: " + mentorNome + "\n";
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 
 	public String getCref() {
 		return cref;
@@ -75,15 +81,12 @@ public class Instrutor {
 
 	public void setMentor(Instrutor mentor) {
 		this.mentor = mentor;
+
 	}
 
 	@Override
 	public String toString() {
 		return getResumo();
 	}
-	
-
-    
-
 
 }

@@ -4,15 +4,15 @@ import entidades.Instrutor;
 
 public class InstrutorPilates extends Instrutor {
 
-	public InstrutorPilates(String nome, String cref, String especialidade, Instrutor mentor) {
-		super(nome, cref, especialidade, mentor);
+	public InstrutorPilates(String nome, String cpf, String cref, String especialidade, Instrutor mentor) {
+		super(nome, cref, cpf, especialidade, mentor);
 
 	}
 
 	@Override
 	public String getResumo() {
 
-		return "Este é um isntrutor de pilates" + super.getResumo();
+		return "Este é um istrutor de pilates" + super.getResumo() + "\n";
 	}
 
 }

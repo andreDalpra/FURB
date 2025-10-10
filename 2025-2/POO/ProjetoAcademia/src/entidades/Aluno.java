@@ -1,8 +1,12 @@
 package entidades;
 
-public class Aluno {
+import java.util.Scanner;
 
-	private String nome;
+import controle.Dados;
+import mensagem.Mensagem;
+
+public class Aluno extends Pessoa{
+
 	private String matricula;
 	private int idade;
 	private double peso;
@@ -10,26 +14,58 @@ public class Aluno {
 	private Instrutor instrutor;
 	private PlanoTreino treino;
 
-	public Aluno(String nome, String matricula, int idade, double peso, double altura) {
-		this.nome = nome;
+	public Aluno(String p_nome, String p_cpf, String p_matricula, int p_idade, double p_peso, double p_altura) {
+		super(p_nome, p_cpf);
+		this.matricula = p_matricula;
+		setIdade(p_idade);
+		this.peso = p_peso;
+		this.altura = p_altura;
+	}
+
+	public Aluno(String nome, String cpf, String matricula) {
+		super(nome, cpf);
 		this.matricula = matricula;
-		setIdade(idade);
-		this.peso = peso;
-		this.altura = altura;
+	}
+	
+	public static void cadastraAluno() {
+	    Scanner sc = new Scanner(System.in);
+
+	    System.out.print("Nome: ");
+	    String nome = sc.nextLine();
+
+	    System.out.print("CPF: ");
+	    String cpf = sc.nextLine();
+
+	    System.out.print("Matrícula: ");
+	    String matricula = sc.nextLine();
+
+	    System.out.print("Idade: ");
+	    int idade = sc.nextInt();
+
+	    System.out.print("Peso: ");
+	    double peso = sc.nextDouble();
+
+	    System.out.print("Altura: ");
+	    double altura = sc.nextDouble();
+
+	    Aluno aluno = new Aluno(nome, cpf, matricula, idade, peso, altura);
+	    /* if (validaAluno){
+	     *    Dados.alunos.add(aluno);
+	     *    return;
+	     *  }
+	     *  
+	     *  montaMensagem
+	     * 
+	     */
+	    Dados.alunos.add(aluno);
+
+	    Mensagem.montaMensagem(100, new String[] {aluno.getNome(), aluno.getMatricula() });
+	}
+	
+	public void validaAluno(String p_nome, String p_cpf, String p_matricula, int p_idade, double p_peso, double p_altura) {
+		//TODO: VALIDAR CADALU
 	}
 
-	public Aluno(String nome, String matricula) {
-		this.nome = nome;
-		this.matricula = matricula;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 
 	public String getMatricula() {
 		return matricula;
@@ -65,16 +101,9 @@ public class Aluno {
 	public void setAltura(double altura) {
 		this.altura = altura;
 	}
-
-	public String getResumo(String resumo) {
-		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "
-				+ altura;
-	}
-
-	@Override
-	public String toString() {
-		return "Aluno: " + nome + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "
-				+ altura;
+    @Override
+	public String getResumo() {
+		return "Aluno: " + getNome() + " (Matrícula: " + matricula + "), idade: " + idade + ", peso: " + peso + ", altura: "+ altura + "\n";
 	}
 
 	public Instrutor getInstrutor() {

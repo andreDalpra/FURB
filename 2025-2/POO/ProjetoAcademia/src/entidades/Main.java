@@ -1,43 +1,60 @@
 package entidades;
-import javax.swing.SwingUtilities;
 
-import mensagem.CadastraMensagem;
+import java.util.Scanner;
+
+import controle.Dados;
+import mensagem.CadastroMensagens;
 import mensagem.Mensagem;
-import mensagem.MensagemUI;
-import mensagem.TipoMensagem;
+import subclasses.InstrutorMusculacao;
 
-@SuppressWarnings("unused")
 public class Main {
 
-    public static void main(String[] args) {
-    	CadastraMensagem.cadastro();
-        System.out.println("Testando Alunos e Planos:\n");
+	public static Scanner sc = new Scanner(System.in);
 
-        Aluno a1 = new Aluno("Ana", "231", 25, 62.0, 1.68);
-        Instrutor i1 = new Instrutor("JOSILDO", "024", "PARKOUR POV", null);
-        Instrutor i2 = new Instrutor("JOSILDO PAI", "025", "PARKOUR MESTRE", i1);
-        PlanoTreino pt1 = new PlanoTreino("Treino de Hipertrofia");
-        pt1.incluirTreino(a1);
-        System.out.println(a1.getTreino());        
-        //TESTANDO PLANO TREINO
-        
-        
-        PlanoTreino p1 = new PlanoTreino("Treino de força");
-        p1.incluirTreino(a1);
-        System.out.println(p1.toString());
-        p1.ativar();
-        p1.adicionarExercicio(new Exercicio("TESTE MAIN", 1, 0, 0.0));
-        System.out.println(p1.toString());
-        p1.adicionarExercicio(new Exercicio("TESTE CORRDIA", 2, 3, 0.0));
-        System.out.println(p1.toString());
-        
-        //InstrutorMusculacao im = new InstrutorMusculacao("TESTE", "123", "MUSCULACAO", i2);
-        //System.out.println(im.getResumo());
-        i1.adicionarAluno(a1);
-        i1.adicionarAluno(a1); // Tentativa de adicionar o mesmo aluno novamente
-        if (Mensagem.isTemMensagem()) {
+	public static void main(String[] args) {
+		System.out.println("=== Testando Sistema de Academia ===\n");
+		CadastroMensagens.cadastro();
+		Dados.inicializar();
+
+		PlanoTreino pt1 = Dados.planos.get(0);
+		PlanoTreino p1 = Dados.planos.get(1);
+		Aluno a1 = Dados.alunos.get(0);
+		Instrutor i1 = Dados.instrutores.get(0);
+		Instrutor i2 = Dados.instrutores.get(1);
+
+		// --- Testes de plano/treino ---
+		System.out.println("\n--- Testando Planos ---");
+		pt1.incluirTreino(a1);
+		System.out.println(a1.getTreino());
+
+		p1.incluirTreino(a1);
+		System.out.println(p1);
+
+		p1.ativar();
+		p1.adicionarExercicio(new Exercicio("TESTE MAIN", 1, 0, 0.0));
+		System.out.println(p1);
+		p1.adicionarExercicio(new Exercicio("TESTE CORRIDA", 2, 3, 0.0));
+		System.out.println(p1);
+
+		// --- Teste de instrutores ---
+		System.out.println("\n--- Testando Instrutores ---");
+		InstrutorMusculacao im = new InstrutorMusculacao("TESTE", "1212312312", "123", "MUSCULACAO", i2);
+		System.out.println(im.getResumo());
+
+		i1.adicionarAluno(a1);
+		i1.adicionarAluno(a1); // tentativa de adicionar o mesmo aluno
+
+		if (Mensagem.isTemMensagem()) {
 			Mensagem.mostrarMensagem();
 		}
-        
-    }
+
+		// --- Teste de polimorfismo: lista geral de pessoas ---
+		System.out.println("\n--- Lista de Pessoas (polimorfismo) ---");
+		for (Pessoa p : Dados.pessoas) {
+			System.out.println(p.getResumo());
+		}
+		Dados.listarTodosAlunos();
+		Aluno.cadastraAluno();
+		Dados.listarTodosAlunos();;
+	}
 }

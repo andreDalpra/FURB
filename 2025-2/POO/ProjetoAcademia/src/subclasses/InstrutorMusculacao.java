@@ -3,13 +3,13 @@ import entidades.Instrutor;
 
 public class InstrutorMusculacao extends Instrutor{
 	
-	public InstrutorMusculacao(String nome, String cref, String especialidade, Instrutor mentor) {
-		super(nome, cref, especialidade, mentor);
+	public InstrutorMusculacao(String nome, String cpf, String cref, String especialidade, Instrutor mentor) {
+		super(nome, cpf, cref, especialidade, mentor);
 	}
 
 	@Override
 	public String getResumo () {	
-		return "Este é um isntrutor de musculação" + super.getResumo();
+		return "Este é um instrutor de musculação " + super.getResumo() + "\n";
 	}
 
 }

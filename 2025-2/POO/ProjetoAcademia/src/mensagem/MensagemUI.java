@@ -95,5 +95,19 @@ public class MensagemUI extends JDialog {
 		getRootPane().setBorder(
 				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
 						BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		
+		SwingUtilities.invokeLater(() -> {
+		    // garante que vai rodar depois do setVisible(true)
+		    if (isShowing()) {
+		        setAlwaysOnTop(true);
+		        toFront();
+		        requestFocus();
+		        setAlwaysOnTop(false);
+		    }
+		});
+
+
 	}
-}
+
+	}
+

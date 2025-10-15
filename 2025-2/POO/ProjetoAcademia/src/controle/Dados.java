@@ -17,7 +17,7 @@ public class Dados {
 	public static List<PlanoTreino> planos = new ArrayList<>();
 
 	// método de inicialização
-	public static void inicializar() {
+	public static void inicializarDados() {
 		// --- DADOS PRÉ-CADASTRADOS ---
 		Instrutor i1 = new Instrutor("JOSILDO", "1782489315", "024", "PARKOUR POV", null);
 		Instrutor i2 = new Instrutor("JOSILDO PAI", "21461927194", "025", "PARKOUR MESTRE", i1);

@@ -1,8 +1,12 @@
 package mensagem;
 
+import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Mensagem {
 	private static Mensagem msg;
@@ -53,13 +57,16 @@ public class Mensagem {
 		return msgFormatada;
 	}
 
-	// Mostra a mensagem cadastrada com desing JDialog
 	public static void mostrarMensagem() {
-		if (temMensagem) {
-			String textoHTML = converteHTML(desmsg);
-			new MensagemUI(tipmsg.name(), textoHTML, tipmsg).setVisible(true);
-			temMensagem = false;
-		}
+	    if (temMensagem) {
+	        String textoHTML = converteHTML(desmsg);
+	        new MensagemUI(tipmsg.name(), textoHTML, tipmsg).setVisible(true);	        
+	        temMensagem = false;	  
+	    }
+	}
+	
+	public static void abreTela() {
+		SwingUtilities.invokeLater(() -> new JFrame().dispose());
 	}
 
 	// mostra no JOptionPane, se nao houve um codmsg cadastrado

@@ -7,6 +7,14 @@ public interface Sistema {
 	
 	boolean valida();
 	
+	default boolean before_post() {
+		return false;
+	}
+	
+	default boolean before_delete() {
+		return false;
+	}
+	
 	default boolean validaSenha() {
 		return false;
 	}

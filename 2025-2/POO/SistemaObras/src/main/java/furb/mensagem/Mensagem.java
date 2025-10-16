@@ -1,5 +1,7 @@
 package main.java.furb.mensagem;
 
+import static main.java.furb.controle.Sistema.converteHTML;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import static main.java.furb.controle.Sistema.*;
 import main.java.furb.controle.Sistema;
 import main.java.furb.enums.TipoMensagem;
 
@@ -66,10 +67,6 @@ public class Mensagem implements Sistema{
 	public boolean valida() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-	
-	public static void abreTela() {
-		SwingUtilities.invokeLater(() -> new JFrame().dispose());
 	}
 
 	// mostra no JOptionPane, se nao houve um codmsg cadastrado

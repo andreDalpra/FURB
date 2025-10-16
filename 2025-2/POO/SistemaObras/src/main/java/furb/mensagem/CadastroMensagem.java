@@ -10,6 +10,10 @@ public class CadastroMensagem {
     	Mensagem.cadastrarMensagem(4, "O usuário deve ter um tipo ! \n Usuário: %s    Tipo: %s ", TipoMensagem.WARNING);
     	Mensagem.cadastrarMensagem(5, "O Instrutor deve ter um nome! \n Instrutor: %s", TipoMensagem.ERROR);
     	Mensagem.cadastrarMensagem(6, "Erro ao cadastrar aluno: %s", TipoMensagem.ERROR);
+    	Mensagem.cadastrarMensagem(10, "Usuário salvo com sucesso! \n Usuário: %s", TipoMensagem.OK);
+    	Mensagem.cadastrarMensagem(11, "Usuário removido com sucesso! \n Usuário: %s", TipoMensagem.OK);
+    	Mensagem.cadastrarMensagem(12, "Usuário não encontrado para exclusão! \n Usuário: %s", TipoMensagem.WARNING);
+
 
 
     }

@@ -1,8 +1,6 @@
 package entidades;
 
 import java.util.Scanner;
-import javax.swing.SwingUtilities;
-
 import static controle.Dados.*;
 import static mensagem.Mensagem.*;
 import mensagem.CadastroMensagens;
@@ -11,7 +9,6 @@ import subclasses.InstrutorMusculacao;
 public class Main {
 
 	public static Scanner sc = new Scanner(System.in);
-
 	public static void main(String[] args) {		
 		CadastroMensagens.cadastro();
 		abreTela();

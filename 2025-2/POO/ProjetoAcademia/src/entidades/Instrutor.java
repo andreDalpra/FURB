@@ -3,7 +3,7 @@ package entidades;
 import java.util.ArrayList;
 import java.util.List;
 
-import mensagem.Mensagem;
+import static mensagem.Mensagem.*;
 
 public class Instrutor extends Pessoa {
 	private String cref;
@@ -21,16 +21,16 @@ public class Instrutor extends Pessoa {
 	public void adicionarAluno(Aluno aluno) {
 		if (!alunos.contains(aluno)) {
 			alunos.add(aluno);
-			Mensagem.montaMensagem(101, new String[] { aluno.getNome(), aluno.getMatricula() });
+			montaMensagem(101, new String[] { aluno.getNome(), aluno.getMatricula() });
 		} else {
-			Mensagem.montaMensagem(102, new String[] { aluno.getNome() });
+			montaMensagem(102, new String[] { aluno.getNome() });
 			return;
 		}
 	}
 	
 	public boolean validaInstrutor(String nome, String cpf, String cref, String especialidade, Instrutor mentor) {
 		if (nome.isBlank()) {
-			Mensagem.montaMensagem(104, new String[] {getNome()});
+			montaMensagem(104, new String[] {getNome()});
 			return false;
 		}
 		

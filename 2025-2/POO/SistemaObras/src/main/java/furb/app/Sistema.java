@@ -1,4 +1,4 @@
-package main.java.furb.controle;
+package main.java.furb.app;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

@@ -1,10 +1,9 @@
 package main.java.furb.entidades;
 
-import static main.java.furb.mensagem.Mensagem.inicializaMensagem;
-import static main.java.furb.mensagem.Mensagem.montaMensagem;
+import static main.java.furb.mensagem.Mensagem.*;
 
+import main.java.furb.app.Sistema;
 import main.java.furb.banco.Banco;
-import main.java.furb.controle.Sistema;
 import main.java.furb.enums.TipoUsuario;
 
 public class Usuario implements Sistema {
@@ -46,36 +45,73 @@ public class Usuario implements Sistema {
 	}
 
 	public boolean validaSenha() {
-		if (senusu < 1000 || senusu > 9999) {
-			montaMensagem(2, new String[] { codusu, String.valueOf(senusu) });
-			return false;
-		}
-		
-		
-		return true;
-
-	}
-	
-	@Override
-	public boolean before_post() {
 	    inicializaMensagem();
 
-	    // Primeiro, valida os campos obrigatórios
-	    if (!valida()) {
+	    String l_senhaStr = String.valueOf(senusu);
+
+	    if (senusu < 1000 || senusu > 9999) {
+	        montaMensagem(7, new String[] { codusu, l_senhaStr });
 	        return false;
 	    }
 
-	    // Agora valida se o login (codusu) já existe no "banco"
-	    var usuarios = Banco.listar(Usuario.class);
-	    boolean existe = usuarios.stream()
-	        .anyMatch(u -> u.getCodusu().equalsIgnoreCase(this.codusu));
+	    boolean l_todosIguais = l_senhaStr.chars().allMatch(c -> c == l_senhaStr.charAt(0));
+	    if (l_todosIguais) {
+	        montaMensagem(13, new String[] { codusu, l_senhaStr });
+	        return false;
+	    }
 
-	    if (existe) {
-	        montaMensagem(13, new String[]{this.codusu});
+	    boolean l_sequencialCrescente = true;
+	    for (int l_i = 0; l_i < l_senhaStr.length() - 1; l_i++) {
+	        if (l_senhaStr.charAt(l_i + 1) != l_senhaStr.charAt(l_i) + 1) {
+	            l_sequencialCrescente = false;
+	            break;
+	        }
+	    }
+	    if (l_sequencialCrescente) {
+	        montaMensagem(7, new String[] { codusu, l_senhaStr });
+	        return false;
+	    }
+
+	    boolean l_sequencialDecrescente = true;
+	    for (int l_i = 0; l_i < l_senhaStr.length() - 1; l_i++) {
+	        if (l_senhaStr.charAt(l_i + 1) != l_senhaStr.charAt(l_i) - 1) {
+	            l_sequencialDecrescente = false;
+	            break;
+	        }
+	    }
+	    if (l_sequencialDecrescente) {
+	        montaMensagem(7, new String[] { codusu, l_senhaStr });
+	        return false;
+	    }
+
+	    if (l_senhaStr.equals("0000") || l_senhaStr.equals("1234")) {
+	        montaMensagem(7, new String[] { codusu, l_senhaStr });
 	        return false;
 	    }
 
 	    return true;
+	}
+
+
+	@Override
+	public boolean before_post() {
+		inicializaMensagem();
+
+		// Primeiro, valida os campos obrigatórios
+		if (!valida()) {
+			return false;
+		}
+
+		// Agora valida se o login (codusu) já existe no "banco"
+		var l_usuarios = Banco.listar(Usuario.class);
+		boolean existe = l_usuarios.stream().anyMatch(u -> u.getCodusu().equalsIgnoreCase(this.codusu));
+
+		if (existe) {
+			montaMensagem(13, new String[] { this.codusu });
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -107,6 +143,5 @@ public class Usuario implements Sistema {
 	public String getEmlusu() {
 		return emlusu;
 	}
-
 
 }

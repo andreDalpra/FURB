@@ -5,9 +5,7 @@ import static main.java.furb.app.Sistema.converteHTML;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import main.java.furb.app.Sistema;
 import main.java.furb.enums.TipoMensagem;

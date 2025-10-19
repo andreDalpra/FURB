@@ -14,6 +14,7 @@ public class CadastroMensagem {
     	Mensagem.cadastrarMensagem(10, "Usuário salvo com sucesso! \n Usuário: %s", TipoMensagem.OK);
     	Mensagem.cadastrarMensagem(11, "Usuário removido com sucesso! \n Usuário: %s", TipoMensagem.OK);
     	Mensagem.cadastrarMensagem(12, "Usuário não encontrado para exclusão! \n Usuário: %s", TipoMensagem.WARNING);
+    	Mensagem.cadastrarMensagem(13, "Usuário já existe! \n Usuário: %s", TipoMensagem.ERROR);
 
 
 

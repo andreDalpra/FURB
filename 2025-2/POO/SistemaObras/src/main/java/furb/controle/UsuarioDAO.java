@@ -7,37 +7,41 @@ import main.java.furb.entidades.Usuario;
 
 public class UsuarioDAO {
 
-    public boolean inserir(Usuario p_usu) {
-        if (!p_usu.before_post()) {
-            mostrarMensagem();
-            return false;
-        }
+	public boolean inserir(Usuario p_usu) {
+		System.out.println("[DEBUG] Entrando no before_post para " + p_usu.getCodusu());
+		inicializaMensagem();
+		if (!p_usu.before_post()) {
 
-        Banco.salvar(p_usu, Usuario.class);
-        montaMensagem(10, new String[]{p_usu.getCodusu()});
-        mostrarMensagem();
-        return true;
-    }
+			return false;
+		}
 
-    public void listar() {
-        var l_usuarios = Banco.listar(Usuario.class);
-        if (l_usuarios.isEmpty()) {
-            System.out.println("Nenhum usuário encontrado.");
-        } else {
-            l_usuarios.forEach(u -> System.out.println(u.getSequsu() + " - " + u.getCodusu()));
-        }
-    }
+		Banco.salvar(p_usu, Usuario.class);
+		montaMensagem(10, new String[] { p_usu.getCodusu() });
+		mostrarMensagem();
+		return true;
+	}
 
-    public boolean deletar(int p_sequsu) {
-        boolean l_removido = Banco.excluir(Usuario.class, u -> ((Usuario) u).getSequsu() == p_sequsu);
+	public void listar() {
 
-        if (l_removido) {
-            montaMensagem(11, new String[]{String.valueOf(p_sequsu)});
-        } else {
-            montaMensagem(12, new String[]{String.valueOf(p_sequsu)});
-        }
-        mostrarMensagem();
+		var l_usuarios = Banco.listar(Usuario.class);
+		if (l_usuarios.isEmpty()) {
+			System.out.println("Nenhum usuário encontrado.");
+		} else {
+			l_usuarios.forEach(u -> System.out.println(u.getSequsu() + " - " + u.getCodusu()));
+		}
+	}
 
-        return l_removido;
-    }
+	public boolean deletar(int p_sequsu) {
+		inicializaMensagem();
+		boolean l_removido = Banco.excluir(Usuario.class, u -> ((Usuario) u).getSequsu() == p_sequsu);
+
+		if (l_removido) {
+			montaMensagem(11, new String[] { String.valueOf(p_sequsu) });
+		} else {
+			montaMensagem(12, new String[] { String.valueOf(p_sequsu) });
+		}
+		mostrarMensagem();
+
+		return l_removido;
+	}
 }

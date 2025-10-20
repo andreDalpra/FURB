@@ -1,13 +1,10 @@
 package main.java.furb.app;
 
-import static main.java.furb.app.Sistema.abrePrograma;
 
 import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-
-import com.google.gson.Gson;
 
 import main.java.furb.controle.UsuarioDAO;
 import main.java.furb.entidades.Usuario;

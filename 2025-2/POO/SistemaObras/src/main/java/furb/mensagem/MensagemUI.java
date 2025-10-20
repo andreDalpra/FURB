@@ -1,6 +1,5 @@
 package main.java.furb.mensagem;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -75,10 +74,9 @@ public class MensagemUI extends JDialog {
 		msgLabel.setFont(new Font("COMIC SANS", Font.PLAIN, 16));
 		msgLabel.setForeground(new Color(60, 60, 60));
 		msgLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centraliza o texto dentro do JLabel
-		msgLabel.setVerticalAlignment(SwingConstants.CENTER);   // Centraliza verticalmente também
+		msgLabel.setVerticalAlignment(SwingConstants.CENTER); // Centraliza verticalmente também
 		msgLabel.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30)); // Margem interna
 		body.add(msgLabel);
-
 
 		// 🔘 Painel inferior (botão)
 		JPanel footer = new JPanel();
@@ -111,19 +109,17 @@ public class MensagemUI extends JDialog {
 		getRootPane().setBorder(
 				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
 						BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		
+
 		SwingUtilities.invokeLater(() -> {
-		    // garante que vai rodar depois do setVisible(true)
-		    if (isShowing()) {
-		        setAlwaysOnTop(true);
-		        toFront();
-		        requestFocus();
-		        setAlwaysOnTop(false);
-		    }
+			// garante que vai rodar depois do setVisible(true)
+
+			setAlwaysOnTop(true);
+			toFront();
+			requestFocus();
+			setAlwaysOnTop(false);
+
 		});
 
-
 	}
 
-	}
-
+}

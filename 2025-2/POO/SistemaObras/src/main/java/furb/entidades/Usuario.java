@@ -40,38 +40,43 @@ public class Usuario implements Sistema {
 		System.out.println("Informe a senha (4 dígitos)");
 		senusu = sc.nextInt();
 		sc.nextLine();
-		// Seleciona tipo de usuário
+
+		tipusu = escolherTipoUsuario();
+
+		System.out.println("Informe o nome do usuário: ");
+		nomusu = sc.nextLine();
+		System.out.println("Informe o email do usuário: ");
+		emlusu = sc.nextLine();
+
+		// só chama o DAO
+		return new UsuarioDAO().inserir(this);
+
+	}
+
+	private TipoUsuario escolherTipoUsuario() {
+		TipoUsuario[] l_tipos = TipoUsuario.values();
 		System.out.println("\nSelecione o tipo de usuário:");
-		TipoUsuario[] tipos = TipoUsuario.values();
-		for (int i = 0; i < tipos.length; i++) {
-			System.out.printf("%d - %s%n", (i + 1), tipos[i]);
+		for (int i = 0; i < l_tipos.length; i++) {
+			System.out.printf("%d - %s%n", (i + 1), l_tipos[i]);
 		}
 
 		while (true) {
 			System.out.print("Opção: ");
 			try {
 				int l_opcao = sc.nextInt();
-				sc.nextLine();
-				if (l_opcao >= 1 && l_opcao <= tipos.length) {
-					tipusu = tipos[l_opcao - 1];
-					break;
+				sc.nextLine(); // consome quebra de linha
+
+				if (l_opcao >= 1 && l_opcao <= l_tipos.length) {
+					return l_tipos[l_opcao - 1];
 				} else {
 					System.out.println("Opção inválida! Tente novamente.");
 				}
-			} catch (NumberFormatException e) {
+			} catch (Exception e) {
 				System.out.println("Digite um número válido!");
+				sc.nextLine(); // limpa entrada inválida
 			}
 		}
-		System.out.println("Informe o nome do usuário: ");
-        nomusu = sc.nextLine();
-        System.out.println("Informe o email do usuário: ");
-        emlusu = sc.nextLine();
-        
-     // só chama o DAO
-        return new UsuarioDAO().inserir(this);
-        
 	}
-	
 
 	@Override
 	public boolean valida() {

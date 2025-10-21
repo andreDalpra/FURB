@@ -53,6 +53,43 @@ public class Usuario implements Sistema {
 
 	}
 
+	public boolean excluir() {
+		boolean l_tentarNovamente = true;
+
+		while (l_tentarNovamente) {
+			System.out.println("\nUsuários cadastrados:");
+			var l_usuarios = Banco.listar(Usuario.class);
+
+			if (l_usuarios.isEmpty()) {
+				System.out.println("Nenhum usuário encontrado.\n");
+				return false;
+			}
+
+			for (Usuario u : l_usuarios) {
+				System.out.printf("%d - %s%n", u.getSequsu(), u.getCodusu());
+			}
+
+			System.out.print("\nSelecione o número do usuário para excluir: ");
+			int l_opcao = sc.nextInt();
+			sc.nextLine();
+
+			boolean l_removido = new UsuarioDAO().deletar(l_opcao);
+
+			if (l_removido) {
+				montaMensagem(11, new String[] { String.valueOf(l_opcao) });
+				return true;
+			}
+
+			System.out.print("Deseja tentar novamente? (S/N): ");
+			String l_resposta = sc.nextLine().trim().toUpperCase();
+			if (!l_resposta.equals("S")) {
+				l_tentarNovamente = false;
+			}
+		}
+
+		return false;
+	}
+
 	private TipoUsuario escolherTipoUsuario() {
 		TipoUsuario[] l_tipos = TipoUsuario.values();
 		System.out.println("\nSelecione o tipo de usuário:");

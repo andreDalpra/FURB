@@ -1,28 +1,25 @@
 package main.java.furb.app;
 
 
-import java.util.Scanner;
+import static main.java.furb.mensagem.Mensagem.isTemMensagem;
+import static main.java.furb.mensagem.Mensagem.mostrarMensagem;
+import static main.java.furb.app.Sistema.*;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import java.util.Scanner;
 
 import main.java.furb.controle.UsuarioDAO;
 import main.java.furb.entidades.Usuario;
-import main.java.furb.mensagem.CadastroMensagem;
-
-import static main.java.furb.mensagem.Mensagem.*;
 
 public class Main {
 	public static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> new JFrame().dispose());
-	    CadastroMensagem.cadastro();
+		abrePrograma();
 
 		System.out.println("BEM VINDO AO SISTEMA DE OBRAS\n\n");
-		UsuarioDAO dao = new UsuarioDAO();
 		Usuario usu = new Usuario();
-		usu.cadastrar();
+		UsuarioDAO usudao = new UsuarioDAO();
+		usu.excluir();
 		if (isTemMensagem()) {
 			mostrarMensagem();
 		}

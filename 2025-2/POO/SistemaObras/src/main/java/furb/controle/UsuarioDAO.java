@@ -8,7 +8,6 @@ import main.java.furb.entidades.Usuario;
 public class UsuarioDAO {
 
 	public boolean inserir(Usuario p_usu) {
-		System.out.println("[DEBUG] Entrando no before_post para " + p_usu.getCodusu());
 		inicializaMensagem();
 		if (!p_usu.before_post()) {
 
@@ -35,13 +34,10 @@ public class UsuarioDAO {
 		inicializaMensagem();
 		boolean l_removido = Banco.excluir(Usuario.class, u -> ((Usuario) u).getSequsu() == p_sequsu);
 
-		if (l_removido) {
-			montaMensagem(11, new String[] { String.valueOf(p_sequsu) });
-		} else {
+		if (!l_removido) {
 			montaMensagem(12, new String[] { String.valueOf(p_sequsu) });
 		}
 		mostrarMensagem();
-
 		return l_removido;
 	}
 }

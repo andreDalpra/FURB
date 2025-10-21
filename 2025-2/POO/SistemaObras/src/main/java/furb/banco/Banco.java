@@ -13,9 +13,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class Banco {
-    // GSON com formatação (pretty print)
     private static final Gson gson = new GsonBuilder()
-            .setPrettyPrinting() // <--- importante: ativa indentação e quebras de linha
+            .setPrettyPrinting() 
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
@@ -40,9 +39,7 @@ public class Banco {
         boolean removido = lista.removeIf(pred);
         if (removido) {
             salvarLista(lista, tipo);
-            System.out.println("[BANCO] Registro removido com sucesso.");
         } else {
-            System.out.println("[BANCO] Nenhum registro encontrado para remoção.");
         }
         return removido;
     }

@@ -81,8 +81,6 @@ public class Usuario implements Sistema {
 	@Override
 	public boolean valida() {
 
-		inicializaMensagem();
-
 		if (codusu == null || codusu.isBlank()) {
 			montaMensagem(1, new String[] { codusu });
 			return false;
@@ -98,7 +96,6 @@ public class Usuario implements Sistema {
 	}
 
 	public boolean validaSenha() {
-		inicializaMensagem();
 
 		String l_senhaStr = String.valueOf(senusu);
 

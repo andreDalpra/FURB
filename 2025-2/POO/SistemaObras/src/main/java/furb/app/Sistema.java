@@ -38,6 +38,7 @@ public interface Sistema {
 		return false;
 	}
 	
+	
 	default <T> int obtem_proximaSequencia(Class<T> p_tipo, java.util.function.ToIntFunction<T> p_getter) {
         List<T> l_lista = Banco.listar(p_tipo);
         return l_lista.stream()

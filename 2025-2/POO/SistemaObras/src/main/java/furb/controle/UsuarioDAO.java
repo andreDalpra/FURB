@@ -20,13 +20,18 @@ public class UsuarioDAO {
 		return true;
 	}
 
-	public void listar() {
+	public static void listar() {
 
+		System.out.println("\nUsuários cadastrados:");
 		var l_usuarios = Banco.listar(Usuario.class);
+
 		if (l_usuarios.isEmpty()) {
-			System.out.println("Nenhum usuário encontrado.");
-		} else {
-			l_usuarios.forEach(u -> System.out.println(u.getSequsu() + " - " + u.getCodusu()));
+			System.out.println("Nenhum usuário encontrado.\n");
+			return;
+		}
+
+		for (Usuario u : l_usuarios) {
+			System.out.printf("%d - %s%n", u.getSequsu(), u.getCodusu());
 		}
 	}
 

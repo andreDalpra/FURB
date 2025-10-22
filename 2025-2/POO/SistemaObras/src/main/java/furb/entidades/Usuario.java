@@ -7,6 +7,7 @@ import static main.java.furb.mensagem.Mensagem.montaMensagem;
 import main.java.furb.app.Sistema;
 import main.java.furb.banco.Banco;
 import main.java.furb.controle.UsuarioDAO;
+import static main.java.furb.controle.UsuarioDAO.*;
 import main.java.furb.enums.TipoUsuario;
 
 public class Usuario implements Sistema {
@@ -57,17 +58,8 @@ public class Usuario implements Sistema {
 		boolean l_tentarNovamente = true;
 
 		while (l_tentarNovamente) {
-			System.out.println("\nUsuários cadastrados:");
-			var l_usuarios = Banco.listar(Usuario.class);
 
-			if (l_usuarios.isEmpty()) {
-				System.out.println("Nenhum usuário encontrado.\n");
-				return false;
-			}
-
-			for (Usuario u : l_usuarios) {
-				System.out.printf("%d - %s%n", u.getSequsu(), u.getCodusu());
-			}
+			listar();
 
 			System.out.print("\nSelecione o número do usuário para excluir: ");
 			int l_opcao = sc.nextInt();

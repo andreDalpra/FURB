@@ -19,6 +19,7 @@ public class CadastroMensagem {
     	Mensagem.cadastrarMensagem(15, "O profissional precisa ter CPF! \n CPF: %s", TipoMensagem.ERROR);
     	Mensagem.cadastrarMensagem(16, "O profissional cadastrado com sucesso \n Profssional: %s", TipoMensagem.ERROR);
     	Mensagem.cadastrarMensagem(17, "Profissional não encontrado para exclusão \n Profssional: %s", TipoMensagem.ERROR);
+    	Mensagem.cadastrarMensagem(18, "Profissional já existe para esta Obra \n Profissional: %s    Obra : %s", TipoMensagem.ERROR);
     	
 
 

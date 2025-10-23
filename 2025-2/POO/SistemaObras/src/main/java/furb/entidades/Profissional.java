@@ -165,6 +165,14 @@ public abstract class Profissional implements Sistema {
 		this.tippro = tippro;
 	}
 
+	public void setNompro(String nompro) {
+		this.nompro = nompro;
+	}
+
+	public void setCpfpro(String cpfpro) {
+		this.cpfpro = cpfpro;
+	}
+
 	// 🔹 Representação textual
 	@Override
 	public String toString() {

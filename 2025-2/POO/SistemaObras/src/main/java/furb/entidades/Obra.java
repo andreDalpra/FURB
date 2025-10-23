@@ -24,6 +24,22 @@ public abstract class Obra {
 		this.proobr = proobr;
 	}
 
+	public Obra() {
+	}
+
+	public void adicionarResponsavel(Profissional p) {
+		if (!proobr.contains(p)) {
+			proobr.add(p);
+			return;
+		}
+		montaMensagem(18, new String[] { p.getNompro(), desobr });
+
+	}
+
+	public void removerFuncionario(Profissional p) {
+		proobr.remove(p);
+	}
+
 	// --- Validação comum a todas as obras ---
 	public boolean valida() {
 		inicializaMensagem();

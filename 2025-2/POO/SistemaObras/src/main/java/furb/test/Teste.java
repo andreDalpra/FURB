@@ -1,6 +1,9 @@
 package main.java.furb.test;
 
+import static main.java.furb.mensagem.Mensagem.inicializaMensagem;
+import static main.java.furb.mensagem.Mensagem.mostrarMensagem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static main.java.furb.app.Sistema.abrePrograma;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,13 +13,21 @@ import org.junit.jupiter.api.Test;
 
 import main.java.furb.entidades.Engenheiro;
 import main.java.furb.entidades.Obra;
+import main.java.furb.entidades.ObraPrivada;
 import main.java.furb.entidades.ObraPublica;
 import main.java.furb.entidades.Profissional;
 import main.java.furb.enums.TipoObra;
-import static main.java.furb.mensagem.Mensagem.*;
+import org.junit.jupiter.api.BeforeAll;
+
 
 public class Teste {
 
+    @BeforeAll
+    public static void setup() {
+        // chama o método de inicialização do app
+       abrePrograma();
+    }
+	
 	@Disabled
 	@Test
 	public void Teste01() {
@@ -65,5 +76,28 @@ public class Teste {
 		prj.adicionarResponsavel(p1);
 		prj.adicionarResponsavel(p1);
 		mostrarMensagem();
+	}
+	
+    @Disabled
+	@Test
+	public void Teste06() {
+		inicializaMensagem();
+		ObraPrivada obr = new ObraPrivada();
+		obr.setCodobr(201);
+		obr.setLocter("Residencial");
+		obr.setMetter(150.5);
+		
+		assertEquals(201, obr.getCodobr());
+		assertEquals("Residencial", obr.getLocter());
+		assertEquals(150.5, obr.getMetter());
+	}
+	
+    @Disabled
+	@Test 
+	public void Teste7(){
+		inicializaMensagem();
+		ObraPrivada obr = new ObraPrivada();
+		obr.setMetter(-10.0);
+		obr.valida();
 	}
 }

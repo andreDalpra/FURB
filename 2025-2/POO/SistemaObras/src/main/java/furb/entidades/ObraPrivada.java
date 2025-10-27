@@ -21,9 +21,14 @@ public class ObraPrivada extends Obra {
 		this.locter = p_locter;
 	}
 
+	public ObraPrivada() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Retorna um resumo textual com informações da localização e metragem.
 	 */
+
 	public String resumo() {
 		String l_local = rururb ? "Área Rural" : "Área Urbana";
 		return String.format("Localização: %s | Metragem total: %.2f m²", l_local, metter);
@@ -35,7 +40,7 @@ public class ObraPrivada extends Obra {
 			return false;
 
 		if (metter <= 0) {
-			montaMensagem(37, new String[] { "A metragem total deve ser maior que zero." });
+			montaMensagem(19, new String[] {desobr, String.valueOf(metter) });
 			return false;
 		}
 

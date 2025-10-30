@@ -3,6 +3,8 @@ package main.java.furb.entidades;
 import static main.java.furb.app.Main.sc;
 import static main.java.furb.mensagem.Mensagem.inicializaMensagem;
 import static main.java.furb.mensagem.Mensagem.montaMensagem;
+import static main.java.furb.mensagem.Mensagem.isTemMensagem;
+import static main.java.furb.mensagem.Mensagem.mostrarMensagem;
 
 import main.java.furb.app.Sistema;
 import main.java.furb.banco.Banco;
@@ -35,51 +37,59 @@ public class Usuario implements Sistema {
 
 	@Override
 	public boolean cadastrar() {
-		System.out.println("Cadastre o usuário no Sistema");
-		System.out.println("Informe o código do usuário: ");
-		codusu = sc.nextLine().toUpperCase().trim();
-		System.out.println("Informe a senha (4 dígitos)");
-		senusu = sc.nextInt();
-		sc.nextLine();
+		do {
+			System.out.println("Cadastre o usuário no Sistema");
+			System.out.print("Informe o código do usuário: ");
+			codusu = sc.nextLine().toUpperCase().trim();
+			System.out.print("Informe a senha (4 dígitos): ");
+			senusu = Integer.parseInt(sc.nextLine().trim());
+			tipusu = escolherTipoUsuario();
+			System.out.print("Informe o nome do usuário: ");
+			nomusu = sc.nextLine().trim();
+			System.out.print("Informe o email do usuário: ");
+			emlusu = sc.nextLine().trim();
 
-		tipusu = escolherTipoUsuario();
+			// chama o DAO — inserir() já faz validação e mostra mensagens
 
-		System.out.println("Informe o nome do usuário: ");
-		nomusu = sc.nextLine();
-		System.out.println("Informe o email do usuário: ");
-		emlusu = sc.nextLine();
+ 			if (new UsuarioDAO().inserir(this)) {
+				return true; // cadastrado, sai
+			}
+			if (isTemMensagem()) {
+				mostrarMensagem();
+			}
 
-		// só chama o DAO
-		return new UsuarioDAO().inserir(this);
+			// se chegou aqui, deu falso: perguntar se quer tentar de novo
+		} while (tentarNovamente());
 
+		return false;
 	}
 
+	@Override
 	public boolean excluir() {
-		boolean l_tentarNovamente = true;
-
-		while (l_tentarNovamente) {
-
+		do {
 			listar();
 
 			System.out.print("\nSelecione o número do usuário para excluir: ");
-			int l_opcao = sc.nextInt();
-			sc.nextLine();
+			int l_opcao;
 
-			boolean l_removido = new UsuarioDAO().deletar(l_opcao);
+			try {
+				l_opcao = Integer.parseInt(sc.nextLine().trim());
+			} catch (NumberFormatException e) {
+				System.out.println("Número inválido. Tente novamente.");
+				continue; // volta pro início do laço
+			}
 
-			if (l_removido) {
+			if (new UsuarioDAO().deletar(l_opcao)) {
 				montaMensagem(11, new String[] { String.valueOf(l_opcao) });
-				return true;
+				return true; // sucesso — sai do método
 			}
 
-			System.out.print("Deseja tentar novamente? (S/N): ");
-			String l_resposta = sc.nextLine().trim().toUpperCase();
-			if (!l_resposta.equals("S")) {
-				l_tentarNovamente = false;
-			}
-		}
+			System.out.println("Usuário não encontrado ou erro ao excluir.");
 
-		return false;
+			// se chegou aqui, deu errado → pergunta se quer tentar de novo
+		} while (tentarNovamente());
+
+		return false; // saiu do laço → não quis tentar de novo
 	}
 
 	private TipoUsuario escolherTipoUsuario() {

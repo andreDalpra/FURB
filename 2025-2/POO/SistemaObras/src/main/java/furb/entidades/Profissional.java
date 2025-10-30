@@ -30,12 +30,13 @@ public abstract class Profissional implements Sistema {
 		this.obras = p_obras;
 	}
 
-	// 🔹 Construtor padrão
 	public Profissional() {
+
 	}
 
 	@Override
 	public boolean cadastrar() {
+
 		System.out.println("=== Cadastro de Profissional ===");
 
 		System.out.print("Informe o nome do profissional: ");
@@ -79,13 +80,12 @@ public abstract class Profissional implements Sistema {
 			for (Usuario u : usuarios) {
 				System.out.printf("%d - %s%n", u.getSequsu(), u.getCodusu());
 			}
-/*
-		    idUsuario = 0;
+
 			while (true) {
 				System.out.print("Selecione o número do usuário: ");
 				try {
-					idUsuario = Integer.parseInt(sc.nextLine());
-					usuario = usuarios.stream().filter(u -> u.getSequsu() == idUsuario).findFirst().orElse(null);
+					int l_sequsu = Integer.parseInt(sc.nextLine());
+					usuario = usuarios.stream().filter(u -> u.getSequsu() == l_sequsu).findFirst().orElse(null);
 					if (usuario != null)
 						break;
 					System.out.println("Usuário não encontrado. Tente novamente.");
@@ -93,7 +93,7 @@ public abstract class Profissional implements Sistema {
 					System.out.println("Digite um número válido!");
 				}
 			}
-			*/
+
 		}
 
 		// 🔹 Valida e insere no banco
@@ -106,12 +106,12 @@ public abstract class Profissional implements Sistema {
 	public boolean valida() {
 
 		if (nompro == null || nompro.isBlank()) {
-			montaMensagem(14, new String[] { "Nome do profissional" });
+			montaMensagem(14, new String[] { nompro });
 			return false;
 		}
 
 		if (cpfpro == null || cpfpro.isBlank()) {
-			montaMensagem(15, new String[] { "CPF do profissional" });
+			montaMensagem(15, new String[] { cpfpro });
 			return false;
 		}
 

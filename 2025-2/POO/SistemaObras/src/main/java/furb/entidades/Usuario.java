@@ -80,11 +80,11 @@ public class Usuario implements Sistema {
 			}
 
 			if (new UsuarioDAO().deletar(l_opcao)) {
-				montaMensagem(11, new String[] { String.valueOf(l_opcao) });
 				return true; // sucesso — sai do método
 			}
-
-			System.out.println("Usuário não encontrado ou erro ao excluir.");
+			if (isTemMensagem()) {
+				mostrarMensagem();
+			}
 
 			// se chegou aqui, deu errado → pergunta se quer tentar de novo
 		} while (tentarNovamente());

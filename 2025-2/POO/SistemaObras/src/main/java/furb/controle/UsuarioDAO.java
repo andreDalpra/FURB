@@ -39,10 +39,12 @@ public class UsuarioDAO {
 		inicializaMensagem();
 		boolean l_removido = Banco.excluir(Usuario.class, u -> ((Usuario) u).getSequsu() == p_sequsu);
 
-		if (!l_removido) {
-			montaMensagem(12, new String[] { String.valueOf(p_sequsu) });
+		if (l_removido) {
+			montaMensagem(11, new String[] { String.valueOf(p_sequsu) });
+			mostrarMensagem();
+			return true;
 		}
-		mostrarMensagem();
-		return l_removido;
+		montaMensagem(12, new String[] { String.valueOf(p_sequsu) });
+		return false;
 	}
 }

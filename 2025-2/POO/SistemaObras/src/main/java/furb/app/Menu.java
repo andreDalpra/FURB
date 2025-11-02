@@ -11,9 +11,7 @@ public class Menu {
 		Profissional pro = new Engenheiro();
 		Usuario usu = new Usuario();
 		//pro.cadastrar();
-		usu.excluir();
-		usu.cadastrar();
-		
+		pro.cadastrar();		
 		System.out.println("FIM");
     }
 }

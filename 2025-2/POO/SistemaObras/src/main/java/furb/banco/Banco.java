@@ -5,25 +5,38 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 public class Banco {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
+
     private static final Gson gson = new GsonBuilder()
-            .setPrettyPrinting() 
+            .registerTypeAdapter(LocalDate.class, new JsonSerializer<LocalDate>() {
+                @Override
+                public JsonElement serialize(LocalDate src, Type typeOfSrc, JsonSerializationContext context) {
+                    return new JsonPrimitive(src.format(FORMATTER));
+                }
+            })
+            .registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
+                @Override
+                public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                        throws JsonParseException {
+                    return LocalDate.parse(json.getAsString(), FORMATTER);
+                }
+            })
+            .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
 
     private static final String BASE_PATH = "dados/";
 
-    /**
-     * Salva um objeto genérico no arquivo JSON correspondente.
-     */
     public static <T> void salvar(T objeto, Class<T> tipo) {
         String arquivo = getCaminhoArquivo(tipo);
         List<T> lista = listar(tipo);
@@ -31,22 +44,15 @@ public class Banco {
         salvarLista(lista, tipo);
     }
 
-    /**
-     * Exclui todos os registros do tipo informado que satisfaçam o predicado.
-     */
     public static <T> boolean excluir(Class<T> tipo, java.util.function.Predicate<T> pred) {
         List<T> lista = listar(tipo);
         boolean removido = lista.removeIf(pred);
         if (removido) {
             salvarLista(lista, tipo);
-        } else {
         }
         return removido;
     }
 
-    /**
-     * Retorna todos os objetos do tipo informado.
-     */
     public static <T> List<T> listar(Class<T> tipo) {
         String arquivo = getCaminhoArquivo(tipo);
         try {
@@ -63,25 +69,19 @@ public class Banco {
         }
     }
 
-    /**
-     * Substitui todo o conteúdo do arquivo JSON por uma nova lista formatada.
-     */
     private static <T> void salvarLista(List<T> lista, Class<T> tipo) {
         String arquivo = getCaminhoArquivo(tipo);
         try {
             Files.createDirectories(Paths.get(BASE_PATH));
-
-            // Aqui garantimos que será salvo com UTF-8 e formatação
             String jsonFormatado = gson.toJson(lista);
             Files.writeString(Paths.get(arquivo), jsonFormatado, StandardCharsets.UTF_8);
-
             System.out.println("[BANCO] Arquivo salvo em formato bonito: " + arquivo);
         } catch (IOException e) {
             System.err.println("Erro ao salvar JSON: " + e.getMessage());
         }
     }
 
-    private static <T> String getCaminhoArquivo(Class<T> tipo) {
+    private static String getCaminhoArquivo(Class<?> tipo) {
         return BASE_PATH + tipo.getSimpleName().toLowerCase() + ".json";
     }
 }

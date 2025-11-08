@@ -1,4 +1,4 @@
-package br.furb.controle;
+package main.furb.controle;
 
 public class UsuarioDAO {
 

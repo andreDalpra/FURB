@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import br.fub.enums.TipoMensagem;
+import main.furb.enums.TipoMensagem;
 
 public class MensagemUI extends JDialog {
 

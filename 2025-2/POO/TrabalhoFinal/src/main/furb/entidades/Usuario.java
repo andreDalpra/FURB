@@ -1,4 +1,4 @@
-package br.furb.entidades;
+package main.furb.entidades;
 
 public class Usuario {
     

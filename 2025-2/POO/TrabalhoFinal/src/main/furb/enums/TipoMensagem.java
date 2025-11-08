@@ -1,4 +1,4 @@
-package br.fub.enums;
+package main.furb.enums;
 
 public enum TipoMensagem {
 	OK, WARNING, ERROR

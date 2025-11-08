@@ -1,4 +1,4 @@
-package br.furb.banco;
+package main.furb.banco;
 
 import java.io.File;
 import java.io.FileWriter;

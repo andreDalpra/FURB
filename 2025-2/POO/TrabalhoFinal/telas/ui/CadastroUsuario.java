@@ -1,0 +1,148 @@
+package ui;
+
+import java.awt.Button;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import main.furb.app.Tela;
+import main.furb.controle.UsuarioDAO;
+import main.furb.entidades.Usuario;
+import main.furb.enums.TipoUsuario;
+
+public class CadastroUsuario extends JFrame implements Tela {
+
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JTextField EDcodusu;
+    private JTextField EDsenusu;
+    private JTextField EDnomusu;
+    private JTextField EDemlusu;
+    private JComboBox<TipoUsuario> CBtipusu;
+
+    private Usuario usuario;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    CadastroUsuario frame = new CadastroUsuario();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    
+    @Override
+    public Usuario carrega_no_objeto() {
+        Usuario u = new Usuario();
+        u.setCodusu(EDcodusu.getText());
+        u.setSenusu(Integer.parseInt(EDsenusu.getText()));
+        u.setNomusu(EDnomusu.getText());
+        u.setEmlusu(EDemlusu.getText());
+        u.setTipusu((TipoUsuario) CBtipusu.getSelectedItem());
+        return u;
+    }
+
+    @Override
+    public void carrega_do_objeto(Object obj) {
+        if (obj instanceof Usuario) {
+            Usuario u = (Usuario) obj;
+            EDcodusu.setText(u.getCodusu());
+            EDsenusu.setText(String.valueOf(u.getSenusu()));
+            EDnomusu.setText(u.getNomusu());
+            EDemlusu.setText(u.getEmlusu());
+            CBtipusu.setSelectedItem(u.getTipusu());
+        }
+    }
+
+    /**
+     * Create the frame.
+     */
+    public CadastroUsuario() {
+        setTitle("Cadastro de Usuário");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 350, 301);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLabel lblNewLabel = new JLabel("Código");
+        lblNewLabel.setBounds(91, 52, 46, 14);
+        lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+        contentPane.add(lblNewLabel);
+
+        EDcodusu = new JTextField();
+        EDcodusu.setBounds(147, 49, 86, 20);
+        contentPane.add(EDcodusu);
+        EDcodusu.setColumns(10);
+
+        JLabel lblNewLabel_1 = new JLabel("Senha");
+        lblNewLabel_1.setBounds(91, 77, 46, 14);
+        contentPane.add(lblNewLabel_1);
+
+        EDsenusu = new JTextField();
+        EDsenusu.setBounds(147, 74, 86, 20);
+        contentPane.add(EDsenusu);
+        EDsenusu.setColumns(10);
+
+        JLabel lblNome = new JLabel("Nome");
+        lblNome.setVerticalAlignment(SwingConstants.TOP);
+        lblNome.setBounds(91, 104, 46, 14);
+        contentPane.add(lblNome);
+
+        EDnomusu = new JTextField();
+        EDnomusu.setColumns(10);
+        EDnomusu.setBounds(147, 101, 86, 20);
+        contentPane.add(EDnomusu);
+
+        JLabel lblNewLabel_1_1 = new JLabel("Email");
+        lblNewLabel_1_1.setBounds(91, 129, 46, 14);
+        contentPane.add(lblNewLabel_1_1);
+
+        EDemlusu = new JTextField();
+        EDemlusu.setColumns(10);
+        EDemlusu.setBounds(147, 126, 86, 20);
+        contentPane.add(EDemlusu);
+
+        JLabel lblNewLabel_1_1_1 = new JLabel("Tipo");
+        lblNewLabel_1_1_1.setBounds(91, 159, 46, 14);
+        contentPane.add(lblNewLabel_1_1_1);
+
+        CBtipusu = new JComboBox<>();
+        for (TipoUsuario tipo : TipoUsuario.values()) {
+            CBtipusu.addItem(tipo);
+        }
+        CBtipusu.setBounds(147, 156, 86, 20);
+        contentPane.add(CBtipusu);
+
+        Button BTcriausu = new Button("Criar");
+        BTcriausu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario u = carrega_no_objeto();
+//                dao.inserir(u);
+                System.out.println("Usuário salvo: " + u.getNomusu());
+            }
+        });
+        BTcriausu.setBounds(135, 186, 70, 22);
+        contentPane.add(BTcriausu);
+    }
+
+  
+
+}

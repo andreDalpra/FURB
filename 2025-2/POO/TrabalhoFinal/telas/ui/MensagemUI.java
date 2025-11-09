@@ -1,4 +1,5 @@
-package br.furb.telas;
+package ui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;

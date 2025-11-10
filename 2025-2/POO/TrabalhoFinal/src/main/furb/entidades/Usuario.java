@@ -2,6 +2,8 @@ package main.furb.entidades;
 
 import main.furb.app.Sistema;
 import main.furb.enums.TipoUsuario;
+import static main.furb.mensagem.Mensagem.*;
+import static main.furb.banco.Banco.*;
 
 public class Usuario implements Sistema {
 	private int sequsu;
@@ -13,8 +15,91 @@ public class Usuario implements Sistema {
 
 	@Override
 	public boolean valida() {
-		// TODO Auto-generated method stub
-		return false;
+		if (codusu == null || codusu.isBlank()) {
+			montaMensagem(1, new String[] { codusu });
+			return false;
+		}
+
+		if (!validaSenha()) {
+			return false;
+		}
+		if (tipusu == null) {
+			montaMensagem(4, new String[] { codusu, tipusu.name() });
+		}
+		return true;
+	}
+
+	@Override
+	public boolean before_post() {
+		inicializaMensagem();
+
+		// 🔹 Gera automaticamente a próxima sequência se ainda não tiver
+		if (sequsu == 0) {
+			sequsu = obtemSequence(Usuario.class);
+		}
+
+		// 🔹 Primeiro, valida os campos obrigatórios
+		if (!valida()) {
+			return false;
+		}
+
+		// 🔹 Agora valida se o login (codusu) já existe no "banco"
+		var l_usuarios = listar(Usuario.class);
+		boolean l_existe = l_usuarios.stream().anyMatch(u -> u.getCodusu().equalsIgnoreCase(this.codusu));
+
+		if (l_existe) {
+			montaMensagem(13, new String[] { this.codusu });
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean validaSenha() {
+
+		String l_senhaStr = String.valueOf(senusu);
+
+		if (senusu < 1000 || senusu > 9999) {
+			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			return false;
+		}
+
+		boolean l_todosIguais = l_senhaStr.chars().allMatch(c -> c == l_senhaStr.charAt(0));
+		if (l_todosIguais) {
+			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			return false;
+		}
+
+		boolean l_sequencialCrescente = true;
+		for (int l_i = 0; l_i < l_senhaStr.length() - 1; l_i++) {
+			if (l_senhaStr.charAt(l_i + 1) != l_senhaStr.charAt(l_i) + 1) {
+				l_sequencialCrescente = false;
+				break;
+			}
+		}
+		if (l_sequencialCrescente) {
+			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			return false;
+		}
+
+		boolean l_sequencialDecrescente = true;
+		for (int l_i = 0; l_i < l_senhaStr.length() - 1; l_i++) {
+			if (l_senhaStr.charAt(l_i + 1) != l_senhaStr.charAt(l_i) - 1) {
+				l_sequencialDecrescente = false;
+				break;
+			}
+		}
+		if (l_sequencialDecrescente) {
+			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			return false;
+		}
+
+		if (l_senhaStr.equals("0000") || l_senhaStr.equals("1234")) {
+			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			return false;
+		}
+
+		return true;
 	}
 
 	public int getSequsu() {
@@ -67,14 +152,26 @@ public class Usuario implements Sistema {
 
 	@Override
 	public String toCSV() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		sb.append("sequsu : ").append(sequsu).append(";\n");
+		sb.append("codusu : ").append(codusu).append(";\n");
+		sb.append("senusu : ").append(senusu).append(";\n");
+		sb.append("nomusu : ").append(nomusu).append(";\n");
+		sb.append("emlusu : ").append(emlusu).append(";\n");
+		sb.append("tipusu : ").append(tipusu.name()).append(";\n");
+		sb.append("---"); // separador entre registros (opcional)
+		return sb.toString();
 	}
 
 	@Override
 	public void fromCSV(String linha) {
-		// TODO Auto-generated method stub
-
+		String[] partes = linha.split(";");
+		this.sequsu = Integer.parseInt(partes[0]);
+		this.codusu = partes[1];
+		this.senusu = Integer.parseInt(partes[2]);
+		this.nomusu = partes[3];
+		this.emlusu = partes[4];
+		this.tipusu = TipoUsuario.valueOf(partes[5]);
 	}
 
 }

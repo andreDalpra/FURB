@@ -1,0 +1,29 @@
+
+sequsu : 22;
+codusu : ANDRE;
+senusu : 1256;
+nomusu : André Luiz Dalpra;
+emlusu : andre@gmail.com;
+tipusu : ADM;
+---
+sequsu : 23;
+codusu : MIGUEL;
+senusu : 1278;
+nomusu : Miguel;
+emlusu : miguel@gmail.com;
+tipusu : NORMAL;
+---
+sequsu : 24;
+codusu : TESTE;
+senusu : 1256;
+nomusu : TESTE;
+emlusu : teste@gmail.com;
+tipusu : NORMAL;
+---
+sequsu : 28;
+codusu : TUBI;
+senusu : 1290;
+nomusu : tubi;
+emlusu : tubi@gmail.com;
+tipusu : ADM;
+---

@@ -18,7 +18,7 @@ public class Banco {
 	public static <T extends Sistema> int obtemSequence(Class<T> p_tipo) {
 		String l_arquivoSeq = getCaminhoSequencia(p_tipo);
 		File file = new File(l_arquivoSeq);
-		int l_proximo = 1;
+		int l_proximo = 0;
 
 		try {
 			if (file.exists()) {
@@ -42,7 +42,7 @@ public class Banco {
 	}
 
 	// --- Salvar ---
-	public static <T extends Sistema> void salvar(T p_objeto, Class<T> p_tipo) {
+	public static <T extends Sistema> void insert(T p_objeto, Class<T> p_tipo) {
 		String l_arquivo = getCaminhoArquivo(p_tipo);
 		try {
 			File dir = new File(BASE_PATH);
@@ -61,35 +61,45 @@ public class Banco {
 
 	// --- Listar ---
 	public static <T extends Sistema> List<T> listar(Class<T> p_tipo) {
-		List<T> lista = new ArrayList<>();
-		File file = new File(getCaminhoArquivo(p_tipo));
-		if (!file.exists())
-			return lista;
+	    List<T> lista = new ArrayList<>();
+	    File file = new File(getCaminhoArquivo(p_tipo));
+	    if (!file.exists())
+	        return lista;
 
-		try (Scanner sc = new Scanner(file, StandardCharsets.UTF_8)) {
-			while (sc.hasNextLine()) {
-				String linha = sc.nextLine();
-				T l_obj = p_tipo.getDeclaredConstructor().newInstance();
-				l_obj.fromCSV(linha);
-				lista.add(l_obj);
-			}
-		} catch (Exception e) {
-			System.err.println("[BANCO] Erro ao listar: " + e.getMessage());
-		}
-		return lista;
+	    try (Scanner sc = new Scanner(file, StandardCharsets.UTF_8)) {
+	        while (sc.hasNextLine()) {
+	            String linha = sc.nextLine().trim();
+
+	            // pula linhas vazias ou nulas
+	            if (linha.isEmpty()) continue;
+
+	            try {
+	                T l_obj = p_tipo.getDeclaredConstructor().newInstance();
+	                l_obj.fromCSV(linha);
+	                lista.add(l_obj);
+	            } catch (Exception ex) {
+	                System.err.println("[BANCO] Linha ignorada: " + ex.getMessage());
+	            }
+	        }
+	    } catch (Exception e) {
+	        System.err.println("[BANCO] Erro ao listar: " + e.getMessage());
+	    }
+
+	    return lista;
 	}
 
+
 	// --- Excluir ---
-	public static <T extends Sistema> boolean excluir(Class<T> p_tipo, Predicate<T> p_condicao) {
+	public static <T extends Sistema> boolean delete(Class<T> p_tipo, Predicate<T> p_condicao) {
 		List<T> l_lista = listar(p_tipo);
 		boolean l_removido = l_lista.removeIf(p_condicao);
 		if (l_removido)
-			salvarLista(l_lista, p_tipo);
+			commit(l_lista, p_tipo);
 		return l_removido;
 	}
 
 	// --- Atualizar ---
-	public static <T extends Sistema> boolean atualizar(Class<T> p_tipo, Predicate<T> p_condicao, T p_novoObjeto) {
+	public static <T extends Sistema> boolean update(Class<T> p_tipo, Predicate<T> p_condicao, T p_novoObjeto) {
 		List<T> l_lista = listar(p_tipo);
 		boolean l_atualizado = false;
 		for (int i = 0; i < l_lista.size(); i++) {
@@ -100,12 +110,12 @@ public class Banco {
 			}
 		}
 		if (l_atualizado)
-			salvarLista(l_lista, p_tipo);
+			commit(l_lista, p_tipo);
 		return l_atualizado;
 	}
 
 	// --- Auxiliares ---
-	private static <T extends Sistema> void salvarLista(List<T> p_lista, Class<T> p_tipo) {
+	private static <T extends Sistema> void commit(List<T> p_lista, Class<T> p_tipo) {
 		String l_arquivo = getCaminhoArquivo(p_tipo);
 		try (PrintWriter pw = new PrintWriter(new FileWriter(l_arquivo, StandardCharsets.UTF_8))) {
 			for (T obj : p_lista)

@@ -27,3 +27,17 @@ nomusu : tubi;
 emlusu : tubi@gmail.com;
 tipusu : ADM;
 ---
+sequsu : 29;
+codusu : CARLOS;
+senusu : 1289;
+nomusu : Carlos;
+emlusu : carlos@gmail.com;
+tipusu : NORMAL;
+---
+sequsu : 30;
+codusu : TESTE2;
+senusu : 1289;
+nomusu : teste2;
+emlusu : teste2@gmail.com;
+tipusu : ADM;
+---

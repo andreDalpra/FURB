@@ -19,6 +19,8 @@ import main.furb.entidades.Usuario;
 import main.furb.enums.TipoUsuario;
 import static main.furb.mensagem.Mensagem.*;
 import static main.furb.app.Sistema.abrePrograma;
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
 //import static main.furb.app.Sistema.*;
 
 public class CadastroUsuario extends JFrame implements Tela {
@@ -26,12 +28,12 @@ public class CadastroUsuario extends JFrame implements Tela {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField EDcodusu;
-	private JTextField EDsenusu;
 	private JTextField EDnomusu;
 	private JTextField EDemlusu;
 	private JComboBox<TipoUsuario> CBtipusu;
 
 	private Usuario usuario;
+	private JPasswordField EDsenusu;
 
 	/**
 	 * Launch the application.
@@ -55,7 +57,7 @@ public class CadastroUsuario extends JFrame implements Tela {
 	public Usuario carrega_no_objeto() {
 		Usuario u = new Usuario();
 		u.setCodusu(EDcodusu.getText());
-		u.setSenusu(Integer.parseInt(EDsenusu.getText()));
+		u.setSenusu(Integer.parseInt(new String(EDsenusu.getPassword())));
 		u.setNomusu(EDnomusu.getText());
 		u.setEmlusu(EDemlusu.getText());
 		u.setTipusu((TipoUsuario) CBtipusu.getSelectedItem());
@@ -110,11 +112,6 @@ public class CadastroUsuario extends JFrame implements Tela {
 		lblNewLabel_1.setBounds(91, 77, 46, 14);
 		contentPane.add(lblNewLabel_1);
 
-		EDsenusu = new JTextField();
-		EDsenusu.setBounds(147, 74, 86, 20);
-		contentPane.add(EDsenusu);
-		EDsenusu.setColumns(10);
-
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setVerticalAlignment(SwingConstants.TOP);
 		lblNome.setBounds(91, 104, 46, 14);
@@ -161,6 +158,9 @@ public class CadastroUsuario extends JFrame implements Tela {
 		});
 		BTcriausu.setBounds(147, 182, 70, 22);
 		contentPane.add(BTcriausu);
+		
+		EDsenusu = new JPasswordField();
+		EDsenusu.setBounds(147, 74, 86, 20);
+		contentPane.add(EDsenusu);
 	}
-
 }

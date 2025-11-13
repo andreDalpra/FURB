@@ -30,7 +30,7 @@ public class Mensagem implements Sistema{
 	}
 
 	// Monta a mensagem com base no código e os parametros passados na classe
-	public static String montaMensagem(int p_codmsg, String[] p_parametros) {
+	public static String montaMensagem(int p_codmsg, String ... p_parametros) {
 		Object[] carrega_msg = mensagens.get(p_codmsg);
 
 		if (carrega_msg == null) {

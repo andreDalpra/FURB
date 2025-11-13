@@ -13,7 +13,7 @@ public class UsuarioDAO {
 			return false;
 		}
 		Banco.insert(p_usuario, Usuario.class);
-		montaMensagem(10, new String[] { p_usuario.getCodusu() });
+		montaMensagem(10, p_usuario.getCodusu() );
 		mostrarMensagem();
 
 		return true;

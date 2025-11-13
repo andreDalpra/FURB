@@ -126,7 +126,7 @@ public class Banco {
 	}
 
 	private static String getCaminhoArquivo(Class<?> p_tipo) {
-		return BASE_PATH + p_tipo.getSimpleName().toLowerCase() + ".csv";
+		return BASE_PATH + p_tipo.getSimpleName().toLowerCase() + ".csv"; 
 	}
 
 	private static String getCaminhoSequencia(Class<?> p_tipo) {

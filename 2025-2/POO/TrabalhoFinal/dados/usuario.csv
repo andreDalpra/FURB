@@ -41,3 +41,24 @@ nomusu : teste2;
 emlusu : teste2@gmail.com;
 tipusu : ADM;
 ---
+sequsu : 32;
+codusu : FARINNHA;
+senusu : 1256;
+nomusu : Farinha;
+emlusu : farinha@gmail.com;
+tipusu : ADM;
+---
+sequsu : 34;
+codusu : TESTE4;
+senusu : 2367;
+nomusu : TESTE4;
+emlusu : teste4@gmail.com;
+tipusu : NORMAL;
+---
+sequsu : 35;
+codusu : EDIO;
+senusu : 1257;
+nomusu : edio;
+emlusu : edio@gmail.com;
+tipusu : NORMAL;
+---

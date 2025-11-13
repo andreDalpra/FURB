@@ -35,24 +35,6 @@ public class CadastroUsuario extends JFrame implements Tela {
 	private Usuario usuario;
 	private JPasswordField EDsenusu;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					//CARREGUE O PROGRAMA SEMPRE
-					abrePrograma();
-					CadastroUsuario frame = new CadastroUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	@Override
 	public Usuario carrega_no_objeto() {
 		Usuario u = new Usuario();
@@ -145,15 +127,14 @@ public class CadastroUsuario extends JFrame implements Tela {
 		Button BTcriausu = new Button("Criar");
 		BTcriausu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TELA -> Usuario -> UsuarioDAO	
-				UsuarioDAO dao = new UsuarioDAO();
+				// TELA -> Usuario -> UsuarioDAO
 				Usuario u = carrega_no_objeto();
+				UsuarioDAO dao = new UsuarioDAO();
 				dao.inserir(u);
 				if (isTemMensagem()) {
 					mostrarMensagem();
 				}
 				limparCampos();
-
 			}
 		});
 		BTcriausu.setBounds(147, 182, 70, 22);

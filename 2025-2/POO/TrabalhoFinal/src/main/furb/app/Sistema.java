@@ -22,11 +22,6 @@ public interface Sistema {
 
 	boolean valida();
 
-	default boolean cadastrar() {
-		return false;
-
-	}
-
 	default boolean excluir() {
 		return false;
 	}

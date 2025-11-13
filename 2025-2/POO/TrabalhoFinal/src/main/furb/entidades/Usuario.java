@@ -9,14 +9,14 @@ public class Usuario implements Sistema {
 	private int sequsu;
 	private String codusu;
 	private int senusu;
-	private String nomusu;
+	private String nomusu;  
 	private String emlusu;
 	private TipoUsuario tipusu;
 
 	@Override
 	public boolean valida() {
 		if (codusu == null || codusu.isBlank()) {
-			montaMensagem(1, new String[] { codusu });
+			montaMensagem(1, codusu );
 			return false;
 		}
 
@@ -24,31 +24,29 @@ public class Usuario implements Sistema {
 			return false;
 		}
 		if (tipusu == null) {
-			montaMensagem(4, new String[] { codusu, tipusu.name() });
+			montaMensagem(4, codusu, tipusu.name() );
 		}
 		return true;
 	}
 
 	@Override
 	public boolean before_post() {
+		//NAO PRECISA INICIALIZAR MENSAGEM
 		inicializaMensagem();
-
-		// 🔹 Gera automaticamente a próxima sequência se ainda não tiver
+		
 		if (sequsu == 0) {
 			sequsu = obtemSequence(Usuario.class);
 		}
-
-		// 🔹 Primeiro, valida os campos obrigatórios
+		
 		if (!valida()) {
 			return false;
 		}
 
-		// 🔹 Agora valida se o login (codusu) já existe no "banco"
 		var l_usuarios = listar(Usuario.class);
 		boolean l_existe = l_usuarios.stream().anyMatch(u -> u.getCodusu().equalsIgnoreCase(this.codusu));
 
 		if (l_existe) {
-			montaMensagem(13, new String[] { this.codusu });
+			montaMensagem(13,this.codusu );
 			return false;
 		}
 
@@ -60,13 +58,13 @@ public class Usuario implements Sistema {
 		String l_senhaStr = String.valueOf(senusu);
 
 		if (senusu < 1000 || senusu > 9999) {
-			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			montaMensagem(7, codusu, l_senhaStr );
 			return false;
 		}
 
 		boolean l_todosIguais = l_senhaStr.chars().allMatch(c -> c == l_senhaStr.charAt(0));
 		if (l_todosIguais) {
-			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			montaMensagem(7, codusu, l_senhaStr );
 			return false;
 		}
 
@@ -78,7 +76,7 @@ public class Usuario implements Sistema {
 			}
 		}
 		if (l_sequencialCrescente) {
-			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			montaMensagem(7, codusu, l_senhaStr );
 			return false;
 		}
 
@@ -90,12 +88,12 @@ public class Usuario implements Sistema {
 			}
 		}
 		if (l_sequencialDecrescente) {
-			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			montaMensagem(7,  codusu, l_senhaStr );
 			return false;
 		}
 
 		if (l_senhaStr.equals("0000") || l_senhaStr.equals("1234")) {
-			montaMensagem(7, new String[] { codusu, l_senhaStr });
+			montaMensagem(7, codusu, l_senhaStr );
 			return false;
 		}
 

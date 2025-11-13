@@ -8,20 +8,12 @@ public class CadastroMensagem {
     	Mensagem.cadastrarMensagem(2, "Usuário deve ter senha \n Usuário: %s", TipoMensagem.WARNING);
     	Mensagem.cadastrarMensagem(3, "Erro ao cadastrar usuário: %s", TipoMensagem.ERROR);
     	Mensagem.cadastrarMensagem(4, "O usuário deve ter um tipo ! \n Usuário: %s    Tipo: %s ", TipoMensagem.WARNING);
-    	Mensagem.cadastrarMensagem(5, "O Instrutor deve ter um nome! \n Instrutor: %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(6, "Erro ao cadastrar aluno: %s", TipoMensagem.ERROR);
     	Mensagem.cadastrarMensagem(7, "Senha inválida ",TipoMensagem.ERROR);
     	Mensagem.cadastrarMensagem(10, "Usuário salvo com sucesso! \n Usuário: %s", TipoMensagem.OK);
     	Mensagem.cadastrarMensagem(11, "Usuário removido com sucesso! \n Usuário: %s", TipoMensagem.OK);
     	Mensagem.cadastrarMensagem(12, "Usuário não encontrado para exclusão! \n Usuário: %s", TipoMensagem.WARNING);
     	Mensagem.cadastrarMensagem(13, "Usuário já existe! \n Usuário: %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(14, "O profissional precisa de um nome ! \n Nome: %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(15, "O profissional precisa ter CPF! \n CPF: %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(16, "O profissional cadastrado com sucesso \n Profssional: %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(17, "Profissional não encontrado para exclusão \n Profssional: %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(18, "Profissional já existe para esta Obra \n Profissional: %s    Obra : %s", TipoMensagem.ERROR);
-    	Mensagem.cadastrarMensagem(19, "A metragem deve ser maior que 0 para esta Obra \n Obra: %s    Metragem : %s", TipoMensagem.ERROR);
-    	
+
 
 
 

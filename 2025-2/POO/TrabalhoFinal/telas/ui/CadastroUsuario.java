@@ -18,8 +18,6 @@ import main.furb.controle.UsuarioDAO;
 import main.furb.entidades.Usuario;
 import main.furb.enums.TipoUsuario;
 import static main.furb.mensagem.Mensagem.*;
-import static main.furb.app.Sistema.abrePrograma;
-import javax.swing.JButton;
 import javax.swing.JPasswordField;
 //import static main.furb.app.Sistema.*;
 
@@ -143,5 +141,16 @@ public class CadastroUsuario extends JFrame implements Tela {
 		EDsenusu = new JPasswordField();
 		EDsenusu.setBounds(147, 74, 86, 20);
 		contentPane.add(EDsenusu);
+		
+		Button BTvolta = new Button("Voltar");
+		BTvolta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login telaLogin = new Login();
+			    telaLogin.setVisible(true);
+			    dispose();
+			}
+		});
+		BTvolta.setBounds(147, 209, 70, 22);
+		contentPane.add(BTvolta);
 	}
 }

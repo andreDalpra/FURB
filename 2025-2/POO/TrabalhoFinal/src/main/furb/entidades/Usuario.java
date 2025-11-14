@@ -9,14 +9,14 @@ public class Usuario implements Sistema {
 	private int sequsu;
 	private String codusu;
 	private int senusu;
-	private String nomusu;  
+	private String nomusu;
 	private String emlusu;
 	private TipoUsuario tipusu;
 
 	@Override
 	public boolean valida() {
 		if (codusu == null || codusu.isBlank()) {
-			montaMensagem(1, codusu );
+			montaMensagem(1, codusu);
 			return false;
 		}
 
@@ -24,20 +24,20 @@ public class Usuario implements Sistema {
 			return false;
 		}
 		if (tipusu == null) {
-			montaMensagem(4, codusu, tipusu.name() );
+			montaMensagem(4, codusu, tipusu.name());
 		}
 		return true;
 	}
 
 	@Override
 	public boolean before_post() {
-		//NAO PRECISA INICIALIZAR MENSAGEM
+		// NAO PRECISA INICIALIZAR MENSAGEM
 		inicializaMensagem();
-		
+
 		if (sequsu == 0) {
 			sequsu = obtemSequence(Usuario.class);
 		}
-		
+
 		if (!valida()) {
 			return false;
 		}
@@ -46,7 +46,7 @@ public class Usuario implements Sistema {
 		boolean l_existe = l_usuarios.stream().anyMatch(u -> u.getCodusu().equalsIgnoreCase(this.codusu));
 
 		if (l_existe) {
-			montaMensagem(13,this.codusu );
+			montaMensagem(13, this.codusu);
 			return false;
 		}
 
@@ -58,13 +58,13 @@ public class Usuario implements Sistema {
 		String l_senhaStr = String.valueOf(senusu);
 
 		if (senusu < 1000 || senusu > 9999) {
-			montaMensagem(7, codusu, l_senhaStr );
+			montaMensagem(7, codusu, l_senhaStr);
 			return false;
 		}
 
 		boolean l_todosIguais = l_senhaStr.chars().allMatch(c -> c == l_senhaStr.charAt(0));
 		if (l_todosIguais) {
-			montaMensagem(7, codusu, l_senhaStr );
+			montaMensagem(7, codusu, l_senhaStr);
 			return false;
 		}
 
@@ -76,7 +76,7 @@ public class Usuario implements Sistema {
 			}
 		}
 		if (l_sequencialCrescente) {
-			montaMensagem(7, codusu, l_senhaStr );
+			montaMensagem(7, codusu, l_senhaStr);
 			return false;
 		}
 
@@ -88,12 +88,12 @@ public class Usuario implements Sistema {
 			}
 		}
 		if (l_sequencialDecrescente) {
-			montaMensagem(7,  codusu, l_senhaStr );
+			montaMensagem(7, codusu, l_senhaStr);
 			return false;
 		}
 
 		if (l_senhaStr.equals("0000") || l_senhaStr.equals("1234")) {
-			montaMensagem(7, codusu, l_senhaStr );
+			montaMensagem(7, codusu, l_senhaStr);
 			return false;
 		}
 
@@ -150,20 +150,13 @@ public class Usuario implements Sistema {
 
 	@Override
 	public String toCSV() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("sequsu : ").append(sequsu).append(";\n");
-		sb.append("codusu : ").append(codusu).append(";\n");
-		sb.append("senusu : ").append(senusu).append(";\n");
-		sb.append("nomusu : ").append(nomusu).append(";\n");
-		sb.append("emlusu : ").append(emlusu).append(";\n");
-		sb.append("tipusu : ").append(tipusu.name()).append(";\n");
-		sb.append("---"); // separador entre registros (opcional)
-		return sb.toString();
+		return sequsu + ";" + codusu + ";" + senusu + ";" + nomusu + ";" + emlusu + ";" + tipusu.name();
 	}
 
 	@Override
 	public void fromCSV(String linha) {
 		String[] partes = linha.split(";");
+
 		this.sequsu = Integer.parseInt(partes[0]);
 		this.codusu = partes[1];
 		this.senusu = Integer.parseInt(partes[2]);

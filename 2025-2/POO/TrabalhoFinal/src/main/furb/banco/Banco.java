@@ -11,9 +11,11 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 
 import main.furb.app.Sistema;
+import main.furb.entidades.Usuario;
 
 public class Banco {
 	private static final String BASE_PATH = "dados/";
+	public static Usuario usuarioLogado;
 
 	public static <T extends Sistema> int obtemSequence(Class<T> p_tipo) {
 		String l_arquivoSeq = getCaminhoSequencia(p_tipo);
@@ -52,17 +54,16 @@ public class Banco {
 			try (PrintWriter pw = new PrintWriter(new FileWriter(l_arquivo, StandardCharsets.UTF_8, true))) {
 				pw.println(p_objeto.toCSV());
 			}
-
-			System.out.println("[BANCO] Registro salvo em " + l_arquivo);
 		} catch (IOException e) {
 			System.err.println("[BANCO] Erro ao salvar: " + e.getMessage());
 		}
 	}
 
-	// --- Listar ---
 	public static <T extends Sistema> List<T> listar(Class<T> p_tipo) {
 	    List<T> lista = new ArrayList<>();
-	    File file = new File(getCaminhoArquivo(p_tipo));
+	    String l_arquivo = getCaminhoArquivo(p_tipo);
+	    File file = new File(l_arquivo);
+
 	    if (!file.exists())
 	        return lista;
 
@@ -70,16 +71,12 @@ public class Banco {
 	        while (sc.hasNextLine()) {
 	            String linha = sc.nextLine().trim();
 
-	            // pula linhas vazias ou nulas
+	            // ignora linhas vazias
 	            if (linha.isEmpty()) continue;
 
-	            try {
-	                T l_obj = p_tipo.getDeclaredConstructor().newInstance();
-	                l_obj.fromCSV(linha);
-	                lista.add(l_obj);
-	            } catch (Exception ex) {
-	                System.err.println("[BANCO] Linha ignorada: " + ex.getMessage());
-	            }
+	            T l_obj = p_tipo.getDeclaredConstructor().newInstance();
+	            l_obj.fromCSV(linha);
+	            lista.add(l_obj);
 	        }
 	    } catch (Exception e) {
 	        System.err.println("[BANCO] Erro ao listar: " + e.getMessage());
@@ -126,7 +123,7 @@ public class Banco {
 	}
 
 	private static String getCaminhoArquivo(Class<?> p_tipo) {
-		return BASE_PATH + p_tipo.getSimpleName().toLowerCase() + ".csv"; 
+		return BASE_PATH + p_tipo.getSimpleName().toLowerCase() + ".csv";
 	}
 
 	private static String getCaminhoSequencia(Class<?> p_tipo) {

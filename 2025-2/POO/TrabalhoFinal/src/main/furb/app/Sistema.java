@@ -19,7 +19,6 @@ public interface Sistema {
 		return "<html>" + p_txtHTML.replace("\n", "<br>") + "</html>";
 	}
 
-
 	boolean valida();
 
 	default boolean excluir() {

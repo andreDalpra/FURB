@@ -30,7 +30,6 @@ public class CadastroUsuario extends JFrame implements Tela {
 	private JTextField EDemlusu;
 	private JComboBox<TipoUsuario> CBtipusu;
 
-	private Usuario usuario;
 	private JPasswordField EDsenusu;
 
 	@Override

@@ -52,6 +52,16 @@ public class Usuario implements Sistema {
 
 		return true;
 	}
+	
+	@Override
+	public boolean before_delete() {
+		if (tipusu == TipoUsuario.ADM) {
+			montaMensagem(6, codusu, String.valueOf(tipusu));
+			return false;
+		}
+		return true;
+		
+	}
 
 	public boolean validaSenha() {
 

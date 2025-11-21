@@ -21,10 +21,6 @@ public interface Sistema {
 
 	boolean valida();
 
-	default boolean excluir() {
-		return false;
-	}
-
 	default boolean before_post() {
 		return false;
 	}

@@ -16,7 +16,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import main.furb.banco.Banco;
+import main.furb.controle.UsuarioDAO;
 import main.furb.entidades.Usuario;
+import static main.furb.controle.UsuarioDAO.*;
+import static main.furb.mensagem.Mensagem.*;
 
 public class Usuarios extends JPanel {
 
@@ -69,6 +72,18 @@ public class Usuarios extends JPanel {
 
 				if (opcao != JOptionPane.YES_OPTION) {
 					return;
+				}
+				int l_seq = (int) getValorDaLinha(l_linha, 0);
+
+				Usuario u = UsuarioDAO.obtemPelaSequence(l_seq);
+				UsuarioDAO dao = new UsuarioDAO();
+				if (dao.excluir(u)) {
+					List<Usuario> usuarios = Banco.listar(Usuario.class);
+					atualizarTabela(usuarios);
+				}
+
+				if (isTemMensagem()) {
+					mostrarMensagem();
 				}
 
 			}

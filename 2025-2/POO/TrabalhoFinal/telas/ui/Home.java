@@ -1,16 +1,19 @@
 package ui;
 
+import static main.furb.banco.Banco.usuarioLogado;
+
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import main.furb.app.Tela;
-import java.awt.List;
-import javax.swing.JMenuBar;
+import main.furb.enums.*;
+import static main.furb.mensagem.Mensagem.*;
 
 public class Home extends JFrame implements Tela {
 
@@ -85,10 +88,10 @@ public class Home extends JFrame implements Tela {
 		BTlogout.setBounds(10, 340, 111, 44);
 		PNlateral.add(BTlogout);
 
-		JButton BTmovimentos_1 = new JButton("<html>Lista de<br> Movimentos</html>");
-		BTmovimentos_1.setHorizontalAlignment(SwingConstants.LEFT);
-		BTmovimentos_1.setBounds(10, 227, 111, 44);
-		PNlateral.add(BTmovimentos_1);
+		JButton BTconsultasaldo = new JButton("<html>Consulta de<br> Saldo</html>");
+		BTconsultasaldo.setHorizontalAlignment(SwingConstants.LEFT);
+		BTconsultasaldo.setBounds(10, 227, 111, 44);
+		PNlateral.add(BTconsultasaldo);
 
 		// PAINEL CENTRAL (AGORA CORRETO)
 		PNcentral = new JPanel();
@@ -104,7 +107,16 @@ public class Home extends JFrame implements Tela {
 		// AÇÕES DOS BOTÕES
 		BTproduto.addActionListener(e -> cardLayout.show(PNcentral, "Produto"));
 		BTentrada.addActionListener(e -> cardLayout.show(PNcentral, "Entrada"));
-		BTusuarios.addActionListener(e -> cardLayout.show(PNcentral, "Usuarios"));
+		BTusuarios.addActionListener(e -> { 
+		    if (usuarioLogado.getTipusu() != TipoUsuario.ADM) {
+		        montaMensagem(8);
+		        mostrarMensagem();
+		        return;
+		    }
+
+		    // Permite abrir a tela
+		    cardLayout.show(PNcentral, "Usuarios");
+		});
 
 		// MOSTRA A TELA AO LOGAR
 		cardLayout.show(PNcentral, "Inicio");

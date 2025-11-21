@@ -17,20 +17,40 @@ public class UsuarioDAO {
 			return false;
 		}
 		Banco.insert(p_usuario, Usuario.class);
-		montaMensagem(10, p_usuario.getCodusu() );
+		montaMensagem(10, p_usuario.getCodusu());
 		mostrarMensagem();
 
 		return true;
 	}
-	
+
+	public static Usuario obtemPelaSequence(int p_sequsu) {
+        inicializaMensagem();
+		List<Usuario> lista = Banco.listar(Usuario.class);
+
+		for (Usuario u : lista) {
+			if (u.getSequsu() == p_sequsu) {
+				return u;
+			}
+		}
+		return null;
+	}
+
+	public boolean excluir(Usuario p_usuario) {
+		inicializaMensagem();
+		if (!p_usuario.before_delete()) {
+			return false;
+		}
+		
+		return Banco.delete(Usuario.class, u -> u.getSequsu() == p_usuario.getSequsu());
+	}
+
 	public boolean validaLogin(Usuario p_usuario) {
-		 List<Usuario> l_usuarios = Banco.listar(Usuario.class);
-		 for (Usuario u : l_usuarios) {
-			    if (u.getCodusu().equals(p_usuario.getCodusu())
-			     && u.getSenusu() == p_usuario.getSenusu()){
-			    	return true;
-			    }
-		 }
-		 return false;
+		List<Usuario> l_usuarios = Banco.listar(Usuario.class);
+		for (Usuario u : l_usuarios) {
+			if (u.getCodusu().equals(p_usuario.getCodusu()) && u.getSenusu() == p_usuario.getSenusu()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

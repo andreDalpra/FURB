@@ -42,7 +42,7 @@ public class Banco {
 
 		return l_proximo;
 	}
-
+	
 	// --- Salvar ---
 	public static <T extends Sistema> void insert(T p_objeto, Class<T> p_tipo) {
 		String l_arquivo = getCaminhoArquivo(p_tipo);

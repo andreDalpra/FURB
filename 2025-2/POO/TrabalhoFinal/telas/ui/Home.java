@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import main.furb.app.Tela;
 import main.furb.enums.*;
 import static main.furb.mensagem.Mensagem.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home extends JFrame implements Tela {
 
@@ -84,6 +86,14 @@ public class Home extends JFrame implements Tela {
 		PNlateral.add(BTusuarios);
 
 		JButton BTlogout = new JButton("Sair");
+		BTlogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				usuarioLogado = null; // <-- AQUI EU REMOVO A SESSION DO USUARIO.
+				Login telaLogin = new Login();
+			    telaLogin.setVisible(true);
+			    dispose();
+			}
+		});
 		BTlogout.setHorizontalAlignment(SwingConstants.LEFT);
 		BTlogout.setBounds(10, 340, 111, 44);
 		PNlateral.add(BTlogout);

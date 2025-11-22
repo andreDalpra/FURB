@@ -77,20 +77,26 @@ public class Login extends JFrame implements Tela {
 		Button BTlogar = new Button("Login");
 		BTlogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario u = new Usuario();
-				carrega_login(u);
-				UsuarioDAO dao = new UsuarioDAO();
+				Usuario usuarioDigitado = new Usuario();
+				carrega_login(usuarioDigitado);
 
-				if (dao.validaLogin(u)) {
-					usuarioLogado = u;
+				UsuarioDAO dao = new UsuarioDAO();
+				Usuario usuarioValidado = dao.validaLogin(usuarioDigitado);
+
+				if (usuarioValidado != null) {
+
+					usuarioLogado = usuarioValidado; // <-- AQUI É SETADO O USUARIOLOGADO DO BANCO, Q É USUADO NO SISTEMA INTEIRO
+
 					Home telaHome = new Home();
 					telaHome.setVisible(true);
 					dispose();
+
 				} else {
-					montaMensagem(5, u.getCodusu());
+					montaMensagem(5, usuarioDigitado.getCodusu());
 					mostrarMensagem();
 				}
 			}
+
 		});
 		BTlogar.setBackground(new Color(192, 192, 192));
 		BTlogar.setBounds(182, 168, 79, 30);
@@ -100,8 +106,8 @@ public class Login extends JFrame implements Tela {
 		BTcadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CadastroUsuario telaCadastro = new CadastroUsuario();
-			    telaCadastro.setVisible(true);
-			    dispose();
+				telaCadastro.setVisible(true);
+				dispose();
 			}
 		});
 		BTcadastrar.setBackground(Color.LIGHT_GRAY);

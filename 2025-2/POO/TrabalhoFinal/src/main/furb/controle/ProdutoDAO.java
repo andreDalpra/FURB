@@ -25,15 +25,16 @@ public class ProdutoDAO {
 		return true;
 	} 
 
-	public static Produto obtemPelaSequence(int p_seqpro) {
-        inicializaMensagem();
-		List<Produto> lista = Banco.listar(Produto.class);
+	public static Produto obtemPelaSequence(int seqpro) {
+		inicializaMensagem();
+	    List<Produto> lista = Banco.listar(Produto.class);
 
-		for (Produto p : lista) {
-			if (p.getSeqpro() == p_seqpro) {
-				return p;
-			}
-		}
-		return null;
+	    for (Produto p : lista) {
+	        if (p.getSeqpro() == seqpro) {
+	            return p;
+	        }
+	    }
+	    return null;
 	}
+
 }

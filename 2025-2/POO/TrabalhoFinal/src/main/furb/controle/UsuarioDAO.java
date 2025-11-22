@@ -24,7 +24,7 @@ public class UsuarioDAO {
 	}
 
 	public static Usuario obtemPelaSequence(int p_sequsu) {
-        inicializaMensagem();
+		inicializaMensagem();
 		List<Usuario> lista = Banco.listar(Usuario.class);
 
 		for (Usuario u : lista) {
@@ -40,17 +40,21 @@ public class UsuarioDAO {
 		if (!p_usuario.before_delete()) {
 			return false;
 		}
-		
+
 		return Banco.delete(Usuario.class, u -> u.getSequsu() == p_usuario.getSequsu());
 	}
 
-	public boolean validaLogin(Usuario p_usuario) {
+	public Usuario validaLogin(Usuario p_usuario) {
 		List<Usuario> l_usuarios = Banco.listar(Usuario.class);
+
 		for (Usuario u : l_usuarios) {
 			if (u.getCodusu().equals(p_usuario.getCodusu()) && u.getSenusu() == p_usuario.getSenusu()) {
-				return true;
+
+				return u; 
 			}
 		}
-		return false;
+
+		return null;
 	}
+
 }

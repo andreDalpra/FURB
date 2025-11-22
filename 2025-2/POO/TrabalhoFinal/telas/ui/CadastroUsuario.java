@@ -124,7 +124,7 @@ public class CadastroUsuario extends JFrame implements Tela {
 		Button BTcriausu = new Button("Criar");
 		BTcriausu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TELA -> Usuario -> UsuarioDAO
+				// TELA -> Usuario -> UsuarioDAO -> Banco -> Arquivo
 				Usuario u = carrega_no_objeto();
 				UsuarioDAO dao = new UsuarioDAO();
 				dao.inserir(u);

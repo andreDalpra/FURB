@@ -24,6 +24,21 @@ public class ProdutoDAO {
 
 		return true;
 	} 
+	
+	public boolean excluir(Produto p_produto) {
+		inicializaMensagem();
+		
+		return Banco.delete(Produto.class, p -> p.getSeqpro() == p_produto.getSeqpro());
+	}
+
+	public boolean alterar(Produto p_produto) {
+	    return Banco.update(
+	        Produto.class,
+	        x -> x.getSeqpro() == p_produto.getSeqpro(), // condição de busca
+	        p_produto                                  // substituto
+	    );
+	}
+
 
 	public static Produto obtemPelaSequence(int seqpro) {
 		inicializaMensagem();

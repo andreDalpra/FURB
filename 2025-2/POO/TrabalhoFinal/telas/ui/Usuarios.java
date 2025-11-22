@@ -99,12 +99,12 @@ public class Usuarios extends JPanel {
 		atualizarTabela(usuarios);
 	}
 
-	public void atualizarTabela(List<Usuario> l_usuarios) {
+	public void atualizarTabela(List<Usuario> p_usuarios) {
 		// Limpa a tabela
 		modeloTabela.setRowCount(0);
 
 		// Adiciona os estudantes
-		for (Usuario u : l_usuarios) {
+		for (Usuario u : p_usuarios) {
 			Object[] l_linha = { u.getSequsu(), u.getCodusu(), u.getNomusu(), u.getEmlusu(), u.getTipusu() };
 			modeloTabela.addRow(l_linha);
 		}

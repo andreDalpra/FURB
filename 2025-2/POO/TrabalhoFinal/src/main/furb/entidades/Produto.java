@@ -133,7 +133,7 @@ public class Produto implements Sistema {
 	@Override
 	public String toCSV() {
 		return seqpro + ";" + codpro + ";" + despro + ";" + prrunt + ";" + qtdproduto + ";"
-				+ (sequsu != null ? sequsu.getSequsu() : 0) + ";" + tipro + ";";
+				+ (sequsu != null ? sequsu.getSequsu() : 0) + ";" + tipro;
 	}
 
 	@Override

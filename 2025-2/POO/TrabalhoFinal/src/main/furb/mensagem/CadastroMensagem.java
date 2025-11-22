@@ -20,7 +20,7 @@ public class CadastroMensagem {
     	Mensagem.cadastrarMensagem(15, "O produto deve ter um tipo ! \n Produto: %s    Tipo: %s ", TipoMensagem.WARNING);
     	Mensagem.cadastrarMensagem(16, "O produto deve ter um preço ! \n Produto: %s    Preço: %s ", TipoMensagem.WARNING);
        	Mensagem.cadastrarMensagem(17, "A quantidade não pode ser menor ou igual 0! \n Quantidade: %s", TipoMensagem.ERROR);
-
+       	Mensagem.cadastrarMensagem(18, "Produto salvo com sucesso! \n Produto: %s", TipoMensagem.OK);
 
     }
 }

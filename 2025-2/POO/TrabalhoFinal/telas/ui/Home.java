@@ -34,12 +34,21 @@ public class Home extends JFrame implements Tela {
 
 		JPanel telaEntrada = new Entrada();
 		
+		JPanel telaSaida = new Saida();
+		
+		JPanel telaMovimentos = new ListaMovimentos();
+		
 		JPanel telaUsuarios = new Usuarios();
+		
+		JPanel telaSaldo = new ConsultaSaldos();
 
 		PNcentral.add(telaProduto, "Produto");
 		PNcentral.add(telaEntrada, "Entrada");
+		PNcentral.add(telaSaida, "Saida");
 		PNcentral.add(telaInicial, "Inicio");
 		PNcentral.add(telaUsuarios, "Usuarios");
+		PNcentral.add(telaMovimentos,"Movimentos");
+		PNcentral.add(telaSaldo, "Saldos");
 
 	}
 
@@ -131,6 +140,10 @@ public class Home extends JFrame implements Tela {
 		    // Permite abrir a tela
 		    cardLayout.show(PNcentral, "Usuarios");
 		});
+		
+		BTsaida.addActionListener(e -> cardLayout.show(PNcentral, "Saida"));
+		BTmovimentos.addActionListener(e -> cardLayout.show(PNcentral, "Movimentos"));
+		BTconsultasaldo.addActionListener(e -> cardLayout.show(PNcentral, "Saldos"));
 
 		// MOSTRA A TELA AO LOGAR
 		cardLayout.show(PNcentral, "Inicio");

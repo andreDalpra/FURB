@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +34,7 @@ import main.furb.controle.ProdutoDAO;
 import main.furb.entidades.MovimentoEstoque;
 import main.furb.entidades.Produto;
 import main.furb.enums.TipoMovimento;
+import main.furb.enums.TipoRetirada;
 
 public class Saida extends JPanel implements Tela{
 
@@ -73,13 +75,19 @@ public class Saida extends JPanel implements Tela{
 		EDdtamov.setText(LocalDate.now().toString());
 		form.add(EDdtamov);
 
-		// Tipo movimento
+		// Tipo Movimento
 		form.add(new JLabel("Tipo Movimento:"));
 		CBtipmov = new JTextField();
 		CBtipmov.setEditable(false);
 		CBtipmov.setBackground(Color.WHITE);
-		CBtipmov.setText(TipoMovimento.ENTRADA.toString());
+		CBtipmov.setText(TipoMovimento.SAIDA.toString());
 		form.add(CBtipmov);
+
+		// Tipo de Retirada (TIPRET)
+		form.add(new JLabel("Tipo Retirada:"));
+		JComboBox<TipoRetirada> CBtipret = new JComboBox<>(TipoRetirada.values());
+		form.add(CBtipret);
+
 
 		// Produto (campo + botão)
 		form.add(new JLabel("Produto:"));
@@ -277,7 +285,7 @@ public class Saida extends JPanel implements Tela{
 		mov.setDatmov(LocalDate.parse(EDdtamov.getText()));
 		mov.setSequsu(usuarioLogado);
 		mov.setSeqpro(produtoSelecionado);
-		mov.setTipmov(TipoMovimento.ENTRADA);
+		mov.setTipmov(TipoMovimento.SAIDA);
 		mov.setQtdmov(Integer.parseInt(EDqtdpro.getText()));
 		mov.setVlrunt(Double.parseDouble(EDvlrunt.getText()));
 		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText().replace(",", "."))); //PARA NAO BUGAR A VIRGULA NE;

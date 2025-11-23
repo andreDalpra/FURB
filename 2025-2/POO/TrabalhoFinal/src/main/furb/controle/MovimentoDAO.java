@@ -64,12 +64,4 @@ public class MovimentoDAO {
         return null;
     }
 
-    public boolean excluir(MovimentoEstoque p_mov) {
-        inicializaMensagem();
-        if (!p_mov.before_delete()) {
-            return false;
-        }
-
-        return Banco.delete(MovimentoEstoque.class, m -> m.getSeqmov() == p_mov.getSeqmov());
-    }
 }

@@ -24,12 +24,13 @@ public class Home extends JFrame implements Tela {
 
 	private JPanel PNcentral;
 	private CardLayout cardLayout;
+	private CriarProduto telaProduto;
 
 	private void carregar_telas() {
 		// INSTANCIANDO AS TELAS NO CARD PRINCIPAL
 		JPanel telaInicial = new BemVindo();
 
-		JPanel telaProduto = new CriarProduto();
+	    telaProduto = new CriarProduto();
 
 		JPanel telaEntrada = new Entrada();
 		
@@ -115,7 +116,10 @@ public class Home extends JFrame implements Tela {
 		carregar_telas();
 
 		// AÇÕES DOS BOTÕES
-		BTproduto.addActionListener(e -> cardLayout.show(PNcentral, "Produto"));
+		BTproduto.addActionListener(e -> {
+		    cardLayout.show(PNcentral, "Produto");
+		    telaProduto.recarregarTabela(); // <-- agora funciona!
+		});
 		BTentrada.addActionListener(e -> cardLayout.show(PNcentral, "Entrada"));
 		BTusuarios.addActionListener(e -> { 
 		    if (usuarioLogado.getTipusu() != TipoUsuario.ADM) {

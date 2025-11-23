@@ -146,30 +146,42 @@ public class MovimentoEstoque implements Sistema {
 
 	@Override
 	public String toCSV() {
-		return seqmov + ";" + datmov + ";" + tipret + ";" + (seqpro != null ? seqpro.getSeqpro() : 0) + ";"
-				+ (sequsu != null ? sequsu.getSequsu() : 0) + ";" + qtdmov + ";" + vlrunt + ";" + vlrtot + ";" + tipmov
-				+ ";";
+		
+	    String l_tipretCSV = (tipret != null ? tipret.toString() : "");
+
+	    return seqmov + ";" +
+	           datmov + ";" +
+	           l_tipretCSV + ";" +
+	           (seqpro != null ? seqpro.getSeqpro() : 0) + ";" +
+	           (sequsu != null ? sequsu.getSequsu() : 0) + ";" +
+	           qtdmov + ";" +
+	           vlrunt + ";" +
+	           vlrtot + ";" +
+	           tipmov + ";";
 	}
+
 
 	@Override
 	public void fromCSV(String linha) {
-		String[] p = linha.split(";");
+	    String[] p = linha.split(";");
 
-		this.seqmov = Integer.parseInt(p[0]);
-		this.datmov = LocalDate.parse(p[1]);
-		this.tipret = TipoRetirada.valueOf(p[2]);
+	    this.seqmov = Integer.parseInt(p[0]);
+	    this.datmov = LocalDate.parse(p[1]);
 
-		int seqProduto = Integer.parseInt(p[3]);
-		this.seqpro = ProdutoDAO.obtemPelaSequence(seqProduto);
+	    this.tipret = p[2].isBlank() ? null : TipoRetirada.valueOf(p[2]);
 
-		int seqUsuario = Integer.parseInt(p[4]);
-		this.sequsu = UsuarioDAO.obtemPelaSequence(seqUsuario);
+	    int seqProduto = Integer.parseInt(p[3]);
+	    this.seqpro = ProdutoDAO.obtemPelaSequence(seqProduto);
 
-		this.qtdmov = Integer.parseInt(p[5]);
-		this.vlrunt = Double.parseDouble(p[6]);
-		this.vlrtot = Double.parseDouble(p[7]);
+	    int seqUsuario = Integer.parseInt(p[4]);
+	    this.sequsu = UsuarioDAO.obtemPelaSequence(seqUsuario);
 
-		this.tipmov = TipoMovimento.valueOf(p[8]);
+	    this.qtdmov = Integer.parseInt(p[5]);
+	    this.vlrunt = Double.parseDouble(p[6]);
+	    this.vlrtot = Double.parseDouble(p[7]);
+
+	    this.tipmov = TipoMovimento.valueOf(p[8]);
 	}
+
 
 }

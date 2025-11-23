@@ -50,6 +50,9 @@ public class CriarProduto extends JPanel implements Tela {
 	private Produto produtoEmEdicao = null;
 
 	public CriarProduto() {
+		
+		//ATUALIZANDO A TABELA ANTES DE TUDO
+		
 		setLayout(new BorderLayout(10, 10));
 
 		// -------------------------
@@ -223,9 +226,10 @@ public class CriarProduto extends JPanel implements Tela {
 			}
 		});
 
-		List<Produto> produtos = Banco.listar(Produto.class);
-		atualizarTabela(produtos);
+		List<Produto> l_produtos = Banco.listar(Produto.class);
+		atualizarTabela(l_produtos);
 	}
+	
 
 	public Object getValorDaLinha(int linha, int coluna) {
 		return modelo.getValueAt(linha, coluna);
@@ -266,6 +270,11 @@ public class CriarProduto extends JPanel implements Tela {
 
 		return p;
 	}
+	
+	public void recarregarTabela() {
+	    atualizarTabela(Banco.listar(Produto.class));
+	}
+
 
 	@Override
 	public void carrega_do_objeto(Object p_obj) {

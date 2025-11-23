@@ -2,11 +2,12 @@ package ui;
 
 import static main.furb.banco.Banco.listar;
 import static main.furb.banco.Banco.usuarioLogado;
+import static main.furb.mensagem.Mensagem.isTemMensagem;
+import static main.furb.mensagem.Mensagem.mostrarMensagem;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -27,6 +28,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import main.furb.app.Tela;
+import main.furb.banco.Banco;
+import main.furb.controle.MovimentoDAO;
 import main.furb.controle.ProdutoDAO;
 import main.furb.entidades.MovimentoEstoque;
 import main.furb.entidades.Produto;
@@ -47,6 +50,7 @@ public class Entrada extends JPanel implements Tela {
 	private Produto produtoSelecionado;
 
 	public Entrada() {
+
 		setLayout(new BorderLayout(10, 10));
 
 		JPanel form = new JPanel(new GridLayout(0, 2, 10, 10));
@@ -59,7 +63,6 @@ public class Entrada extends JPanel implements Tela {
 		EDcodusu.setBackground(Color.WHITE);
 		EDcodusu.setForeground(Color.BLACK);
 		EDcodusu.setDisabledTextColor(Color.BLACK);
-
 		EDcodusu.setText(usuarioLogado.getCodusu());
 		form.add(EDcodusu);
 
@@ -99,20 +102,39 @@ public class Entrada extends JPanel implements Tela {
 		EDqtdpro = new JTextField();
 		form.add(EDqtdpro);
 
-		// Valor unitário
+		// Valor Unitário
 		form.add(new JLabel("Valor Unitário:"));
 		EDvlrunt = new JTextField();
+		EDvlrunt.setEditable(false);
+		EDvlrunt.setBackground(Color.WHITE);
+		EDvlrunt.setForeground(Color.BLACK);
 		form.add(EDvlrunt);
 
-		// Valor total
+		// Valor Total
 		form.add(new JLabel("Valor Total:"));
 		EDvlrtot = new JTextField();
 		EDvlrtot.setEditable(false);
 		EDvlrtot.setBackground(Color.WHITE);
 		form.add(EDvlrtot);
 
-		// Coloca painel de formulário
-		add(form, BorderLayout.NORTH);
+		// Painel de botões
+		JPanel botoes = new JPanel(new GridLayout(1, 2, 10, 10));
+
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(e -> salvarMovimento());
+		botoes.add(btnSalvar);
+
+		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(e -> limpaTela());
+		botoes.add(btnLimpar);
+
+		JPanel centro = new JPanel(new BorderLayout());
+		centro.add(form, BorderLayout.NORTH);
+		centro.add(botoes, BorderLayout.CENTER);
+
+		add(centro, BorderLayout.NORTH);
+
+
 
 		// Calcula total ao digitar
 		KeyAdapter calc = new KeyAdapter() {
@@ -125,99 +147,131 @@ public class Entrada extends JPanel implements Tela {
 		EDqtdpro.addKeyListener(calc);
 		EDvlrunt.addKeyListener(calc);
 	}
+	
+	private void salvarMovimento() {
+	    try {
+	        MovimentoDAO dao = new MovimentoDAO();
+
+	        // --- NOVO MOVIMENTO SEMPRE ---
+	        MovimentoEstoque mov_novo = carrega_no_objeto();
+
+	        if (dao.inserir(mov_novo)) {
+	            if (isTemMensagem()) {
+	                mostrarMensagem();
+	            }
+	        }
+
+	        limpaTela();
+	        mostrarMensagem();
+
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        System.out.println("Erro ao salvar movimento: " + ex.getMessage());
+	    }
+	}
+
+
 
 	private void calcularTotal() {
+
 		try {
+			if (produtoSelecionado == null) {
+				EDvlrtot.setText("");
+				return;
+			}
+
 			int qtd = Integer.parseInt(EDqtdpro.getText());
-			double vlr = Double.parseDouble(EDvlrunt.getText());
+			double vlr = produtoSelecionado.getPrrunt(); // sempre do produto
+
 			EDvlrtot.setText(String.format("%.2f", qtd * vlr));
+
 		} catch (Exception ex) {
 			EDvlrtot.setText("");
 		}
 	}
 
 	// ==========================================================
-	// LOV DE PRODUTOS (FUNCIONAL + CORRIGIDO)
+	// LOV FUNCIONANDO
 	// ==========================================================
 	private void abrirLovProdutos() {
 
-	    JDialog dialog = new JDialog((Frame) null, "Selecionar Produto", true);
-	    dialog.setLayout(new BorderLayout());
-	    dialog.setSize(600, 350);
-	    dialog.setLocationRelativeTo(this);
+		JDialog dialog = new JDialog((Frame) null, "Selecionar Produto", true);
+		dialog.setLayout(new BorderLayout());
+		dialog.setSize(600, 350);
+		dialog.setLocationRelativeTo(this);
 
-	    String[] colunas = { "Seq", "Código", "Descrição" };
+		String[] colunas = { "Seq", "Código", "Descrição" };
 
-	    List<Produto> lista = listar(Produto.class);
-	    DefaultTableModel model = new DefaultTableModel(colunas, 0);
+		List<Produto> lista = listar(Produto.class);
+		DefaultTableModel model = new DefaultTableModel(colunas, 0);
 
-	    System.out.println("==== PRODUTOS CARREGADOS PARA O LOV ====");
+		for (Produto p : lista) {
+			model.addRow(new Object[] { p.getSeqpro(), p.getCodpro(), p.getDespro() });
+		}
 
-	    for (Produto p : lista) {
-	        System.out.println("SEQ=" + p.getSeqpro() + " | COD=" + p.getCodpro() + " | DES=" + p.getDespro());
+		JTable tabela = new JTable(model) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-	        model.addRow(new Object[] {
-	            p.getSeqpro(),
-	            p.getCodpro(),
-	            p.getDespro()
-	        });
-	    }
+		tabela.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 
-	    JTable tabela = new JTable(model) {
-	        @Override
-	        public boolean isCellEditable(int row, int column) {
-	            return false; // impede edição
-	        }
-	    };
-	    tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				if (e.getClickCount() == 2) {
 
-	    tabela.addMouseListener(new MouseAdapter() {
-	        @Override
-	        public void mouseClicked(MouseEvent e) {
+					int selected = tabela.getSelectedRow();
+					if (selected >= 0) {
 
-	            if (e.getClickCount() == 2) {
+						Object valor = tabela.getValueAt(selected, 0);
 
-	                int selected = tabela.getSelectedRow();
-	                if (selected >= 0) {
+						int seq = (valor instanceof Number) ? ((Number) valor).intValue()
+								: Integer.parseInt(valor.toString());
 
-	                    Object valor = tabela.getValueAt(selected, 0);
+						produtoSelecionado = ProdutoDAO.obtemPelaSequence(seq);
 
-	                    int seq = (valor instanceof Number)
-	                            ? ((Number) valor).intValue()
-	                            : Integer.parseInt(valor.toString());
+						if (produtoSelecionado != null) {
 
-	                    System.out.println("----");
-	                    System.out.println("Linha selecionada no LOV: " + selected);
-	                    System.out.println("Valor bruto da coluna 0: " + valor);
-	                    System.out.println("SEQ convertido: " + seq);
+							// Preenche LOV
+							LOVcodpro.setText(produtoSelecionado.getCodpro() + " - " + produtoSelecionado.getDespro());
 
-	                    produtoSelecionado = ProdutoDAO.obtemPelaSequence(seq);
+							// 👉 PREENCHE O VALOR UNITÁRIO AUTOMATICAMENTE
+							EDvlrunt.setText(String.valueOf(produtoSelecionado.getPrrunt()));
 
-	                    System.out.println("Produto retornado pelo DAO: " + produtoSelecionado);
+							// 👉 Recalcula total automaticamente
+							calcularTotal();
+						}
 
-	                    if (produtoSelecionado != null) {
-	                        System.out.println("-> Produto encontrado! Preenchendo LOV...");
-	                        LOVcodpro.setText(
-	                            produtoSelecionado.getCodpro() + " - " +
-	                            produtoSelecionado.getDespro()
-	                        );
-	                    } else {
-	                        System.out.println("-> ERRO: Produto retornou NULL!");
-	                    }
+						dialog.dispose();
+					}
+				}
+			}
+		});
 
-	                    dialog.dispose();
-	                }
-	            }
-	        }
-	    });
-
-	    dialog.add(new JScrollPane(tabela), BorderLayout.CENTER);
-	    dialog.setVisible(true);
+		dialog.add(new JScrollPane(tabela), BorderLayout.CENTER);
+		dialog.setVisible(true);
 	}
 
+	private void limpaTela() {
 
+		produtoSelecionado = null;
+
+		LOVcodpro.setText("");
+		EDqtdpro.setText("");
+		EDvlrunt.setText("");
+		EDvlrtot.setText("");
+
+		EDdtamov.setText(LocalDate.now().toString());
+	}
+
+	// ==========================================================
+	// CARREGAR OBJETO
+	// ==========================================================
 	@Override
-	public Object carrega_no_objeto() {
+	public MovimentoEstoque carrega_no_objeto() {
 
 		MovimentoEstoque mov = new MovimentoEstoque();
 
@@ -227,13 +281,13 @@ public class Entrada extends JPanel implements Tela {
 		mov.setTipmov(TipoMovimento.ENTRADA);
 		mov.setQtdmov(Integer.parseInt(EDqtdpro.getText()));
 		mov.setVlrunt(Double.parseDouble(EDvlrunt.getText()));
-		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText()));
+		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText().replace(",", "."))); //PARA NAO BUGAR A VIRGULA NE;
+
 
 		return mov;
 	}
 
 	@Override
 	public void carrega_do_objeto(Object o) {
-		// não utilizado
 	}
 }

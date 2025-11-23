@@ -67,7 +67,7 @@ public class Produto implements Sistema {
 		boolean l_existe = l_produtos.stream().anyMatch(p -> p.getCodpro().equalsIgnoreCase(this.codpro));
 
 		if (l_existe) {
-			montaMensagem(13, this.codpro);
+			montaMensagem(24, this.codpro);
 			return false;
 		}
 

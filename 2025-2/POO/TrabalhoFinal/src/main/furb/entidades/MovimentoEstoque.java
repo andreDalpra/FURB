@@ -27,28 +27,28 @@ public class MovimentoEstoque implements Sistema {
 	public boolean valida() {
 
 		if (seqpro == null) {
-			montaMensagem(1, new String[] { "Produto inválido" });
+			montaMensagem(20, String.valueOf(seqpro));
 			return false;
 		}
 
 		if (sequsu == null) {
-			montaMensagem(1, new String[] { "Usuário inválido" });
+			montaMensagem(21, String.valueOf(sequsu));
 			return false;
 		}
 
 		if (qtdmov <= 0) {
-			montaMensagem(1, new String[] { "Quantidade deve ser maior que zero" });
+			montaMensagem(17, String.valueOf(qtdmov));
 			return false;
 		}
 
 		if (vlrunt <= 0) {
-			montaMensagem(1, new String[] { "Valor unitário inválido" });
+			montaMensagem(22, String.valueOf(vlrunt));
 			return false;
 		}
 
 		if (tipmov == TipoMovimento.SAIDA) {
 			if (seqpro.getQtdproduto() < qtdmov) {
-				montaMensagem(1, new String[] { "Estoque insuficiente para saída" });
+				montaMensagem(23, String.valueOf(seqpro), String.valueOf(qtdmov));
 				return false;
 			}
 		}
@@ -146,42 +146,34 @@ public class MovimentoEstoque implements Sistema {
 
 	@Override
 	public String toCSV() {
-		
-	    String l_tipretCSV = (tipret != null ? tipret.toString() : "");
 
-	    return seqmov + ";" +
-	           datmov + ";" +
-	           l_tipretCSV + ";" +
-	           (seqpro != null ? seqpro.getSeqpro() : 0) + ";" +
-	           (sequsu != null ? sequsu.getSequsu() : 0) + ";" +
-	           qtdmov + ";" +
-	           vlrunt + ";" +
-	           vlrtot + ";" +
-	           tipmov + ";";
+		String l_tipretCSV = (tipret != null ? tipret.toString() : "");
+
+		return seqmov + ";" + datmov + ";" + l_tipretCSV + ";" + (seqpro != null ? seqpro.getSeqpro() : 0) + ";"
+				+ (sequsu != null ? sequsu.getSequsu() : 0) + ";" + qtdmov + ";" + vlrunt + ";" + vlrtot + ";" + tipmov
+				+ ";";
 	}
-
 
 	@Override
 	public void fromCSV(String linha) {
-	    String[] p = linha.split(";");
+		String[] p = linha.split(";");
 
-	    this.seqmov = Integer.parseInt(p[0]);
-	    this.datmov = LocalDate.parse(p[1]);
+		this.seqmov = Integer.parseInt(p[0]);
+		this.datmov = LocalDate.parse(p[1]);
 
-	    this.tipret = p[2].isBlank() ? null : TipoRetirada.valueOf(p[2]);
+		this.tipret = p[2].isBlank() ? null : TipoRetirada.valueOf(p[2]);
 
-	    int seqProduto = Integer.parseInt(p[3]);
-	    this.seqpro = ProdutoDAO.obtemPelaSequence(seqProduto);
+		int seqProduto = Integer.parseInt(p[3]);
+		this.seqpro = ProdutoDAO.obtemPelaSequence(seqProduto);
 
-	    int seqUsuario = Integer.parseInt(p[4]);
-	    this.sequsu = UsuarioDAO.obtemPelaSequence(seqUsuario);
+		int seqUsuario = Integer.parseInt(p[4]);
+		this.sequsu = UsuarioDAO.obtemPelaSequence(seqUsuario);
 
-	    this.qtdmov = Integer.parseInt(p[5]);
-	    this.vlrunt = Double.parseDouble(p[6]);
-	    this.vlrtot = Double.parseDouble(p[7]);
+		this.qtdmov = Integer.parseInt(p[5]);
+		this.vlrunt = Double.parseDouble(p[6]);
+		this.vlrtot = Double.parseDouble(p[7]);
 
-	    this.tipmov = TipoMovimento.valueOf(p[8]);
+		this.tipmov = TipoMovimento.valueOf(p[8]);
 	}
-
 
 }

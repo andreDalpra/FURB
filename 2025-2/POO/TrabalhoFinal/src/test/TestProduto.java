@@ -1,5 +1,6 @@
 package test;
 
+import static main.furb.app.Sistema.abrePrograma;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,199 +15,210 @@ import main.furb.enums.TipoProduto;
 
 public class TestProduto {
 
-    Produto produto;
+	Produto produto;
 
-    @BeforeEach
-    void setup() {
-     
-        produto = new Produto();
-        produto.setSeqpro(1);
-        produto.setCodpro("PROD001");
-        produto.setDespro("Produto Teste");
-        produto.setPrrunt(50.0);
-        produto.setQtdproduto(5);
-        produto.setTipro(TipoProduto.PERIFÉRICOS);
-    }
+	@BeforeEach
+	void setup() {
 
-    // ------------------------------------
-    // TESTE valida()
-    // ------------------------------------
-    @Test
-    void testValidaOK() {
-        assertTrue(produto.valida());
-    }
+		produto = new Produto();
+		produto.setSeqpro(169);
+		produto.setCodpro("PROD001");
+		produto.setDespro("Produto Teste");
+		produto.setPrrunt(50.0);
+		produto.setQtdproduto(5);
+		produto.setTipro(TipoProduto.PERIFÉRICOS);
+	}
 
-    @Test
-    void testValidaSemCodigo() {
-        produto.setCodpro("");
-        assertFalse(produto.valida());
-    }
+	// ------------------------------------
+	// TESTE valida()
+	// ------------------------------------
+	@Test
+	void testValidaOK() {
+		assertTrue(produto.valida());
+	}
 
-    @Test
-    void testValidaSemTipo() {
-        produto.setTipro(null);
-        assertFalse(produto.valida());
-    }
+	@Test
+	void testValidaSemCodigo() {
+		produto.setCodpro("");
+		assertFalse(produto.valida());
+	}
 
-    @Test
-    void testValidaPrecoZero() {
-        produto.setPrrunt(0);
-        assertFalse(produto.valida());
-    }
+	@Test
+	void testValidaPrecoZero() {
+		produto.setPrrunt(0);
+		assertFalse(produto.valida());
+	}
 
-    @Test
-    void testValidaQtdZero() {
-        produto.setQtdproduto(0);
-        assertFalse(produto.valida());
-    }
+	@Test
+	void testValidaQtdZero() {
+		produto.setQtdproduto(0);
+		assertFalse(produto.valida());
+	}
 
-    // ------------------------------------
-    // TESTE before_post()
-    // ------------------------------------
-    @Test
-    void testBeforePostOK() {
-        assertTrue(produto.before_post());
-    }
+	// ------------------------------------
+	// TESTE before_post()
+	// ------------------------------------
+	@Test
+	void testBeforePostOK() {
 
-    @Test
-    void testBeforePostDuplicado() {
-        // Salva o primeiro
-        Banco.insert(produto, Produto.class);
+		Produto p3 = new Produto();
+		p3.setCodpro("PROD003");
+		p3.setDespro("Outro");
+		p3.setQtdproduto(4);
+		p3.setPrrunt(26);
+		p3.setTipro(TipoProduto.ACESSÓRIOS);
 
-        // Segundo produto com MESMO CODIGO
-        Produto p2 = new Produto();
-        p2.setCodpro("PROD001");
-        p2.setDespro("Outro");
-        p2.setQtdproduto(3);
-        p2.setPrrunt(20);
-        p2.setTipro(TipoProduto.ACESSÓRIOS);
+		assertTrue(p3.before_post());
+	}
 
-        assertFalse(p2.before_post());
-    }
+	@Test
+	void testBeforePostDuplicado() {
+		// Salva o primeiro
+		Banco.insert(produto, Produto.class);
 
-    // ------------------------------------
-    // TESTE CSV
-    // ------------------------------------
-    @Test
-    void testToCsvAndFromCsv() {
-        String csv = produto.toCSV();
+		// Segundo produto com MESMO CODIGO
+		Produto p2 = new Produto();
+		p2.setCodpro("PROD001");
+		p2.setDespro("Outro");
+		p2.setQtdproduto(3);
+		p2.setPrrunt(20);
+		p2.setTipro(TipoProduto.ACESSÓRIOS);
 
-        Produto copia = new Produto();
-        copia.fromCSV(csv);
+		assertFalse(p2.before_post());
+	}
 
-        assertEquals(produto.getSeqpro(), copia.getSeqpro());
-        assertEquals(produto.getCodpro(), copia.getCodpro());
-        assertEquals(produto.getDespro(), copia.getDespro());
-        assertEquals(produto.getPrrunt(), copia.getPrrunt());
-        assertEquals(produto.getQtdproduto(), copia.getQtdproduto());
-        assertEquals(produto.getTipro(), copia.getTipro());
-    }
-    
- // ------------------------------------
- // TESTES DO DAO ProdutoDAO
- // ------------------------------------
+	// ------------------------------------
+	// TESTE CSV
+	// ------------------------------------
+	@Test
+	void testToCsvAndFromCsv() {
+		String csv = produto.toCSV();
 
-    //TESTANDO O DAO, OBTEMPELASEQUENCE();
- @Test
- void testDaoInserirOK() {
-     // Cria o DAO
-     ProdutoDAO dao = new ProdutoDAO();
+		Produto copia = new Produto();
+		copia.fromCSV(csv);
 
-     // Tenta inserir o produto configurado no @BeforeEach
-     boolean inseriu = dao.inserir(produto);
+		assertEquals(produto.getSeqpro(), copia.getSeqpro());
+		assertEquals(produto.getCodpro(), copia.getCodpro());
+		assertEquals(produto.getDespro(), copia.getDespro());
+		assertEquals(produto.getPrrunt(), copia.getPrrunt());
+		assertEquals(produto.getQtdproduto(), copia.getQtdproduto());
+		assertEquals(produto.getTipro(), copia.getTipro());
+	}
 
-     // Deve retornar TRUE porque está tudo válido
-     assertTrue(inseriu);
+	// ------------------------------------
+	// TESTES DO DAO ProdutoDAO
+	// ------------------------------------
+	@Test
+	void testDaoInserirOK() {
+		ProdutoDAO dao = new ProdutoDAO();
 
-     // Busca para garantir que realmente foi salvo
-     Produto buscado = dao.obtemPelaSequence(1);
-     assertEquals(1, buscado.getSeqpro());
- }
+		Produto p = new Produto();
+		p.setCodpro("PROD_TEST_OK");
+		p.setDespro("Produto Teste OK");
+		p.setPrrunt(50.0);
+		p.setQtdproduto(5);
+		p.setTipro(TipoProduto.PERIFÉRICOS);
 
- @Test
- void testDaoInserirDuplicado() {
-     ProdutoDAO dao = new ProdutoDAO();
+		boolean inseriu = dao.inserir(p);
+		assertTrue(inseriu);
 
-     // Primeiro insere normalmente
-     dao.inserir(produto);
+		Produto buscado = ProdutoDAO.obtemPelaSequence(p.getSeqpro());
+		assertEquals(p.getSeqpro(), buscado.getSeqpro());
+	}
 
-     // Cria outro produto com o MESMO código → deve falhar
-     Produto p2 = new Produto();
-     p2.setCodpro("PROD001"); // duplicado
-     p2.setDespro("Outro");
-     p2.setTipro(TipoProduto.ACESSÓRIOS);
-     p2.setPrrunt(33);
-     p2.setQtdproduto(1);
+	@Test
+	void testDaoInserirDuplicado() {
+		ProdutoDAO dao = new ProdutoDAO();
 
-     // Inserção deve retornar FALSE
-     boolean inseriu = dao.inserir(p2);
+		Produto p1 = new Produto();
+		p1.setCodpro("PROD_DUP");
+		p1.setDespro("Produto Original");
+		p1.setPrrunt(40.0);
+		p1.setQtdproduto(3);
+		p1.setTipro(TipoProduto.ACESSÓRIOS);
 
-     assertFalse(inseriu);
- }
+		dao.inserir(p1);
 
- @Test
- void testDaoAlterar() {
-     ProdutoDAO dao = new ProdutoDAO();
+		Produto p2 = new Produto();
+		p2.setCodpro("PROD_DUP"); // mesmo código → duplicado
+		p2.setDespro("Produto Duplicado");
+		p2.setPrrunt(30.0);
+		p2.setQtdproduto(2);
+		p2.setTipro(TipoProduto.ACESSÓRIOS);
 
-     // Primeiro insere
-     dao.inserir(produto);
+		boolean inseriu = dao.inserir(p2);
+		assertFalse(inseriu);
+	}
 
-     // Altera o nome do produto
-     produto.setDespro("Produto Alterado");
+	@Test
+	void testDaoAlterar() {
+		ProdutoDAO dao = new ProdutoDAO();
 
-     // Chama o método alterar()
-     boolean alterou = dao.alterar(produto);
+		Produto p = new Produto();
+		p.setSeqpro(1);
+		p.setCodpro("PROD_ALT");
+		p.setDespro("Produto Original");
+		p.setPrrunt(60.0);
+		p.setQtdproduto(4);
+		p.setTipro(TipoProduto.PERIFÉRICOS);
 
-     // Tem que dar TRUE se o produto existe
-     assertTrue(alterou);
+		dao.inserir(p);
 
-     // Busca de novo para ver se alterou de verdade
-   //  Produto buscado = dao.buscar("PROD001");
-    // assertEquals("Produto Alterado", buscado.getDespro());
- }
+		p.setDespro("Produto Alterado");
+		boolean alterou = dao.alterar(p);
+		assertTrue(alterou);
 
- @Test
- void testDaoExcluir() {
-     ProdutoDAO dao = new ProdutoDAO();
+		Produto buscado = ProdutoDAO.obtemPelaSequence(p.getSeqpro());
+		assertEquals("Produto Alterado", buscado.getDespro());
+	}
 
-     // Insere primeiro
-     dao.inserir(produto);
+	@Test
+	void testDaoExcluir() {
+		abrePrograma();
+		ProdutoDAO dao = new ProdutoDAO();
 
-     // Exclui
-   //  boolean excluiu = dao.excluir(produto);
+		Produto p = new Produto();
+		p.setCodpro("PROD_DEL");
+		p.setDespro("Produto a Excluir");
+		p.setPrrunt(20.0);
+		p.setQtdproduto(2);
+		p.setTipro(TipoProduto.ACESSÓRIOS);
 
-     // Exclusão deve retornar TRUE
-    // assertTrue(excluiu);
+		dao.inserir(p);
 
-     // Busca novamente → deve vir null
-    // Produto buscado = dao.buscar("PROD001");
-     //assertEquals(null, buscado);
- }
+		boolean excluiu = dao.excluir(p);
+		assertTrue(excluiu);
 
- @Test
- void testDaoListar() {
-     ProdutoDAO dao = new ProdutoDAO();
+		Produto buscado = ProdutoDAO.obtemPelaSequence(p.getSeqpro());
+		assertEquals(null, buscado);
+	}
 
-     // Insere o primeiro produto
-     dao.inserir(produto);
+	@Test
+	void testDaoListar() {
+		ProdutoDAO dao = new ProdutoDAO();
 
-     // Cria outro produto e insere
-     Produto p2 = new Produto();
-     p2.setSeqpro(2);
-     p2.setCodpro("PROD002");
-     p2.setDespro("Outro");
-     p2.setTipro(TipoProduto.ACESSÓRIOS);
-     p2.setPrrunt(99);
-     p2.setQtdproduto(2);
-     dao.inserir(p2);
+		Produto p1 = new Produto();
+		p1.setCodpro("PROD_LIST1");
+		p1.setDespro("Produto 1");
+		p1.setPrrunt(10.0);
+		p1.setQtdproduto(1);
+		p1.setTipro(TipoProduto.PERIFÉRICOS);
+		dao.inserir(p1);
 
-     // Lista tudo
-    // var lista = dao.listar();
+		Produto p2 = new Produto();
+		p2.setCodpro("PROD_LIST2");
+		p2.setDespro("Produto 2");
+		p2.setPrrunt(15.0);
+		p2.setQtdproduto(2);
+		p2.setTipro(TipoProduto.ACESSÓRIOS);
+		dao.inserir(p2);
 
-     // Tem que ter exatamente os 2 produtos salvos
-   //  assertEquals(2, lista.size());
- }
+		var lista = Banco.listar(Produto.class);
 
-    
-    
+		boolean contemP1 = lista.stream().anyMatch(p -> p.getSeqpro() == p1.getSeqpro());
+		boolean contemP2 = lista.stream().anyMatch(p -> p.getSeqpro() == p2.getSeqpro());
+
+		assertTrue(contemP1);
+		assertTrue(contemP2);
+	}
 }

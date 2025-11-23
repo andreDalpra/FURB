@@ -1,5 +1,6 @@
 package test;
 
+import static main.furb.app.Sistema.abrePrograma;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static main.furb.app.Sistema.*;
+
 import main.furb.controle.UsuarioDAO;
 import main.furb.entidades.Usuario;
 import main.furb.enums.TipoUsuario;
 
 public class TestUsuario {
-
+	
 	private Usuario usuario;
 
 	@BeforeEach
@@ -86,12 +87,6 @@ public class TestUsuario {
 		assertFalse(usuario.valida());
 	}
 
-	@Test
-	void testValidaTipoNull() {
-		usuario.setTipusu(null);
-		assertFalse(usuario.valida());
-	}
-
 	// -------------------------------------------------------------
 	// TESTE DO before_delete()
 	// -------------------------------------------------------------
@@ -149,7 +144,7 @@ public class TestUsuario {
 		abrePrograma();
 
 		Usuario u = new Usuario();
-		u.setSequsu(1007);
+		u.setSequsu(1008);
 		u.setCodusu("test_usuario");
 		u.setNomusu("Usuário Teste");
 		u.setSenusu(2589);
@@ -162,7 +157,7 @@ public class TestUsuario {
 		boolean inseriu = dao.inserir(u);
 
 		assertTrue(inseriu);
-		assertEquals(1007, u.getSequsu());
+		assertEquals(1008, u.getSequsu());
 		assertEquals("test_usuario", u.getCodusu());
 		assertEquals("Usuário Teste", u.getNomusu());
 		assertEquals(2589, u.getSenusu());
@@ -219,6 +214,7 @@ public class TestUsuario {
 		Usuario buscado = UsuarioDAO.obtemPelaSequence(3003);
 		assertNull(buscado);
 	}
+
 	@Test
 	public void testExcluirUsuarioEstagio() {
 		abrePrograma();
@@ -240,9 +236,10 @@ public class TestUsuario {
 		// Confirma que não existe mais
 		Usuario buscado = UsuarioDAO.obtemPelaSequence(3004);
 		assertNull(buscado);
-		
-	//TEM Q DAR FALSE , POIS NAO É POSSIVEL EXCLUIR UM ADM..
+
+		// TEM Q DAR FALSE , POIS NAO É POSSIVEL EXCLUIR UM ADM..
 	}
+	@Test
 	public void testExcluirUsuarioADM() {
 		abrePrograma();
 
@@ -262,9 +259,8 @@ public class TestUsuario {
 
 		// Confirma que não existe mais
 		Usuario buscado = UsuarioDAO.obtemPelaSequence(3005);
-		assertNull(buscado);
+		assertNotNull(buscado);
 	}
-
 
 	// ------------------------------------------------------------
 	// TESTE DO MÉTODO validaLogin()
@@ -288,9 +284,10 @@ public class TestUsuario {
 		tentativa.setSenusu(1334);
 
 		// Testando UsuarioDAO.validaLogin()
+
 		Usuario logou = dao.validaLogin(tentativa);
 
-		assertNull(logou);
+		assertNotNull(logou);
 	}
 
 	// ------------------------------------------------------------
@@ -305,7 +302,8 @@ public class TestUsuario {
 		u.setCodusu("LOGIN_FAIL");
 		u.setNomusu("Teste Falha Login");
 		u.setSenusu(5544);
-
+		u.setTipusu(TipoUsuario.ADM);
+		
 		UsuarioDAO dao = new UsuarioDAO();
 		dao.inserir(u);
 

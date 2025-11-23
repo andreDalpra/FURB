@@ -27,6 +27,5 @@ public class CadastroMensagem {
        	Mensagem.cadastrarMensagem(22, "0 valor unitário não pode ser menor ou igual 0! \n Valor: %s", TipoMensagem.ERROR);
        	Mensagem.cadastrarMensagem(23, "Quantidade a movimentar é inválida ! \n Produto: %s    Quantidade: %s ", TipoMensagem.WARNING);
        	Mensagem.cadastrarMensagem(24, "Produto já existe! \n Produto: %s", TipoMensagem.ERROR);
-
     }
 }

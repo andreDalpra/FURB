@@ -2,22 +2,25 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import main.furb.banco.Banco;
-import main.furb.controle.MovimentoDAO;
 import main.furb.entidades.MovimentoEstoque;
 import main.furb.enums.TipoMovimento;
 
@@ -29,11 +32,17 @@ public class ListaMovimentos extends JPanel {
     private DefaultTableModel modeloTabela;
     private JComboBox<String> CBfiltro;
 
+    private JFormattedTextField txtDataIni;
+    private JFormattedTextField txtDataFim;
+
+    // FORMATADORES
+    private final DateTimeFormatter fmtEntrada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final DateTimeFormatter fmtTela = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     public ListaMovimentos() {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createTitledBorder("Movimentos de Estoque"));
 
-        // COLUNAS DA GRID
         String[] colunas = {
             "Seq", "Data", "Produto", "Tipo", "Qtd", "Vlr Unit", "Total", "Saldo Qtd", "Saldo Valor"
         };
@@ -48,33 +57,49 @@ public class ListaMovimentos extends JPanel {
         tabela = new JTable(modeloTabela);
         tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // OCULTA O SEQ
         tabela.getColumnModel().getColumn(0).setMinWidth(0);
         tabela.getColumnModel().getColumn(0).setMaxWidth(0);
 
         JScrollPane scroll = new JScrollPane(tabela);
 
-        // COMBO DE FILTRO
-        CBfiltro = new JComboBox<>(new String[] {
-            "Entradas",
-            "Saídas",
-            "Todos"
-        });
-
-        CBfiltro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                atualizarLista();
-            }
-        });
+        // COMBO
+        CBfiltro = new JComboBox<>(new String[] {"Entradas", "Saídas", "Todos"});
+        CBfiltro.addActionListener(e -> atualizarLista());
 
         JPanel panelTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelTop.add(CBfiltro);
+        
+        // CAMPOS DE DATA COM MÁSCARA
+      
+        txtDataIni = criarCampoData();
+        txtDataFim = criarCampoData();
+
+        JButton btnFiltrar = new JButton("Filtrar");
+        btnFiltrar.addActionListener(e -> atualizarLista());
+
+        panelTop.add(new JLabel("Data Inicial:"));
+        panelTop.add(txtDataIni);
+
+        panelTop.add(new JLabel("Data Final:"));
+        panelTop.add(txtDataFim);
+
+        panelTop.add(btnFiltrar);
 
         add(panelTop, BorderLayout.NORTH);
         add(scroll, BorderLayout.CENTER);
 
-        atualizarLista();  // primeira carga
+        atualizarLista();
+    }
+
+    // Cria campo de data dd/MM/yyyy
+    private JFormattedTextField criarCampoData() {
+        try {
+            MaskFormatter mask = new MaskFormatter("##/##/####");
+            mask.setPlaceholderCharacter('_');
+            return new JFormattedTextField(mask);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao criar campo de data", e);
+        }
     }
 
     // -----------------------------------
@@ -83,8 +108,7 @@ public class ListaMovimentos extends JPanel {
     private void atualizarLista() {
         modeloTabela.setRowCount(0);
 
-        MovimentoDAO dao = new MovimentoDAO();
-        List<MovimentoEstoque> lista = Banco.listar(MovimentoEstoque.class);// do teu DAO
+        List<MovimentoEstoque> lista = Banco.listar(MovimentoEstoque.class);
 
         // FILTRO DO COMBO
         String opcao = (String) CBfiltro.getSelectedItem();
@@ -95,10 +119,22 @@ public class ListaMovimentos extends JPanel {
             lista.removeIf(m -> m.getTipmov() != TipoMovimento.SAIDA);
         }
 
-        // ORDENO A DATA AQUI
+        // ---------------------------
+        // FILTRO POR DATA dd/MM/yyyy
+        // ---------------------------
+        LocalDate dataIni = parseData(txtDataIni.getText());
+        LocalDate dataFim = parseData(txtDataFim.getText());
+
+        if (dataIni != null) {
+            lista.removeIf(m -> m.getDatmov().isBefore(dataIni));
+        }
+
+        if (dataFim != null) {
+            lista.removeIf(m -> m.getDatmov().isAfter(dataFim));
+        }
+
         Collections.sort(lista, Comparator.comparing(MovimentoEstoque::getDatmov));
 
-        // CALCULA SALDOS (EXTRATO)
         double saldoQtd = 0;
         double saldoVlr = 0;
 
@@ -116,7 +152,7 @@ public class ListaMovimentos extends JPanel {
 
             Object[] l = {
                 mov.getSeqmov(),
-                mov.getDatmov(),
+                mov.getDatmov().format(fmtTela),
                 mov.getSeqpro().getDespro(),
                 mov.getTipmov(),
                 mov.getQtdmov(),
@@ -127,6 +163,18 @@ public class ListaMovimentos extends JPanel {
             };
 
             modeloTabela.addRow(l);
+        }
+    }
+
+    private LocalDate parseData(String txt) {
+        txt = txt.replace("_", "").trim();
+
+        if (txt.length() != 10) return null; // campo vazio ou incompleto
+
+        try {
+            return LocalDate.parse(txt, fmtEntrada);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

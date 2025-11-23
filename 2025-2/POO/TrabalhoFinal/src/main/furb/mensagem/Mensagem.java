@@ -11,17 +11,35 @@ import main.furb.app.Sistema;
 import main.furb.enums.TipoMensagem;
 import ui.MensagemUI;
 
-public class Mensagem implements Sistema{
+/**
+ * Gerencia mensagens do sistema, permitindo cadastro, formatação e exibição. A
+ * classe trabalha com mensagens parametrizadas, tipos de aviso e apresentação
+ * visual.
+ */
+public class Mensagem implements Sistema {
+
+	/** Instância atual de Mensagem, usada como referência global. */
 	private static Mensagem msg;
+
+	/** Código da mensagem formatada. */
 	private static int codmsg;
+
+	/** Texto final da mensagem formatada. */
 	private static String desmsg;
+
+	/** Indica se há mensagem pendente de exibição. */
 	private static boolean temMensagem;
+
+	/** Tipo visual da mensagem (OK, ERRO, ALERTA, etc.). */
 	public static TipoMensagem tipmsg;
 
-	// {código → [descrição, tipo]}
+	/** Armazena mensagens cadastradas: código → [descrição, tipo]. */
 	private static Map<Integer, Object[]> mensagens = new HashMap<>();
 
-	// inicaliza as variaveis de mensagem
+	/**
+	 * Reinicia o estado de mensagem. Define código, descrição e tipo como valores
+	 * padrão.
+	 */
 	public static void inicializaMensagem() {
 		codmsg = 0;
 		desmsg = "";
@@ -29,8 +47,15 @@ public class Mensagem implements Sistema{
 		tipmsg = TipoMensagem.OK;
 	}
 
-	// Monta a mensagem com base no código e os parametros passados na classe
-	public static String montaMensagem(int p_codmsg, String ... p_parametros) {
+	/**
+	 * Monta uma mensagem a partir de um código cadastrado. Permite substituição de
+	 * parâmetros no texto via {@link String#format}.
+	 *
+	 * @param p_codmsg     código da mensagem cadastrada
+	 * @param p_parametros valores para preenchimento do texto
+	 * @return mensagem formatada
+	 */
+	public static String montaMensagem(int p_codmsg, String... p_parametros) {
 		Object[] carrega_msg = mensagens.get(p_codmsg);
 
 		if (carrega_msg == null) {
@@ -41,50 +66,61 @@ public class Mensagem implements Sistema{
 			tipmsg = (TipoMensagem) carrega_msg[1];
 		}
 
-		String msgFormatada;
 		try {
-			msgFormatada = String.format(desmsg, (Object[]) p_parametros);
+			desmsg = String.format(desmsg, (Object[]) p_parametros);
 		} catch (Exception e) {
-			msgFormatada = desmsg + "\n(cód. " + p_codmsg + ")";
+			desmsg = desmsg + "\n(cód. " + p_codmsg + ")";
 		}
 
-		desmsg = msgFormatada;
 		temMensagem = true;
-
 		return desmsg;
 	}
 
+	/**
+	 * Exibe a mensagem atual utilizando a interface gráfica {@link MensagemUI}. A
+	 * mensagem é convertida para HTML antes da exibição.
+	 */
 	public static void mostrarMensagem() {
-	    if (temMensagem) {
-	        String textoHTML = converteHTML(desmsg);
-	        new MensagemUI(tipmsg.name(), textoHTML, tipmsg).setVisible(true);	        
-	        temMensagem = false;	  
-	    }
-	}
-	
-	@Override
-	public boolean valida() {
-		// TODO Auto-generated method stub
-		return false;
+		if (temMensagem) {
+			String textoHTML = converteHTML(desmsg);
+			new MensagemUI(tipmsg.name(), textoHTML, tipmsg).setVisible(true);
+			temMensagem = false;
+		}
 	}
 
-	// mostra no JOptionPane, se nao houve um codmsg cadastrado
+	/**
+	 * Exibe uma mensagem simples através de um {@link JOptionPane}.
+	 *
+	 * @param p_mensagem texto a ser mostrado
+	 */
 	public static void mostrarMensagem(String p_mensagem) {
 		JOptionPane.showMessageDialog(null, p_mensagem);
 	}
-	
-	//Cadastra uma nova Mensagem
+
+	/**
+	 * Cadastra uma nova mensagem no repositório interno.
+	 *
+	 * @param p_codmsg código da mensagem
+	 * @param p_desmsg texto base (pode conter parâmetros)
+	 * @param p_tipo   tipo visual da mensagem
+	 */
 	public static void cadastrarMensagem(int p_codmsg, String p_desmsg, TipoMensagem p_tipo) {
 		mensagens.put(p_codmsg, new Object[] { p_desmsg, p_tipo });
 	}
 
+	@Override
+	public boolean valida() {
+		return false;
+	}
+
+	// ========================= GETTERS / SETTERS ========================= //
 
 	public int getCodmsg() {
 		return codmsg;
 	}
 
 	public void setCodmsg(int p_codmsg) {
-		this.codmsg = p_codmsg;
+		codmsg = p_codmsg;
 	}
 
 	public String getDesmsg() {
@@ -92,7 +128,7 @@ public class Mensagem implements Sistema{
 	}
 
 	public void setDesmsg(String p_desmsg) {
-		this.desmsg = p_desmsg;
+		desmsg = p_desmsg;
 	}
 
 	public Mensagem getmsg() {
@@ -100,7 +136,7 @@ public class Mensagem implements Sistema{
 	}
 
 	public void setOp_msg(Mensagem p_msg) {
-		this.msg = p_msg;
+		msg = p_msg;
 	}
 
 	public static Mensagem getMsg() {
@@ -108,7 +144,7 @@ public class Mensagem implements Sistema{
 	}
 
 	public static void setMsg(Mensagem p_msg) {
-		Mensagem.msg = p_msg;
+		msg = p_msg;
 	}
 
 	public static boolean isTemMensagem() {
@@ -124,7 +160,7 @@ public class Mensagem implements Sistema{
 	}
 
 	public static void setMensagens(Map<Integer, Object[]> p_mensagens) {
-		Mensagem.mensagens = p_mensagens;
+		mensagens = p_mensagens;
 	}
 
 	public TipoMensagem getTipmsg() {
@@ -132,19 +168,15 @@ public class Mensagem implements Sistema{
 	}
 
 	public void setTipmsg(TipoMensagem p_tipmsg) {
-		this.tipmsg = p_tipmsg;
+		tipmsg = p_tipmsg;
 	}
 
 	@Override
 	public String toCSV() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void fromCSV(String linha) {
-		// TODO Auto-generated method stub
-		
 	}
-
 }

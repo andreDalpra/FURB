@@ -36,7 +36,7 @@ import main.furb.entidades.Produto;
 import main.furb.enums.TipoMovimento;
 import main.furb.enums.TipoRetirada;
 
-public class Saida extends JPanel implements Tela{
+public class Saida extends JPanel implements Tela {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class Saida extends JPanel implements Tela{
 	private JTextField EDdtamov;
 
 	private Produto produtoSelecionado;
-	
+
 	public Saida() {
 
 		setLayout(new BorderLayout(10, 10));
@@ -87,7 +87,6 @@ public class Saida extends JPanel implements Tela{
 		form.add(new JLabel("Tipo Retirada:"));
 		JComboBox<TipoRetirada> CBtipret = new JComboBox<>(TipoRetirada.values());
 		form.add(CBtipret);
-
 
 		// Produto (campo + botão)
 		form.add(new JLabel("Produto:"));
@@ -141,8 +140,6 @@ public class Saida extends JPanel implements Tela{
 
 		add(centro, BorderLayout.NORTH);
 
-
-
 		// Calcula total ao digitar
 		KeyAdapter calc = new KeyAdapter() {
 			@Override
@@ -154,30 +151,28 @@ public class Saida extends JPanel implements Tela{
 		EDqtdpro.addKeyListener(calc);
 		EDvlrunt.addKeyListener(calc);
 	}
-	
+
 	private void salvarMovimento() {
-	    try {
-	        MovimentoDAO dao = new MovimentoDAO();
+		try {
+			MovimentoDAO dao = new MovimentoDAO();
 
-	        // --- NOVO MOVIMENTO SEMPRE ---
-	        MovimentoEstoque mov_novo = carrega_no_objeto();
+			// --- NOVO MOVIMENTO SEMPRE ---
+			MovimentoEstoque mov_novo = carrega_no_objeto();
 
-	        if (dao.inserir(mov_novo)) {
-	            if (isTemMensagem()) {
-	                mostrarMensagem();
-	            }
-	        }
+			if (dao.inserir(mov_novo)) {
+				if (isTemMensagem()) {
+					mostrarMensagem();
+				}
+			}
 
-	        limpaTela();
-	        mostrarMensagem();
+			limpaTela();
+			mostrarMensagem();
 
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	        System.out.println("Erro ao salvar movimento: " + ex.getMessage());
-	    }
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Erro ao salvar movimento: " + ex.getMessage());
+		}
 	}
-
-
 
 	private void calcularTotal() {
 
@@ -222,6 +217,13 @@ public class Saida extends JPanel implements Tela{
 				return false;
 			}
 		};
+
+		// OCULTA A SEQUENCE :
+
+		tabela.getColumnModel().getColumn(0).setMinWidth(0);
+		tabela.getColumnModel().getColumn(0).setMaxWidth(0);
+		tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
+
 		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		tabela.addMouseListener(new MouseAdapter() {
@@ -288,8 +290,7 @@ public class Saida extends JPanel implements Tela{
 		mov.setTipmov(TipoMovimento.SAIDA);
 		mov.setQtdmov(Integer.parseInt(EDqtdpro.getText()));
 		mov.setVlrunt(Double.parseDouble(EDvlrunt.getText()));
-		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText().replace(",", "."))); //PARA NAO BUGAR A VIRGULA NE;
-
+		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText().replace(",", "."))); // PARA NAO BUGAR A VIRGULA NE;
 
 		return mov;
 	}

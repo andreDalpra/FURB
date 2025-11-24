@@ -61,8 +61,8 @@ public class MovimentoEstoque implements Sistema {
 
         if (tipmov == TipoMovimento.SAIDA) {
             if (seqpro.getQtdproduto() < qtdmov) {
-                montaMensagem(23, String.valueOf(seqpro), String.valueOf(qtdmov));
-                return false;
+                montaMensagem(23, String.valueOf(seqpro.getCodpro()), String.valueOf(seqpro.getQtdproduto()));                    //BUG MOSTRANDO O CODPRO AGR;
+                return false; 
             }
         }
 

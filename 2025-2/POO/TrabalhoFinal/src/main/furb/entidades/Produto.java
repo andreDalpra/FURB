@@ -48,7 +48,7 @@ public class Produto implements Sistema {
             return false;
         }
 
-        if (qtdproduto <= 0) {
+        if (qtdproduto < 0) {                            //PODE SER ZERO
             montaMensagem(17, String.valueOf(qtdproduto));
             return false;
         }

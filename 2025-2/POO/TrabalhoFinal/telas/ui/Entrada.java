@@ -134,8 +134,6 @@ public class Entrada extends JPanel implements Tela {
 
 		add(centro, BorderLayout.NORTH);
 
-
-
 		// Calcula total ao digitar
 		KeyAdapter calc = new KeyAdapter() {
 			@Override
@@ -147,30 +145,28 @@ public class Entrada extends JPanel implements Tela {
 		EDqtdpro.addKeyListener(calc);
 		EDvlrunt.addKeyListener(calc);
 	}
-	
+
 	private void salvarMovimento() {
-	    try {
-	        MovimentoDAO dao = new MovimentoDAO();
+		try {
+			MovimentoDAO dao = new MovimentoDAO();
 
-	        // --- NOVO MOVIMENTO SEMPRE ---
-	        MovimentoEstoque mov_novo = carrega_no_objeto();
+			// --- NOVO MOVIMENTO SEMPRE ---
+			MovimentoEstoque mov_novo = carrega_no_objeto();
 
-	        if (dao.inserir(mov_novo)) {
-	            if (isTemMensagem()) {
-	                mostrarMensagem();
-	            }
-	        }
+			if (dao.inserir(mov_novo)) {
+				if (isTemMensagem()) {
+					mostrarMensagem();
+				}
+			}
 
-	        limpaTela();
-	        mostrarMensagem();
+			limpaTela();
+			mostrarMensagem();
 
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	        System.out.println("Erro ao salvar movimento: " + ex.getMessage());
-	    }
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Erro ao salvar movimento: " + ex.getMessage());
+		}
 	}
-
-
 
 	private void calcularTotal() {
 
@@ -214,7 +210,15 @@ public class Entrada extends JPanel implements Tela {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+
 		};
+
+		// OCULTA A SEQUENCE :
+
+		tabela.getColumnModel().getColumn(0).setMinWidth(0);
+		tabela.getColumnModel().getColumn(0).setMaxWidth(0);
+		tabela.getColumnModel().getColumn(0).setPreferredWidth(0);
+
 		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		tabela.addMouseListener(new MouseAdapter() {
@@ -281,8 +285,7 @@ public class Entrada extends JPanel implements Tela {
 		mov.setTipmov(TipoMovimento.ENTRADA);
 		mov.setQtdmov(Integer.parseInt(EDqtdpro.getText()));
 		mov.setVlrunt(Double.parseDouble(EDvlrunt.getText()));
-		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText().replace(",", "."))); //PARA NAO BUGAR A VIRGULA NE;
-
+		mov.setVlrtot(Double.parseDouble(EDvlrtot.getText().replace(",", "."))); // PARA NAO BUGAR A VIRGULA NE;
 
 		return mov;
 	}

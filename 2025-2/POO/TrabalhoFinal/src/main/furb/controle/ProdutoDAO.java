@@ -36,7 +36,7 @@ public class ProdutoDAO {
         }
 
         Banco.insert(p_produto, Produto.class);
-        montaMensagem(10, p_produto.getCodpro());
+        montaMensagem(18, p_produto.getCodpro());                                  //MENSAGEM ERRADA!!!;
         mostrarMensagem();
 
         return true;

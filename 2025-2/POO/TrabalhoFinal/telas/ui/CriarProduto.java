@@ -108,15 +108,15 @@ public class CriarProduto extends JPanel implements Tela {
 				if (produtoEmEdicao == null) {
 					// --- NOVO PRODUTO ---
 					Produto p_novo = carrega_no_objeto();
-					if (dao.inserir(p_novo)) {
-						if (isTemMensagem()) {
-							mostrarMensagem();
-						}
+					dao.inserir(p_novo);         //BUG NAO APARECIA MENSAGEM;
+									
+					if (isTemMensagem()) {
+						mostrarMensagem();
 					}
 				} else {
 					// --- EDIÇÃO ---
 					Produto p_edicao = carrega_no_objeto();
-
+					
 					// usa a mesma sequence do produto original
 					p_edicao.setSeqpro(produtoEmEdicao.getSeqpro());
 
@@ -147,7 +147,7 @@ public class CriarProduto extends JPanel implements Tela {
 				}
 
 				// CONFIRMAR ISSO?
-				int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente remover este usuário?",
+				int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente remover este produto?",
 						"Confirmar remoção", JOptionPane.YES_NO_OPTION);
 
 				if (opcao != JOptionPane.YES_OPTION) {
@@ -175,6 +175,8 @@ public class CriarProduto extends JPanel implements Tela {
 		BTcadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpaTela();
+				produtoEmEdicao = null;                                        //BUG SOBRESCREVER PRODUTO
+				EDqtdpro.setEditable(true);                                    //BUG, PODER EDITAR QUANTIDADE AO CARREGAR PRODUTO DA TABELA;
 			}
 		});
 
@@ -222,6 +224,8 @@ public class CriarProduto extends JPanel implements Tela {
 
 					// CARREGAR NOS CAMPOS
 					carrega_do_objeto(p);
+					
+					EDqtdpro.setEditable(false);                                      //BUG, PODER EDITAR QUANTIDADE AO CARREGAR PRODUTO DA TABELA;
 				}
 			}
 		});
@@ -259,7 +263,7 @@ public class CriarProduto extends JPanel implements Tela {
 	@Override
 	public Produto carrega_no_objeto() {
 		Produto p = new Produto();
-
+        
 		p.setCodpro(EDcodpro.getText());
 		p.setDespro(EDdespro.getText());
 		p.setTipro((TipoProduto) (CBtippro.getSelectedItem()));

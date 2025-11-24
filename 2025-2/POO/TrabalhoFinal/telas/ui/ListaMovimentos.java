@@ -26,155 +26,145 @@ import main.furb.enums.TipoMovimento;
 
 public class ListaMovimentos extends JPanel {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private JTable tabela;
-    private DefaultTableModel modeloTabela;
-    private JComboBox<String> CBfiltro;
+	private JTable tabela;
+	private DefaultTableModel modeloTabela;
+	private JComboBox<String> CBfiltro;
 
-    private JFormattedTextField txtDataIni;
-    private JFormattedTextField txtDataFim;
+	private JFormattedTextField txtDataIni;
+	private JFormattedTextField txtDataFim;
 
-    // FORMATADORES
-    private final DateTimeFormatter fmtEntrada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final DateTimeFormatter fmtTela = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	// FORMATADORES
+	private final DateTimeFormatter fmtEntrada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private final DateTimeFormatter fmtTela = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public ListaMovimentos() {
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createTitledBorder("Movimentos de Estoque"));
+	public ListaMovimentos() {
+		setLayout(new BorderLayout(10, 10));
+		setBorder(BorderFactory.createTitledBorder("Movimentos de Estoque"));
 
-        String[] colunas = {
-            "Seq", "Data", "Produto", "Tipo", "Qtd", "Vlr Unit", "Total", "Saldo Qtd", "Saldo Valor"
-        };
+		String[] colunas = { "Seq", "Data", "Produto", "Tipo", "Qtd", "Vlr Unit", "Total", "Saldo Qtd", "Saldo Valor" };
 
-        modeloTabela = new DefaultTableModel(colunas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+		modeloTabela = new DefaultTableModel(colunas, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 
-        tabela = new JTable(modeloTabela);
-        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabela = new JTable(modeloTabela);
+		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        tabela.getColumnModel().getColumn(0).setMinWidth(0);
-        tabela.getColumnModel().getColumn(0).setMaxWidth(0);
+		tabela.getColumnModel().getColumn(0).setMinWidth(0);
+		tabela.getColumnModel().getColumn(0).setMaxWidth(0);
 
-        JScrollPane scroll = new JScrollPane(tabela);
+		JScrollPane scroll = new JScrollPane(tabela);
 
-        // COMBO
-        CBfiltro = new JComboBox<>(new String[] {"Entradas", "Saídas", "Todos"});
-        CBfiltro.addActionListener(e -> atualizarLista());
+		// COMBO
+		CBfiltro = new JComboBox<>(new String[] { "Entradas", "Saídas", "Todos" });
+		CBfiltro.addActionListener(e -> atualizarLista());
 
-        JPanel panelTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelTop.add(CBfiltro);
-        
-        // CAMPOS DE DATA COM MÁSCARA
-      
-        txtDataIni = criarCampoData();
-        txtDataFim = criarCampoData();
+		JPanel panelTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panelTop.add(CBfiltro);
 
-        JButton btnFiltrar = new JButton("Filtrar");
-        btnFiltrar.addActionListener(e -> atualizarLista());
+		// CAMPOS DE DATA COM MÁSCARA
 
-        panelTop.add(new JLabel("Data Inicial:"));
-        panelTop.add(txtDataIni);
+		txtDataIni = criarCampoData();
+		txtDataFim = criarCampoData();
 
-        panelTop.add(new JLabel("Data Final:"));
-        panelTop.add(txtDataFim);
+		JButton btnFiltrar = new JButton("Filtrar");
+		btnFiltrar.addActionListener(e -> atualizarLista());
 
-        panelTop.add(btnFiltrar);
+		panelTop.add(new JLabel("Data Inicial:"));
+		panelTop.add(txtDataIni);
 
-        add(panelTop, BorderLayout.NORTH);
-        add(scroll, BorderLayout.CENTER);
+		panelTop.add(new JLabel("Data Final:"));
+		panelTop.add(txtDataFim);
 
-        atualizarLista();
-    }
+		panelTop.add(btnFiltrar);
 
-    // Cria campo de data dd/MM/yyyy
-    private JFormattedTextField criarCampoData() {
-        try {
-            MaskFormatter mask = new MaskFormatter("##/##/####");
-            mask.setPlaceholderCharacter('_');
-            return new JFormattedTextField(mask);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar campo de data", e);
-        }
-    }
+		add(panelTop, BorderLayout.NORTH);
+		add(scroll, BorderLayout.CENTER);
 
-    // -----------------------------------
-    // ATUALIZA A GRID
-    // -----------------------------------
-    private void atualizarLista() {
-        modeloTabela.setRowCount(0);
+		atualizarLista();
+	}
 
-        List<MovimentoEstoque> lista = Banco.listar(MovimentoEstoque.class);
+	// Cria campo de data dd/MM/yyyy
+	private JFormattedTextField criarCampoData() {
+		try {
+			MaskFormatter mask = new MaskFormatter("##/##/####");
+			mask.setPlaceholderCharacter('_');
+			return new JFormattedTextField(mask);
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao criar campo de data", e);
+		}
+	}
 
-        // FILTRO DO COMBO
-        String opcao = (String) CBfiltro.getSelectedItem();
+	// -----------------------------------
+	// ATUALIZA A GRID
+	// -----------------------------------
+	private void atualizarLista() {
+		modeloTabela.setRowCount(0);
 
-        if ("Entradas".equals(opcao)) {
-            lista.removeIf(m -> m.getTipmov() != TipoMovimento.ENTRADA);
-        } else if ("Saídas".equals(opcao)) {
-            lista.removeIf(m -> m.getTipmov() != TipoMovimento.SAIDA);
-        }
+		List<MovimentoEstoque> lista = Banco.listar(MovimentoEstoque.class);
 
-        // ---------------------------
-        // FILTRO POR DATA dd/MM/yyyy
-        // ---------------------------
-        LocalDate dataIni = parseData(txtDataIni.getText());
-        LocalDate dataFim = parseData(txtDataFim.getText());
+		// FILTRO DO COMBO
+		String opcao = (String) CBfiltro.getSelectedItem();
 
-        if (dataIni != null) {
-            lista.removeIf(m -> m.getDatmov().isBefore(dataIni));
-        }
+		if ("Entradas".equals(opcao)) {
+			lista.removeIf(m -> m.getTipmov() != TipoMovimento.ENTRADA);
+		} else if ("Saídas".equals(opcao)) {
+			lista.removeIf(m -> m.getTipmov() != TipoMovimento.SAIDA);
+		}
 
-        if (dataFim != null) {
-            lista.removeIf(m -> m.getDatmov().isAfter(dataFim));
-        }
+		// ---------------------------
+		// FILTRO POR DATA dd/MM/yyyy
+		// ---------------------------
+		LocalDate dataIni = parseData(txtDataIni.getText());
+		LocalDate dataFim = parseData(txtDataFim.getText());
 
-        Collections.sort(lista, Comparator.comparing(MovimentoEstoque::getDatmov));
+		if (dataIni != null) {
+			lista.removeIf(m -> m.getDatmov().isBefore(dataIni));
+		}
 
-        double saldoQtd = 0;
-        double saldoVlr = 0;
+		if (dataFim != null) {
+			lista.removeIf(m -> m.getDatmov().isAfter(dataFim));
+		}
 
-        for (MovimentoEstoque mov : lista) {
+		Collections.sort(lista, Comparator.comparing(MovimentoEstoque::getDatmov));
 
-            double total = mov.getQtdmov() * mov.getVlrunt();
+		double saldoQtd = 0;
+		double saldoVlr = 0;
 
-            if (mov.getTipmov() == TipoMovimento.ENTRADA) {
-                saldoQtd += mov.getQtdmov();
-                saldoVlr += total;
-            } else {
-                saldoQtd -= mov.getQtdmov();
-                saldoVlr -= total;
-            }
+		for (MovimentoEstoque mov : lista) {
 
-            Object[] l = {
-                mov.getSeqmov(),
-                mov.getDatmov().format(fmtTela),
-                mov.getSeqpro().getDespro(),
-                mov.getTipmov(),
-                mov.getQtdmov(),
-                mov.getVlrunt(),
-                total,
-                saldoQtd,
-                saldoVlr
-            };
+			double total = mov.getQtdmov() * mov.getVlrunt();
 
-            modeloTabela.addRow(l);
-        }
-    }
+			if (mov.getTipmov() == TipoMovimento.ENTRADA) {
+				saldoQtd += mov.getQtdmov();
+				saldoVlr += total;
+			} else {
+				saldoQtd -= mov.getQtdmov();
+				saldoVlr -= total;
+			}
 
-    private LocalDate parseData(String txt) {
-        txt = txt.replace("_", "").trim();
+			Object[] l = { mov.getSeqmov(), mov.getDatmov().format(fmtTela), mov.getSeqpro().getDespro(),
+					mov.getTipmov(), mov.getQtdmov(), mov.getVlrunt(), total, saldoQtd, saldoVlr };
 
-        if (txt.length() != 10) return null; // campo vazio ou incompleto
+			modeloTabela.addRow(l);
+		}
+	}
 
-        try {
-            return LocalDate.parse(txt, fmtEntrada);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	private LocalDate parseData(String txt) {
+		txt = txt.replace("_", "").trim();
+
+		if (txt.length() != 10)
+			return null; // campo vazio ou incompleto
+
+		try {
+			return LocalDate.parse(txt, fmtEntrada);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

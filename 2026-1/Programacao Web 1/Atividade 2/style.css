@@ -1,16 +1,71 @@
-body{
+body {
     background-color: rgb(235, 232, 232);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-form{
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+form input{
     text-align: center;
-    
 }
 
-header ul{
+header {
+    background-color: #333;
+}
+
+header ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+header ul li {
+    margin: 0 10px;
+}
+
+header ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+header ul li a:hover {
+    background-color: #555;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #000;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+footer {
     background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
+
+footer a {
+    color: white;
+    margin: 0 5px;
+    text-decoration: none;
 }

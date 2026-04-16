@@ -6,5 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/6"/>
+	<classpathentry kind="lib" path="C:/Users/aldsantos/Documents/GitHub/FURB/2026-1/Algoritmos e Estruturas de Dados/junit-4.13.2-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

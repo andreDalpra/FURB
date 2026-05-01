@@ -9,7 +9,7 @@ public class ListaEncadeada<T> {
 	}
 
 	public void inserir(T info) {
-
+ 
 		NoLista<T> novo = new NoLista<>();
 
 		novo.setInfo(info);
@@ -94,7 +94,7 @@ public class ListaEncadeada<T> {
 		}
 
 		if (p == null) {
-			throw new IndexOutOfBoundsException("Índice maior que o tamanho da lista: " + idx);
+		 	throw new IndexOutOfBoundsException("Índice maior que o tamanho da lista: " + idx);
 		}
 
 		return p;

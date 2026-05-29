@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="ArvoreBinaria/src"/>
+	<classpathentry kind="src" path="ArvoreVariavel/src"/>
+	<classpathentry kind="src" path="FilaEncadeada/src"/>
+	<classpathentry kind="src" path="FilaEstatica/src"/>
+	<classpathentry kind="src" path="Lista2/src"/>
+	<classpathentry kind="src" path="ListaCircular/src"/>
+	<classpathentry kind="src" path="ListaDuplamenteEncadeada/src"/>
+	<classpathentry kind="src" path="ListaEncadeada/src"/>
+	<classpathentry kind="src" path="ListaEstatica/src"/>
+	<classpathentry kind="src" path="PilhaEstatica/src"/>
+	<classpathentry kind="src" path="Trab-Algoritmos_Estruturacao_Dados/src"/>
+	<classpathentry kind="lib" path="junit-4.13.2-javadoc.jar"/>
+	<classpathentry kind="output" path="ArvoreBinaria/bin"/>
+</classpath>

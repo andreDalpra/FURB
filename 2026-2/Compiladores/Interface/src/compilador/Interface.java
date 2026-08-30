@@ -14,7 +14,9 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
 import funcionalidades.ArquivoController;
+import funcionalidades.CompileController;
 import funcionalidades.EditorController;
+import funcionalidades.EquipeController;
 
 public class Interface extends JFrame {
 
@@ -26,6 +28,8 @@ public class Interface extends JFrame {
 	private BarraStatus statusPanel;
 	private ArquivoController arquivoController;
 	private EditorController editorController;
+	private CompileController compileController;
+	private EquipeController equipeController;
 
 	public Interface() {
 		setTitle("Interface Compilador");
@@ -40,13 +44,15 @@ public class Interface extends JFrame {
 		statusPanel = new BarraStatus();
 		arquivoController = new ArquivoController(editorPanel, consolePanel, statusPanel);
 		editorController = new EditorController(editorPanel);
+		compileController = new CompileController(consolePanel);
+		equipeController = new EquipeController(consolePanel);
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editorPanel, consolePanel);
 		splitPane.setResizeWeight(0.75);
 		splitPane.setOneTouchExpandable(false);
 		splitPane.setContinuousLayout(true);
 
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(5, 0));
 		add(toolbarPanel, BorderLayout.WEST);
 		add(splitPane, BorderLayout.CENTER);
 		add(statusPanel, BorderLayout.SOUTH);
@@ -61,6 +67,8 @@ public class Interface extends JFrame {
 		toolbarPanel.getBotaoCopiar().addActionListener(event -> editorController.copiar());
 		toolbarPanel.getBotaoColar().addActionListener(event -> editorController.colar());
 		toolbarPanel.getBotaoRecortar().addActionListener(event -> editorController.recortar());
+		toolbarPanel.getBotaoCompilar().addActionListener(event -> compileController.compilar());
+		toolbarPanel.getBotaoEquipe().addActionListener(event -> equipeController.mostrarEquipe());
 
 		configurarAtalho("control N", "novo", () -> arquivoController.novo());
 		configurarAtalho("control O", "abrir", () -> arquivoController.abrir());
@@ -68,6 +76,8 @@ public class Interface extends JFrame {
 		configurarAtalho("control C", "copiar", () -> editorController.copiar());
 		configurarAtalho("control V", "colar", () -> editorController.colar());
 		configurarAtalho("control X", "recortar", () -> editorController.recortar());
+		configurarAtalho("F7", "compilar", () -> compileController.compilar());
+		configurarAtalho("F1", "equipe", () -> equipeController.mostrarEquipe());
 	}
 
 	private void configurarAtalho(String tecla, String nomeAcao, Runnable acao) {

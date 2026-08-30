@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class Editor extends JPanel {
 
@@ -25,11 +26,18 @@ public class Editor extends JPanel {
 		editorTextArea.setTabSize(4);
 		editorTextArea.setBorder(new NumberedBorder());
 
-		add(new JScrollPane(editorTextArea), BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(editorTextArea);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 
 	public String getText() {
 		return editorTextArea.getText();
+	}
+
+	public void clear() {
+		editorTextArea.setText("");
 	}
 
 	public void setText(String text) {

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class Console extends JPanel {
 
@@ -20,7 +21,10 @@ public class Console extends JPanel {
 		consoleTextArea = new JTextArea();
 		consoleTextArea.setEditable(false);
 
-		add(new JScrollPane(consoleTextArea), BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(consoleTextArea);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 
 	public void clear() {

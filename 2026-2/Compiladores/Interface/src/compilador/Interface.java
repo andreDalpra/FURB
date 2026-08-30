@@ -5,9 +5,16 @@
 package compilador;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
+
+import funcionalidades.ArquivoController;
+import funcionalidades.EditorController;
 
 public class Interface extends JFrame {
 
@@ -17,6 +24,8 @@ public class Interface extends JFrame {
 	private Editor editorPanel;
 	private Console consolePanel;
 	private BarraStatus statusPanel;
+	private ArquivoController arquivoController;
+	private EditorController editorController;
 
 	public Interface() {
 		setTitle("Interface Compilador");
@@ -29,6 +38,8 @@ public class Interface extends JFrame {
 		editorPanel = new Editor();
 		consolePanel = new Console();
 		statusPanel = new BarraStatus();
+		arquivoController = new ArquivoController(editorPanel, consolePanel, statusPanel);
+		editorController = new EditorController(editorPanel);
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editorPanel, consolePanel);
 		splitPane.setResizeWeight(0.75);
@@ -39,6 +50,37 @@ public class Interface extends JFrame {
 		add(toolbarPanel, BorderLayout.WEST);
 		add(splitPane, BorderLayout.CENTER);
 		add(statusPanel, BorderLayout.SOUTH);
+
+		configurarAcoes();
+	}
+
+	private void configurarAcoes() {
+		toolbarPanel.getBotaoNovo().addActionListener(event -> arquivoController.novo());
+		toolbarPanel.getBotaoAbrir().addActionListener(event -> arquivoController.abrir());
+		toolbarPanel.getBotaoSalvar().addActionListener(event -> arquivoController.salvar());
+		toolbarPanel.getBotaoCopiar().addActionListener(event -> editorController.copiar());
+		toolbarPanel.getBotaoColar().addActionListener(event -> editorController.colar());
+		toolbarPanel.getBotaoRecortar().addActionListener(event -> editorController.recortar());
+
+		configurarAtalho("control N", "novo", () -> arquivoController.novo());
+		configurarAtalho("control O", "abrir", () -> arquivoController.abrir());
+		configurarAtalho("control S", "salvar", () -> arquivoController.salvar());
+		configurarAtalho("control C", "copiar", () -> editorController.copiar());
+		configurarAtalho("control V", "colar", () -> editorController.colar());
+		configurarAtalho("control X", "recortar", () -> editorController.recortar());
+	}
+
+	private void configurarAtalho(String tecla, String nomeAcao, Runnable acao) {
+		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(tecla), nomeAcao);
+		getRootPane().getActionMap().put(nomeAcao, new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				acao.run();
+			}
+		});
 	}
 
 	public BarraFerramentas getToolbarPanel() {

@@ -2,6 +2,7 @@ package compilador;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,5 +25,13 @@ public class BarraStatus extends JPanel {
 
 	public void setStatus(String status) {
 		statusLabel.setText(status);
+	}
+
+	public void setArquivoAberto(File arquivo) {
+		statusLabel.setText(arquivo.getParent() + File.separator + arquivo.getName());
+	}
+
+	public void clear() {
+		statusLabel.setText("");
 	}
 }

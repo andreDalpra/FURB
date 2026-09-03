@@ -1,0 +1,13 @@
+﻿blinker==1.9.0
+click==8.4.2
+colorama==0.4.6
+Flask==3.1.3
+itsdangerous==2.2.0
+Jinja2==3.1.6
+lxml==6.1.1
+MarkupSafe==3.0.3
+PyMySQL==1.2.0
+python-dotenv==1.2.2
+pytz==2026.3.post1
+spyne==2.14.0
+Werkzeug==3.1.8

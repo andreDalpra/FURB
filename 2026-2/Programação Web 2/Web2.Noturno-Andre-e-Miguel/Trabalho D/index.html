@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste API</title>
+</head>
+<body>
+
+    <h1>Lista de Usuários</h1>
+
+    <input type="text" id="inputUsuario" placeholder="Digite o nome do usuário">
+    <button id="btnBuscar">Buscar usuários</button>
+
+    <div id="usuarios"></div>
+
+
+    <script>
+    const API_URL = "http://127.0.0.1:8000";
+
+    async function getRatings() {
+        try {
+            const nickname = document.getElementById("inputUsuario").value;
+
+            const resposta_ratings = await fetch(`${API_URL}/ratings/user/nickname/${encodeURIComponent(nickname)}`);
+            const ratings = await resposta_ratings.json();
+            const divUsuarios = document.getElementById("usuarios");
+
+            divUsuarios.innerHTML = "";
+
+            for (const rating of ratings) {
+
+                // Busca as informações da música no Spotify
+                const musica_info = await fetch(`${API_URL}/spotify/music/id/${rating.music_id}`)
+                const musica = await musica_info.json();
+                const artistas_info = await fetch(`${API_URL}/spotify/music/artists/${musica.id}`)
+                const artistas = await artistas_info.json();
+
+                console.log(musica)
+                divUsuarios.innerHTML += `
+                    <div>
+                        <p>ID: ${rating.id}</p>
+                        <p>User ID: ${rating.user_id}</p>
+                        <p>Nome: ${nickname}</p>
+                        <p>Music: ${musica.name}</p>
+                        <p>Artist: ${artistas}</p>
+                        <p>Rating: ${rating.rating}</p>
+                        <p>Description: ${rating.description}</p>
+                        <hr>
+                    </div>
+                `;
+            }
+
+        } catch (erro) {
+            console.error("Erro:", erro);
+        }
+    }
+
+    document.getElementById("btnBuscar").addEventListener("click", getRatings);
+</script>
+
+</body>
+</html>

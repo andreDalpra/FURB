@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="ShRAVOaueV-jn0CO92bp">
+    <mxGraphModel dx="1414" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-7" edge="1" parent="1" source="Mz_8cSeRVTAIpHpJJ_c7-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Mz_8cSeRVTAIpHpJJ_c7-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Frontend&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;React+Vite&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="324" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-9" edge="1" parent="1" source="Mz_8cSeRVTAIpHpJJ_c7-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Mz_8cSeRVTAIpHpJJ_c7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-10" edge="1" parent="1" source="Mz_8cSeRVTAIpHpJJ_c7-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Mz_8cSeRVTAIpHpJJ_c7-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6a00ff;fontColor=#ffffff;strokeColor=#3700CC;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;API Backend&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Fast API - main.py&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="324" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-11" edge="1" parent="1" source="Mz_8cSeRVTAIpHpJJ_c7-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Mz_8cSeRVTAIpHpJJ_c7-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;Camada de Dados&lt;/span&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;models - schema - database&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="100" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-12" edge="1" parent="1" source="Mz_8cSeRVTAIpHpJJ_c7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Mz_8cSeRVTAIpHpJJ_c7-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Cliente Spotify&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;spotify.py - (Spotify API)&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="550" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d0cee2;strokeColor=#56517e;" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;Spotify WEB API&lt;/span&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Serviço Externo&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="550" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d0cee2;strokeColor=#56517e;" value="&lt;span style=&quot;font-size: 16px;&quot;&gt;MySQL&lt;/span&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Tabelas User e Rating&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="100" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="REST / JSON" vertex="1">
+          <mxGeometry height="30" width="90" x="420" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="SQL(PyMySQL" vertex="1">
+          <mxGeometry height="30" width="100" x="190" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="Mz_8cSeRVTAIpHpJJ_c7-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="HTTPS (OAuth)" vertex="1">
+          <mxGeometry height="30" width="90" x="540" y="420" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

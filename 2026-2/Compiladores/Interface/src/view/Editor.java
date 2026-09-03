@@ -2,7 +2,7 @@
  * Classe do Editor de Código Principal 
  * 
  */
-package compilador;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

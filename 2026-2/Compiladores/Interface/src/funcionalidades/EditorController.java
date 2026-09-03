@@ -1,6 +1,6 @@
 package funcionalidades;
 
-import compilador.Editor;
+import view.Editor;
 
 public class EditorController {
 

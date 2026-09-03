@@ -6,7 +6,7 @@ package main;
 
 import javax.swing.SwingUtilities;
 
-import compilador.Interface;
+import view.Interface;
 
 public class App {
 

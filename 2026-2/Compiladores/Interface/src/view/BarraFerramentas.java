@@ -2,7 +2,7 @@
  * Classe da Barra de Ferramentas lateral 
  * 
  */
-package compilador;
+package view;
 
 import java.awt.Dimension;
 

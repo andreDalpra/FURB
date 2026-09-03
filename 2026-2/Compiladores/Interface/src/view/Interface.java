@@ -2,7 +2,7 @@
  * Classe Principal que junta a barra de Ferramentas, com o Editor e o Console 
  * 
  */
-package compilador;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

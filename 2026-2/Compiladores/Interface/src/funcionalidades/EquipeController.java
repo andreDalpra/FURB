@@ -1,6 +1,6 @@
 package funcionalidades;
 
-import compilador.Console;
+import view.Console;
 
 public class EquipeController {
 

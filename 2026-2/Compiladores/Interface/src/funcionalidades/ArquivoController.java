@@ -11,9 +11,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import compilador.BarraStatus;
-import compilador.Console;
-import compilador.Editor;
+import view.BarraStatus;
+import view.Console;
+import view.Editor;
 
 public class ArquivoController {
 

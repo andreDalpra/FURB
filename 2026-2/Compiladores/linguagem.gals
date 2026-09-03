@@ -1,0 +1,88 @@
+#Options
+GenerateScanner = true
+GenerateParser = false
+Language = Java
+ScannerName = Lexico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = String
+#RegularDefinitions
+// definicoes regulares auxiliares 
+
+    min: [a-z]
+
+    mai: [A-Z]
+
+    dig: [0-9]
+
+    letra: {mai} | {min}
+
+    string: [^\n \" \\]
+
+    bloco: _ [^_]*_
+#Tokens
+palavra:! {min} ({mai}? {min})* {min}*
+
+// Simbolos Especiais
+","
+":"
+";"
+"[]"
+"()"
+"{}"
+"+"
+"-"
+"*"
+"/"
+"<-"
+"="
+"<>"
+"<"
+">"
+
+// Palavras Reservadas
+
+and = palavra : "and" 
+
+false = palavra : "false"
+
+if = palavra : "if"
+
+in = palavra : "in"
+
+isFalseDo = palavra : "isFalseDo"
+
+isTrueDo = palavra : "isTrueDo"
+
+module = palavra : "module"
+
+not = palavra : "not"
+
+or = palavra : "or"
+
+out = palavra : "out"
+
+true = palavra : "true"
+
+while = palavra : "while"
+
+
+id_int:! i_{letra} ({letra} | {dig})*
+
+id_float:! f_{letra} ({letra} | {dig})*
+
+id_string:! s_{letra} ({letra} | {dig})*
+
+id_bool:!  b_{letra} ({letra} | {dig})*
+
+cte_int:! {dig}+
+
+cte_float:! {dig}+ , {dig}+
+
+cte_string:! \" {string} \"
+
+// comentarios
+:! {bloco}
+
+// formatacao
+: [\s\t\n]

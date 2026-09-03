@@ -1,19 +1,24 @@
 package funcionalidades;
 
 import view.Console;
+import view.Editor;
+//Compiladores
+import funcionalidades.LexicoCompiler;
 
 public class CompileController {
 
-	private static final String MENSAGEM_COMPILACAO_NAO_IMPLEMENTADA = "compilação de programas ainda não foi implementada";
-
 	private Console console;
+	private Editor editor;
 
-	public CompileController(Console console) {
+	public CompileController(Console console, Editor editor) {
 		this.console = console;
+		this.editor = editor;
 	}
 
 	public void compilar() {
-		console.clear();
-		console.writeLine(MENSAGEM_COMPILACAO_NAO_IMPLEMENTADA);
+		LexicoCompiler lexico = new LexicoCompiler(editor.getText());
+		lexico.compilar();
 	}
+	
+	
 }

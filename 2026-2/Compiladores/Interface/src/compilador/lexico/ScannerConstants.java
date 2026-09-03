@@ -1300,7 +1300,7 @@ public interface ScannerConstants
         "",
         "",
         "",
-        "Erro identificando \"[]\"",
+        "Erro identificando \"[]\"", //TODO: MENSAGENS VAO AQUI
         "Erro identificando <ignorar>",
         "",
         "",

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Bolão 2026</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="estilizacaoLogin.css" />
+
+    <script defer src="javascriptLogin.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+<main class="page" x-data="loginApp()" x-init="carregarUsuario()">
+    <header class="top-menu">
+        <div class="brand" @click="window.location.href = 'index.html'" style="cursor: pointer">
+            <span class="material-symbols-rounded">sports_soccer</span>
+            <strong>Bolão 2026</strong>
+        </div>
+
+        <div class="header-actions">
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="index.html#jogos">Apostas</a>
+                <a href="ranking.html">Ranking</a>
+                <a href="carrinho.html">Carrinho</a>
+            </nav>
+            <a class="login-action active" href="login.html" aria-current="page">
+                <span class="material-symbols-rounded">person</span>
+                Login
+            </a>
+        </div>
+    </header>
+
+    <section class="login-shell">
+        <section class="login-hero">
+            <span class="eyebrow">Acesso do participante</span>
+            <h1>Entre para acompanhar seus palpites</h1>
+            <p>Use uma conta simples para identificar suas apostas, manter seu saldo salvo e continuar o bolão da Copa 2026.</p>
+
+            <div class="hero-summary">
+                <div>
+                    <span>Apostas salvas</span>
+                    <strong x-text="totalApostas"></strong>
+                </div>
+                <div>
+                    <span>Saldo atual</span>
+                    <strong x-text="formatarMoeda(saldoInicial)"></strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="auth-panel">
+            <div class="signed-user" x-show="usuarioLogado" x-transition>
+                <span class="material-symbols-rounded">verified_user</span>
+                <p>
+                    <strong x-text="usuarioLogado?.nome"></strong>
+                    <small x-text="usuarioLogado?.email"></small>
+                </p>
+                <button class="icon-button" type="button" @click="sair" aria-label="Sair">
+                    <span class="material-symbols-rounded">logout</span>
+                </button>
+            </div>
+
+            <form class="login-form" @submit.prevent="enviarFormulario">
+                <div class="md-field">
+                    <input id="email" type="email" x-model.trim="form.email" placeholder=" " autocomplete="email" required />
+                    <label for="email">E-mail</label>
+                </div>
+
+                <div class="md-field password-field">
+                    <input
+                            id="senha"
+                            :type="mostrarSenha ? 'text' : 'password'"
+                            x-model="form.senha"
+                            placeholder=" "
+                            autocomplete="current-password"
+                            required
+                    />
+                    <label for="senha">Senha</label>
+                    <button class="field-icon-button" type="button" @click="mostrarSenha = !mostrarSenha" :aria-label="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'">
+                        <span class="material-symbols-rounded" x-text="mostrarSenha ? 'visibility_off' : 'visibility'"></span>
+                    </button>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-option">
+                        <input type="checkbox" x-model="form.lembrar" />
+                        <span>Lembrar acesso</span>
+                    </label>
+
+                    <button type="button" class="link-button" @click="recuperarSenha">Esqueci minha senha</button>
+                </div>
+
+                <button class="filled-button" type="submit">
+                    <span class="material-symbols-rounded">login</span>
+                    Entrar no bolão
+                </button>
+
+                <p class="create-account-note">
+                    Ainda não tem cadastro?
+                    <a href="#" @click.prevent>Criar conta</a>
+                </p>
+            </form>
+        </section>
+    </section>
+
+    <section class="snackbar" x-show="aviso" x-transition x-text="aviso"></section>
+</main>
+</body>
+</html>

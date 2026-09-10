@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrinho de Apostas - Bolão 2026</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="estilizacaoCarrinho.css" />
+
+    <script defer src="javascriptCarrinho.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+<main class="page" x-data="carrinhoApp()">
+    <header class="top-menu">
+        <div class="brand" @click="window.location.href = 'index.html'" style="cursor: pointer">
+            <span class="material-symbols-rounded">sports_soccer</span>
+            <strong>Bolão 2026</strong>
+        </div>
+
+        <div class="header-actions">
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="index.html#jogos">Apostas</a>
+                <a href="ranking.html">Ranking</a>
+                <a href="carrinho.html" class="active">Carrinho</a>
+            </nav>
+            <div class="wallet-area" @click.outside="carteiraAberta = false">
+                <button class="wallet-button" type="button" @click="carteiraAberta = !carteiraAberta" :aria-expanded="carteiraAberta">
+                    <span class="material-symbols-rounded">account_balance_wallet</span>
+                    <span><small>Meu saldo</small><strong x-text="formatarMoeda(saldoDisponivel())"></strong></span>
+                    <span class="material-symbols-rounded wallet-chevron" x-text="carteiraAberta ? 'expand_less' : 'expand_more'"></span>
+                </button>
+                <aside class="wallet-popover" x-show="carteiraAberta" x-transition x-cloak>
+                    <div class="wallet-popover-title">
+                        <span class="material-symbols-rounded">account_balance_wallet</span>
+                        <div><small>Carteira do bolão</small><strong>Resumo do saldo</strong></div>
+                    </div>
+                    <dl>
+                        <div><dt>Saldo disponível</dt><dd x-text="formatarMoeda(saldoDisponivel())"></dd></div>
+                        <div><dt>Saldo apostado</dt><dd x-text="formatarMoeda(saldoApostado())"></dd></div>
+                    </dl>
+                    <button class="wallet-add-toggle" type="button" @click="mostrarAdicionarSaldo = !mostrarAdicionarSaldo">
+                        <span class="material-symbols-rounded">add_card</span>
+                        Adicionar saldo
+                    </button>
+                    <form class="wallet-add-form" x-show="mostrarAdicionarSaldo" x-transition @submit.prevent="adicionarSaldo">
+                        <label for="valorNovoSaldoCarrinho">Valor para adicionar</label>
+                        <div class="wallet-money-field"><span>R$</span><input id="valorNovoSaldoCarrinho" type="number" min="0.01" step="0.01" x-model.number="valorNovoSaldo" placeholder="0,00" /></div>
+                        <button type="submit">Confirmar saldo</button>
+                    </form>
+                    <p>Valores no carrinho já ficam reservados para evitar apostas acima do saldo.</p>
+                </aside>
+            </div>
+            <a class="login-action" href="login.html">
+                <span class="material-symbols-rounded">person</span>
+                Login
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div>
+            <span class="eyebrow">Bolão Copa 2026</span>
+            <h1>Meu carrinho de apostas</h1>
+            <p>Acompanhe seus palpites, pagamentos, apostas finalizadas e resultados em um só lugar.</p>
+        </div>
+
+        <div class="hero-summary">
+            <div>
+                <span>Total investido</span>
+                <strong x-text="formatarMoeda(totalPago())"></strong>
+            </div>
+            <div>
+                <span>No carrinho</span>
+                <strong x-text="formatarMoeda(totalCarrinho())"></strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard">
+        <aside class="panel payment-panel">
+            <div class="section-header">
+                <div>
+                    <h2>Pagamentos</h2>
+                    <p>Cadastre uma forma de pagamento para finalizar sua aposta.</p>
+                </div>
+
+                <button
+                        class="icon-button"
+                        type="button"
+                        @click="mostrarFormularioPagamento = !mostrarFormularioPagamento"
+                        aria-label="Adicionar pagamento"
+                >
+                    <span class="material-symbols-rounded">add</span>
+                </button>
+            </div>
+
+            <div class="empty-payment" x-show="formasPagamento.length === 0">
+                <span class="material-symbols-rounded">credit_card_off</span>
+                <p>Nenhuma forma de pagamento cadastrada.</p>
+            </div>
+
+            <div class="payment-list">
+                <template x-for="forma in formasPagamento" :key="forma.id">
+                    <button
+                            type="button"
+                            class="payment-card"
+                            :class="{ selected: pagamentoSelecionadoId === forma.id }"
+                            @click="pagamentoSelecionadoId = forma.id"
+                    >
+                        <span class="payment-icon material-symbols-rounded" x-text="forma.icone"></span>
+                        <span>
+                            <strong x-text="forma.nome"></strong>
+                            <small x-text="forma.detalhe"></small>
+                        </span>
+                        <span class="material-symbols-rounded check-icon">check_circle</span>
+                    </button>
+                </template>
+            </div>
+
+            <form
+                    class="payment-form"
+                    x-show="mostrarFormularioPagamento"
+                    x-transition
+                    @submit.prevent="adicionarFormaPagamento"
+            >
+                <div class="md-field">
+                    <input id="nomePagamento" type="text" x-model="novoPagamento.nome" required placeholder=" " />
+                    <label for="nomePagamento">Nome do método</label>
+                </div>
+
+                <div class="md-field">
+                    <input id="detalhePagamento" type="text" x-model="novoPagamento.detalhe" required placeholder=" " />
+                    <label for="detalhePagamento">Fim do cartão, chave Pix ou carteira</label>
+                </div>
+
+                <div class="md-field select-field">
+                    <select id="tipoPagamento" x-model="novoPagamento.tipo">
+                        <option value="cartao">Cartão</option>
+                        <option value="pix">Pix</option>
+                        <option value="carteira">Carteira digital</option>
+                    </select>
+                    <label for="tipoPagamento">Tipo de pagamento</label>
+                </div>
+
+                <button class="filled-button" type="submit">
+                    <span class="material-symbols-rounded">add_card</span>
+                    Adicionar
+                </button>
+            </form>
+        </aside>
+
+        <section class="content">
+            <div class="section-header bets-header">
+                <div>
+                    <h2>Apostas</h2>
+                    <p>Finalize palpites no carrinho e acompanhe o histórico.</p>
+                </div>
+
+                <div class="tabs" role="tablist">
+                    <button type="button" :class="{ active: filtro === 'todas' }" @click="filtro = 'todas'">Todas</button>
+                    <button type="button" :class="{ active: filtro === 'carrinho' }" @click="filtro = 'carrinho'">Carrinho</button>
+                    <button type="button" :class="{ active: filtro === 'venceu' }" @click="filtro = 'venceu'">Vencidas</button>
+                    <button type="button" :class="{ active: filtro === 'perdeu' }" @click="filtro = 'perdeu'">Perdidas</button>
+                </div>
+            </div>
+
+            <div class="bets-grid">
+                <template x-for="aposta in apostasFiltradas()" :key="aposta.id">
+                    <article class="bet-card">
+                        <div class="bet-topline">
+                            <span class="match-date" x-text="aposta.data"></span>
+                            <span class="status-chip" :class="aposta.status" x-text="textoStatus(aposta.status)"></span>
+                        </div>
+
+                        <div class="match">
+                            <div class="team">
+                                <img class="flag-img" :src="aposta.bandeiraCasa" :alt="`Bandeira ${aposta.timeCasa}`" />
+                                <strong x-text="aposta.timeCasa"></strong>
+                            </div>
+
+                            <span class="versus">x</span>
+
+                            <div class="team right">
+                                <img class="flag-img" :src="aposta.bandeiraFora" :alt="`Bandeira ${aposta.timeFora}`" />
+                                <strong x-text="aposta.timeFora"></strong>
+                            </div>
+                        </div>
+
+                        <div class="bet-info">
+                            <div>
+                                <span>Palpite</span>
+                                <strong x-text="aposta.palpite"></strong>
+                            </div>
+                            <div>
+                                <span>Valor pago</span>
+                                <strong x-text="formatarMoeda(aposta.valor)"></strong>
+                            </div>
+                            <div>
+                                <span>Retorno possível</span>
+                                <strong x-text="formatarMoeda(aposta.retornoPossivel)"></strong>
+                            </div>
+                        </div>
+
+                        <div class="payment-used">
+                            <span class="material-symbols-rounded">payments</span>
+                            <p x-text="textoPagamento(aposta)"></p>
+                        </div>
+
+                        <div class="card-actions">
+                            <button
+                                    type="button"
+                                    class="filled-button"
+                                    x-show="aposta.status === 'carrinho'"
+                                    @click="finalizarAposta(aposta.id)"
+                                    :disabled="!pagamentoSelecionadoId"
+                            >
+                                <span class="material-symbols-rounded">shopping_cart_checkout</span>
+                                Finalizar aposta
+                            </button>
+
+                            <button
+                                    type="button"
+                                    class="tonal-button"
+                                    x-show="aposta.status !== 'carrinho'"
+                                    @click="abrirDetalhes(aposta)"
+                            >
+                                <span class="material-symbols-rounded">receipt_long</span>
+                                Ver detalhes
+                            </button>
+                        </div>
+                    </article>
+                </template>
+            </div>
+
+            <div class="empty-state" x-show="apostasFiltradas().length === 0">
+                <span class="material-symbols-rounded">sports_soccer</span>
+                <h3>Nenhuma aposta encontrada</h3>
+                <p>Volte para a página inicial e escolha um jogo para apostar.</p>
+            </div>
+        </section>
+    </section>
+
+    <section class="snackbar" x-show="aviso" x-transition x-text="aviso"></section>
+
+    <div class="modal-backdrop" x-show="apostaDetalhada" x-transition.opacity>
+        <article class="modal" @click.outside="apostaDetalhada = null">
+            <button class="icon-button close-button" type="button" @click="apostaDetalhada = null" aria-label="Fechar">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+
+            <h2>Detalhes da aposta</h2>
+
+            <div class="modal-content" x-show="apostaDetalhada">
+                <p>
+                    <strong x-text="apostaDetalhada?.timeCasa"></strong>
+                    <span> x </span>
+                    <strong x-text="apostaDetalhada?.timeFora"></strong>
+                </p>
+
+                <dl>
+                    <div>
+                        <dt>Palpite</dt>
+                        <dd x-text="apostaDetalhada?.palpite"></dd>
+                    </div>
+                    <div>
+                        <dt>Status</dt>
+                        <dd x-text="textoStatus(apostaDetalhada?.status)"></dd>
+                    </div>
+                    <div>
+                        <dt>Valor</dt>
+                        <dd x-text="formatarMoeda(apostaDetalhada?.valor || 0)"></dd>
+                    </div>
+                    <div>
+                        <dt>Pagamento usado</dt>
+                        <dd x-text="nomePagamento(apostaDetalhada?.pagamentoId)"></dd>
+                    </div>
+                </dl>
+            </div>
+        </article>
+    </div>
+</main>
+</body>
+</html>

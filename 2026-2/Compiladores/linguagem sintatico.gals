@@ -1,0 +1,82 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+
+#Tokens
+identificador: [a-z]+
+
+
+// símbolos especiais
+"="
+"("
+")"
+";"
+","
+":"
+
+
+// palavras reservadas
+pr_classe        = identificador: "classe"
+pr_fim           = identificador: "fim"
+pr_comportamento = identificador: "comportamento"
+pr_abstrato      = identificador: "abstrato"
+pr_concreto      = identificador: "concreto"
+pr_publico       = identificador: "publico"
+pr_privado       = identificador: "privado"
+pr_protegido     = identificador: "protegido"
+pr_propriedade   = identificador: "propriedade"
+
+
+// caracteres de formatação
+:[\n\s\t]
+#NonTerminals
+<def_classe>
+<heranca>
+<propriedades>
+<comportamento>
+<visibilidade>
+<tipo>
+<parametro>
+<propriedade>
+<opcional>
+<id_opc>
+<id>
+<metodo>
+<parametro_opc>
+<tipo_metodo>
+
+#Grammar
+<def_classe> ::= identificador "=" pr_classe <heranca> <propriedades> <comportamento> pr_fim ;
+
+<heranca> ::= "(" identificador ")" | î ;
+
+<propriedades> ::= pr_propriedade <propriedade> | î;
+
+<propriedade> ::= <opcional> <id_opc> ":" <tipo> ";" | <opcional> <id_opc> ":" <tipo> ";" <propriedade> ;
+
+<opcional> ::= <visibilidade> | î ;
+
+<id_opc> ::= identificador | identificador "," <id_opc> ;
+
+<visibilidade> ::= pr_publico | pr_privado | pr_protegido ;
+
+<comportamento> ::= pr_comportamento <metodos> | î ;
+
+<metodos> ::= <metodo> | <metodo> <listametodo>
+
+<metodo> ::= identificador <parametro_opc> ";" <tipo_metodo> ;
+
+<parametro_opc> ::= <parametro> | î ;
+
+<tipo_metodo> ::= pr_abstrato | pr_concreto | î ;
+
+

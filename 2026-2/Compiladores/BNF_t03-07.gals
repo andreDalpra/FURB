@@ -1,0 +1,243 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+// definicoes regulares auxiliares 
+
+    min: [a-z]
+
+    mai: [A-Z]
+
+    dig: [0-9]
+
+    letra: {mai} | {min}
+
+    string: [^\n \" \\]
+
+    bloco: _ [^_]*_
+#Tokens
+palavra:! {min} ({mai}? {min})* {min}*
+
+// Simbolos Especiais
+","
+":"
+";"
+"["
+"]"
+"("
+")"
+"{"
+"}"
+"+"
+"-"
+"*"
+"/"
+"<-"
+"="
+"<>"
+"<"
+">"
+
+// Palavras Reservadas
+
+and = palavra : "and" 
+
+false = palavra : "false"
+
+if = palavra : "if"
+
+in = palavra : "in"
+
+isFalseDo = palavra : "isFalseDo"
+
+isTrueDo = palavra : "isTrueDo"
+
+module = palavra : "module"
+
+not = palavra : "not"
+
+or = palavra : "or"
+
+out = palavra : "out"
+
+true = palavra : "true"
+
+while = palavra : "while"
+
+
+id_int:! i_{letra} ({letra} | {dig})*
+
+id_float:! f_{letra} ({letra} | {dig})*
+
+id_string:! s_{letra} ({letra} | {dig})*
+
+id_bool:!  b_{letra} ({letra} | {dig})*
+
+cte_int:! {dig}+
+
+cte_float:! {dig}+ , {dig}+
+
+cte_string:! \" {string}* \"
+
+// comentarios
+:! {bloco}
+
+// formatacao
+: [\s\t\n]
+#NonTerminals
+<def_programa>
+<expressao>
+<identificador>
+<identificador_>
+<declaracao_identificador>
+<declaracao_variaveis>
+<lista_variaveis>
+<lista_identificadores>
+<lista_identificadores_>
+<atribuicao>
+<atribuicao_>
+<entrada_dados>
+<saida_dados>
+<lista_expressoes>
+<lista_expressoes_>
+<cmd_selecao>
+<cmd_selecao_>
+<isTrueDo_opc>
+<isFalseDo_opc>
+<comando>
+<lista_comandos>
+<lista_comandos_>
+<cmd_repeticao>
+<cmd_repeticao_>
+<lista_entrada>
+<lista_entrada_>
+<opcional>
+<expressao_>
+<termo_logico>
+<relacional>
+<operador_relacional>
+<aritmetica>
+<relacional_>
+<aritmetica_>
+<termo_aritmetico>
+<fator>
+<termo_aritmetico_>
+<identificador_expressao>
+<vetor>
+#Grammar
+<def_programa>::= module <declaracao_variaveis> "{" <lista_comandos> "}" ;
+
+// regras com não determinismo
+//<identificador> ::= <declaracao_identificador> | <declaracao_identificador> "[" cte_int "]" ;
+
+// regras sem não determinismo
+<identificador> ::= <declaracao_identificador> <identificador_> ;
+<identificador_> ::= î | "[" cte_int "]" ;
+
+<declaracao_identificador> ::= id_int | id_float | id_string | id_bool ;
+
+<declaracao_variaveis>::= <lista_variaveis> ;
+
+<lista_variaveis>::= <lista_identificadores> | î ;
+
+//regras com não determinismo
+//<lista_identificadores> ::= <identificador> | <identificador> "," <lista_identificadores> ;
+
+// regras sem não determinismo
+<lista_identificadores> ::= <identificador> <lista_identificadores_> ;
+<lista_identificadores_> ::= î | "," <lista_identificadores> ;
+
+//regras com não determinismo
+//<atribuicao> ::= <declaracao_identificador> "<-" <expressao> | <declaracao_identificador> "[" <expressao> "]" "<-" <expressao> ;
+
+// regras sem não determinismo
+<atribuicao> ::= <declaracao_identificador> <atribuicao_> ;
+<atribuicao_> ::= "<-" <expressao> | "[" <expressao> "]" "<-" <expressao> ;
+
+<entrada_dados>::= in "(" <lista_entrada> ")" ;
+
+// regras com não determinismo
+// <lista_entrada> ::= <declaracao_identificador> <opcional> | <declaracao_identificador> <opcional> "," <lista_entrada> ;
+
+// regras sem não determinismo
+<lista_entrada> ::= <declaracao_identificador> <opcional> <lista_entrada_> ;
+<lista_entrada_> ::= î | "," <lista_entrada> ;
+
+<opcional> ::= î | "[" <expressao> "]" ;
+
+<saida_dados>::= out "(" <lista_expressoes> ")" ;
+
+// regras com não determinismo
+// <lista_expressoes> ::= <expressao> | <expressao> "," <lista_expressoes> ;
+
+// regras sem não determinismo
+<lista_expressoes> ::= <expressao> <lista_expressoes_> ;
+<lista_expressoes_> ::= î | "," <lista_expressoes> ;
+
+// regras com não determinismo
+// <cmd_selecao> ::= if "(" <expressao> ")" isTrueDo "{" <lista_comandos> "}" <isTrueDo_opc> | if "(" <expressao> ")" isFalseDo "{" <lista_comandos> "}" <isFalseDo_opc> ;
+
+// regras sem não determinismo
+<cmd_selecao> ::= if "(" <expressao> ")" <cmd_selecao_> ;
+<cmd_selecao_> ::= isTrueDo "{" <lista_comandos> "}" <isTrueDo_opc> | isFalseDo "{" <lista_comandos> "}" <isFalseDo_opc> ;
+
+<isFalseDo_opc>::= isTrueDo "{" <lista_comandos> "}" | î ;
+
+<isTrueDo_opc>::= isFalseDo "{" <lista_comandos> "}" | î ;
+
+<comando>::= <cmd_selecao> | <atribuicao> | <entrada_dados> | <saida_dados> | <cmd_repeticao> ;
+
+// regras com não determinismo
+// <lista_comandos> ::= <comando> | <comando> <lista_comandos> ;
+
+// regras sem não determinismo
+<lista_comandos> ::= <comando> <lista_comandos_> ;
+<lista_comandos_> ::= î | <lista_comandos> ;
+
+// regras com não determinismo
+// <cmd_repeticao> ::= while "(" <expressao> ")" isTrueDo "{" <lista_comandos> "}" | while "(" <expressao> ")" isFalseDo "{" <lista_comandos> "}" ;
+
+// regras sem não determinismo
+<cmd_repeticao> ::= while "(" <expressao> ")" <cmd_repeticao_> ;
+<cmd_repeticao_> ::= isTrueDo "{" <lista_comandos> "}" | isFalseDo "{" <lista_comandos> "}" ;
+
+// Trabalho 3 abaixo QUINTA-FEITA 24/09/2026
+<expressao> ::= <termo_logico> <expressao_> ;
+
+<expressao_> ::= î | and <termo_logico> <expressao_> | or <termo_logico> <expressao_> ;
+
+<termo_logico> ::= <relacional> | true | false | not <termo_logico> ;
+
+<relacional> ::= <aritmetica> <relacional_> ;
+
+<relacional_> ::= î | <operador_relacional> <aritmetica> ;
+
+<operador_relacional>::= "=" | "<>" | "<" | ">" ;
+
+<aritmetica> ::= <termo_aritmetico> <aritmetica_> ;
+
+<aritmetica_> ::= î | "+" <termo_aritmetico> <aritmetica_> | "-" <termo_aritmetico> <aritmetica_> ;
+
+<termo_aritmetico> ::= <fator> <termo_aritmetico_> ;
+
+<termo_aritmetico_> ::= î | "*" <fator> <termo_aritmetico_> | "/" <fator> <termo_aritmetico_> ;
+
+<fator> ::= <identificador_expressao> <vetor> | cte_int |cte_float | cte_string | "(" <expressao> ")" |"+" <fator> | "-" <fator> ;
+
+<identificador_expressao>::= id_int | id_float | id_string | id_bool;
+
+<vetor> ::= î | "[" <expressao> "]" ;
+
+
+
+
+
+

@@ -28,8 +28,6 @@ palavra:! {min} ({mai}? {min})* {min}*
 
 // Simbolos Especiais
 ","
-":"
-";"
 "["
 "]"
 "("

@@ -55,7 +55,7 @@ public class LexicoCompiler {
 	}
 
 	private String classeDoToken(int id) {
-		if (id >= Constants.t_TOKEN_3 && id <= Constants.t_TOKEN_20) {
+		if (id >= Constants.t_TOKEN_3 && id <= Constants.t_TOKEN_18) {
 			return "símbolo especial";
 		}
 		if (id >= Constants.t_and && id <= Constants.t_while) {

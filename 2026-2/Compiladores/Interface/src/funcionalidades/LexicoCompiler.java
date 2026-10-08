@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.StringReader;
 
-import compilador.lexico.Constants;
-import compilador.lexico.LexicalError;
-import compilador.lexico.Lexico;
-import compilador.lexico.Token;
+import compilador.Constants;
+import compilador.LexicalError;
+import compilador.Lexico;
+import compilador.Token;
 
 public class LexicoCompiler {
 	public static final String CABECALHO = String.format("%-8s%-22s%s", "linha", "classe", "lexema");

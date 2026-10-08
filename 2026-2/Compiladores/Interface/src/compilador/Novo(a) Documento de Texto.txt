@@ -1,0 +1,14 @@
+Anotações para implementar o analisador sintatico trabalho 3:
+
+- Quando encontrar $: Encontrado EOF, esperado X
+
+- Simbolo especial, identificador, constantes, mostrar o LEXEMA da mensagem:
+
+- Parser constants -> Parse_ERROR, alterar e vir desse lugar a mensagem de erro do (Simbolo esperado) <<<<=====  ALTERAR AS MENSAGENS AQUI
+
+- Identificar o que é oque, cte_int => esparado constante int  ,,,   id_int, id_float ,, esperado identificador 
+
+- <Lista_expressoes> tem que alterar para mostrar ele, esperado lista expressoes, mesma coisa para o <expressões>
+
+
+dontpad.com/sintaticoFURB

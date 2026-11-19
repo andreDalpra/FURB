@@ -131,16 +131,16 @@ cte_string:! \" {string}* \"
 <identificador_expressao>
 <vetor>
 #Grammar
-<def_programa>::= module <declaracao_variaveis> "{" <lista_comandos> "}" ;
+<def_programa>::= module #101 <declaracao_variaveis> "{" <lista_comandos> "}" #102 ;
 
 // regras com não determinismo
 //<identificador> ::= <declaracao_identificador> | <declaracao_identificador> "[" cte_int "]" ;
 
 // regras sem não determinismo
 <identificador> ::= <declaracao_identificador> <identificador_> ;
-<identificador_> ::= î | "[" cte_int "]" ;
+<identificador_> ::= #104 î | "[" cte_int #105 "]" ;
 
-<declaracao_identificador> ::= id_int | id_float | id_string | id_bool ;
+<declaracao_identificador> ::= id_int #103 | id_float #103 | id_string #103 | id_bool #103 ;
 
 <declaracao_variaveis>::= <lista_variaveis> ;
 
@@ -158,7 +158,7 @@ cte_string:! \" {string}* \"
 
 // regras sem não determinismo
 <atribuicao> ::= <declaracao_identificador> <atribuicao_> ;
-<atribuicao_> ::= "<-" <expressao> | "[" <expressao> "]" "<-" <expressao> ;
+<atribuicao_> ::= #107 "<-" <expressao> #106 | "[" <expressao> "]" #134 "<-" <expressao> #106 ;
 
 <entrada_dados>::= in "(" <lista_entrada> ")" ;
 
@@ -166,10 +166,10 @@ cte_string:! \" {string}* \"
 // <lista_entrada> ::= <declaracao_identificador> <opcional> | <declaracao_identificador> <opcional> "," <lista_entrada> ;
 
 // regras sem não determinismo
-<lista_entrada> ::= <declaracao_identificador> <opcional> <lista_entrada_> ;
+<lista_entrada> ::= <declaracao_identificador> <opcional> #108 <lista_entrada_> ;
 <lista_entrada_> ::= î | "," <lista_entrada> ;
 
-<opcional> ::= î | "[" <expressao> "]" ;
+<opcional> ::= î #107 | "[" <expressao> "]" #134 ;
 
 <saida_dados>::= out "(" <lista_expressoes> ")" ;
 
@@ -177,7 +177,7 @@ cte_string:! \" {string}* \"
 // <lista_expressoes> ::= <expressao> | <expressao> "," <lista_expressoes> ;
 
 // regras sem não determinismo
-<lista_expressoes> ::= <expressao> <lista_expressoes_> ;
+<lista_expressoes> ::= <expressao> #109 <lista_expressoes_> ;
 <lista_expressoes_> ::= î | "," <lista_expressoes> ;
 
 // regras com não determinismo
@@ -185,11 +185,11 @@ cte_string:! \" {string}* \"
 
 // regras sem não determinismo
 <cmd_selecao> ::= if "(" <expressao> ")" <cmd_selecao_> ;
-<cmd_selecao_> ::= isTrueDo "{" <lista_comandos> "}" <isTrueDo_opc> | isFalseDo "{" <lista_comandos> "}" <isFalseDo_opc> ;
+<cmd_selecao_> ::= isTrueDo #110 "{" <lista_comandos> "}" <isTrueDo_opc> #111 | isFalseDo #110 "{" <lista_comandos> "}" <isFalseDo_opc> #111 ;
 
-<isFalseDo_opc>::= isTrueDo "{" <lista_comandos> "}" | î ;
+<isFalseDo_opc>::= isTrueDo #112 "{" <lista_comandos> "}" | î ;
 
-<isTrueDo_opc>::= isFalseDo "{" <lista_comandos> "}" | î ;
+<isTrueDo_opc>::= isFalseDo #112 "{" <lista_comandos> "}" | î ;
 
 <comando>::= <cmd_selecao> | <atribuicao> | <entrada_dados> | <saida_dados> | <cmd_repeticao> ;
 
@@ -204,35 +204,35 @@ cte_string:! \" {string}* \"
 // <cmd_repeticao> ::= while "(" <expressao> ")" isTrueDo "{" <lista_comandos> "}" | while "(" <expressao> ")" isFalseDo "{" <lista_comandos> "}" ;
 
 // regras sem não determinismo
-<cmd_repeticao> ::= while "(" <expressao> ")" <cmd_repeticao_> ;
-<cmd_repeticao_> ::= isTrueDo "{" <lista_comandos> "}" | isFalseDo "{" <lista_comandos> "}" ;
+<cmd_repeticao> ::= #113 while "(" <expressao> ")" <cmd_repeticao_> ;
+<cmd_repeticao_> ::= isTrueDo #114 "{" <lista_comandos> "}" #115 | isFalseDo #114 "{" <lista_comandos> "}" #115 ;
 
 // Trabalho 3 abaixo QUINTA-FEITA 24/09/2026
 <expressao> ::= <termo_logico> <expressao_> ;
 
-<expressao_> ::= î | and <termo_logico> <expressao_> | or <termo_logico> <expressao_> ;
+<expressao_> ::= î | and <termo_logico> #116 <expressao_> | or <termo_logico> #117 <expressao_> ;
 
-<termo_logico> ::= <relacional> | true | false | not <termo_logico> ;
+<termo_logico> ::= <relacional> | true #118 | false #119 | not <termo_logico> #120 ;
 
 <relacional> ::= <aritmetica> <relacional_> ;
 
-<relacional_> ::= î | <operador_relacional> <aritmetica> ;
+<relacional_> ::= î | <operador_relacional> #121 <aritmetica> #122 ;
 
 <operador_relacional>::= "=" | "<>" | "<" | ">" ;
 
 <aritmetica> ::= <termo_aritmetico> <aritmetica_> ;
 
-<aritmetica_> ::= î | "+" <termo_aritmetico> <aritmetica_> | "-" <termo_aritmetico> <aritmetica_> ;
+<aritmetica_> ::= î | "+" <termo_aritmetico> #123 <aritmetica_> | "-" <termo_aritmetico> #124 <aritmetica_> ;
 
 <termo_aritmetico> ::= <fator> <termo_aritmetico_> ;
 
-<termo_aritmetico_> ::= î | "*" <fator> <termo_aritmetico_> | "/" <fator> <termo_aritmetico_> ;
+<termo_aritmetico_> ::= î | "*" <fator> #125 <termo_aritmetico_> | "/" <fator> #126 <termo_aritmetico_> ;
 
-<fator> ::= <identificador_expressao> <vetor> | cte_int |cte_float | cte_string | "(" <expressao> ")" |"+" <fator> | "-" <fator> ;
+<fator> ::= <identificador_expressao> #127 <vetor> | cte_int #128 |cte_float #129 | cte_string #130 | "(" <expressao> ")" |"+" <fator> #131 | "-" <fator> #132 ;
 
 <identificador_expressao>::= id_int | id_float | id_string | id_bool;
 
-<vetor> ::= î | "[" <expressao> "]" ;
+<vetor> ::= î | "[" <expressao> "]" #133 ;
 
 
 

@@ -21,6 +21,7 @@ public class ArquivoController {
 	private Console console;
 	private BarraStatus barraStatus;
 	private File arquivoAtual;
+	private File arquivoCodigoObjeto;
 
 	public ArquivoController(Editor editor, Console console, BarraStatus barraStatus) {
 		this.editor = editor;
@@ -106,6 +107,30 @@ public class ArquivoController {
 
 	private void gravarArquivo(File arquivo) throws IOException {
 		Files.writeString(arquivo.toPath(), editor.getText(), StandardCharsets.UTF_8);
+	}
+
+	public File salvarCodigoObjeto(String codigoObjeto) throws IOException {
+		arquivoCodigoObjeto = definirArquivoCodigoObjeto();
+		Files.writeString(arquivoCodigoObjeto.toPath(), codigoObjeto, StandardCharsets.UTF_8);
+		return arquivoCodigoObjeto;
+	}
+
+	public File getArquivoCodigoObjeto() {
+		return arquivoCodigoObjeto;
+	}
+
+	private File definirArquivoCodigoObjeto() {
+		if (arquivoAtual == null) {
+			return new File("codigo_objeto.il");
+		}
+
+		String nome = arquivoAtual.getName();
+		int extensao = nome.lastIndexOf('.');
+		if (extensao >= 0) {
+			nome = nome.substring(0, extensao);
+		}
+
+		return new File(arquivoAtual.getParentFile(), nome + ".il");
 	}
 
 	private File garantirExtensaoTxt(File arquivo) {

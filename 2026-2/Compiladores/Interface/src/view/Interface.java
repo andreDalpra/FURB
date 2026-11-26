@@ -44,7 +44,7 @@ public class Interface extends JFrame {
 		statusPanel = new BarraStatus();
 		arquivoController = new ArquivoController(editorPanel, consolePanel, statusPanel);
 		editorController = new EditorController(editorPanel);
-		compileController = new CompileController(consolePanel, editorPanel);
+		compileController = new CompileController(consolePanel, editorPanel, arquivoController);
 		equipeController = new EquipeController(consolePanel);
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editorPanel, consolePanel);

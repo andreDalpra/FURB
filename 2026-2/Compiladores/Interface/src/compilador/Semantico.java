@@ -7,6 +7,7 @@ public class Semantico implements Constants {
    //registros semanticos
    private StringBuilder  codigoObjeto = new StringBuilder();
    private Stack<String>  pilhaTipos = new Stack<>();
+   private String operador;
 
    public void executeAction(int action, Token token) throws SemanticError {
       System.out.println("Acao #"+action+", Token: "+token);
@@ -15,19 +16,25 @@ public class Semantico implements Constants {
          case 101: acao101(); break;
          case 102: acao102(); break;
          case 109: acao109(); break;
+         case 116: acao116(); break;
+         case 117: acao117(); break;
          case 118: acao118(); break;
+         case 119: acao119(); break;
          case 120: acao120(); break;
+         case 121: acao121(token); break;
+         case 122: acao122(); break;
          case 123: acao123(); break;
          case 124: acao124(); break;
          case 125: acao125(); break;
          case 126: acao126(); break;
          case 128: acao128(token); break;
+         case 129: acao129(token); break;
+         case 130: acao130(token); break;
          case 131: acao131(); break;
          case 132: acao132(); break;
          default:  throw new SemanticError("Acao semantica nao implementada: " + action);
       }
    }
-
 
    private void acao101() {
       codigoObjeto.append(".assembly extern mscorlib {}\n");
@@ -52,10 +59,31 @@ public class Semantico implements Constants {
       }
       codigoObjeto.append("call void [mscorlib]System.Console::Write(" + tipo + ")\n");
     }
+   
+   private void acao116(){
+	   String tipo1 = pilhaTipos.pop();
+	   String tipo2 = pilhaTipos.pop();
+	   
+	   pilhaTipos.push("bool");
+	   codigoObjeto.append("and\n");
+   }
+   
+   private void acao117(){
+	   String tipo1 = pilhaTipos.pop();
+	   String tipo2 = pilhaTipos.pop();
+	   
+	   pilhaTipos.push("bool");
+	   codigoObjeto.append("or\n");
+   }
 
    private void acao118() {
       pilhaTipos.push("bool");
       codigoObjeto.append("ldc.i4.1\n");
+   }
+   
+   private void acao119() {
+	   pilhaTipos.push("bool");
+	   codigoObjeto.append("ldc.i4.0\n");
    }
 
    private void acao120() {
@@ -65,6 +93,29 @@ public class Semantico implements Constants {
       codigoObjeto.append("xor\n");
    }
 
+   private void acao121(Token token) {
+	    operador = token.getLexeme();	   
+   }
+   
+   private void acao122() {	  
+	  pilhaTipos.push("bool");
+	  
+	  if  ("=".equals(operador)) {
+		codigoObjeto.append("ceq\n");  
+	  }
+	  else if("<>".equals(operador)) {
+		  codigoObjeto.append("ceq\n");
+		  codigoObjeto.append("ldc.i4.1\n");
+		  codigoObjeto.append("xor\n");
+	  }
+	  else if ("<".equals(operador)) {
+		  codigoObjeto.append("clt\n");
+	  }
+	  else if (">".equals(operador)) {
+		  codigoObjeto.append("cgt\n");
+	  }
+   }
+   
    private void acao123() {
       String tipo1 = pilhaTipos.pop();
       String tipo2 = pilhaTipos.pop();
@@ -109,6 +160,16 @@ public class Semantico implements Constants {
      pilhaTipos.push("int64");
      codigoObjeto.append("ldc.i8 " + token.getLexeme() + "\n");
      codigoObjeto.append("conv.r8\n");
+   }
+
+   private void acao129(Token token) {
+      pilhaTipos.push("float64");
+      codigoObjeto.append("ldc.r8 " + token.getLexeme().replace(',', '.') + "\n");
+   }
+
+   private void acao130(Token token) {
+      pilhaTipos.push("string");
+      codigoObjeto.append("ldstr " + token.getLexeme() + "\n");
    }
  
    private void acao131() {

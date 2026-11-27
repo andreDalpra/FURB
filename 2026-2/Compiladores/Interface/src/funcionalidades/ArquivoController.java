@@ -66,22 +66,23 @@ public class ArquivoController {
 		}
 	}
 
-	public void salvar() {
+	public boolean salvar() {
 		if (arquivoAtual == null) {
-			salvarArquivoNovo();
-			return;
+			return salvarArquivoNovo();
 		}
 
 		try {
 			gravarArquivo(arquivoAtual);
 			console.clear();
+			return true;
 		} catch (IOException erro) {
 			console.clear();
 			console.writeLine("Erro ao salvar o arquivo.");
+			return false;
 		}
 	}
 
-	private void salvarArquivoNovo() {
+	private boolean salvarArquivoNovo() {
 		JFileChooser seletorArquivo = new JFileChooser();
 		seletorArquivo.setFileFilter(new FileNameExtensionFilter("Arquivos de texto (*.txt)", "txt"));
 		seletorArquivo.setAcceptAllFileFilterUsed(false);
@@ -89,7 +90,7 @@ public class ArquivoController {
 		int resultado = seletorArquivo.showSaveDialog(null);
 
 		if (resultado != JFileChooser.APPROVE_OPTION) {
-			return;
+			return false;
 		}
 
 		File arquivo = garantirExtensaoTxt(seletorArquivo.getSelectedFile());
@@ -99,9 +100,11 @@ public class ArquivoController {
 			console.clear();
 			arquivoAtual = arquivo;
 			barraStatus.setArquivoAberto(arquivo);
+			return true;
 		} catch (IOException erro) {
 			console.clear();
 			console.writeLine("Erro ao salvar o arquivo.");
+			return false;
 		}
 	}
 
@@ -119,9 +122,9 @@ public class ArquivoController {
 		return arquivoCodigoObjeto;
 	}
 
-	private File definirArquivoCodigoObjeto() {
+	private File definirArquivoCodigoObjeto() throws IOException {
 		if (arquivoAtual == null) {
-			return new File("codigo_objeto.il");
+			throw new IOException("Salve o programa fonte antes de compilar.");
 		}
 
 		String nome = arquivoAtual.getName();

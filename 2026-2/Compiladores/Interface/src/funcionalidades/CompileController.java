@@ -26,6 +26,10 @@ public class CompileController {
 	}
 
 	public void compilar() {
+		if (!arquivoController.salvar()) {
+			return;
+		}
+
 		String codigo = editor.getText();
 		Lexico lexico = new Lexico();
 		Sintatico sintatico = new Sintatico();

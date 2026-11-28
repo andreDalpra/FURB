@@ -17,6 +17,7 @@ public class Semantico implements Constants {
    private static class Simbolo {
       private String identificador;
       private int tamanho;
+      private boolean utilizado;
 
       private Simbolo(String identificador, int tamanho) {
          this.identificador = identificador;
@@ -29,10 +30,12 @@ public class Semantico implements Constants {
 
       switch (action) {
          case 101: acao101(); break;
-         case 102: acao102(); break;
+         case 102: acao102(token); break;
          case 103: acao103(token); break;
          case 104: acao104(); break;
+         case 105: acao105(token); break;
          case 106: acao106(); break;
+         case 107: acao107(); break;
          case 108: acao108(); break;
          case 109: acao109(); break;
          case 110: acao110(token); break;
@@ -56,8 +59,10 @@ public class Semantico implements Constants {
          case 128: acao128(token); break;
          case 129: acao129(token); break;
          case 130: acao130(token); break;
-         case 131: acao131(); break;
+         case 131: acao131(token); break;
          case 132: acao132(); break;
+         case 133: acao133(); break;
+         case 134: acao134(); break;
          default:  throw new SemanticError("Acao semantica nao implementada: " + action);
       }
    }
@@ -72,7 +77,14 @@ public class Semantico implements Constants {
       codigoObjeto.append(".entrypoint\n");
 }
 
-   private void acao102() {
+   private void acao102(Token token) throws SemanticError {
+      // Verificacao obrigatoria: apenas atribuicao no destino ou entrada contam como uso.
+      for (Simbolo simbolo : tabelaSimbolos) {
+         if (!simbolo.utilizado) {
+            throw new SemanticError(simbolo.identificador + " identificador declarado, n\u00e3o utilizado",
+                  token.getPosition());
+         }
+      }
       codigoObjeto.append("ret\n");
       codigoObjeto.append("}\n");
       codigoObjeto.append("}");
@@ -88,6 +100,65 @@ public class Semantico implements Constants {
       codigoObjeto.append(".locals(" + tipo + " " + identificador + ")\n");
    }
 
+   private boolean ehVetor(String nome) {
+      for (Simbolo simbolo : tabelaSimbolos) {
+         if (simbolo.identificador.equals(nome)) {
+            return simbolo.tamanho > 0;
+         }
+      }
+      return false;
+   }
+
+   private void acao105(Token token) {
+      // Essa ação semantica fiz com IA, nao entendi array na linguagem ????
+      int tamanho = Integer.parseInt(token.getLexeme());
+      tabelaSimbolos.add(new Simbolo(identificador, tamanho));
+      String tipo = tipoIdentificador(identificador);
+      String classe;
+      switch (tipo) {
+         case "int64": classe = "System.Int64"; break;
+         case "float64": classe = "System.Double"; break;
+         case "string": classe = "System.String"; break;
+         default: classe = "System.Boolean"; break;
+      }
+      codigoObjeto.append(".locals(" + tipo + "[] " + identificador + ")\n");
+      codigoObjeto.append("ldc.i4 " + tamanho + "\n");
+      codigoObjeto.append("newarr [mscorlib]" + classe + "\n");
+      codigoObjeto.append("stloc " + identificador + "\n");
+   }
+
+   private void acao107() {
+      // A referencia deve ficar abaixo do indice e do valor na pilha IL.
+      if (ehVetor(identificador)) {
+         codigoObjeto.append("ldloc " + identificador + "\n");
+      }
+   }
+
+   private void acao134() {
+      pilhaTipos.pop();
+      codigoObjeto.append("conv.i4\n");
+   }
+
+   private String instrucaoElemento(String tipo, boolean armazenar) {
+      String prefixo = armazenar ? "stelem." : "ldelem.";
+      switch (tipo) {
+         case "int64": return prefixo + "i8";
+         case "float64": return prefixo + "r8";
+         case "string": return prefixo + "ref";
+         default: return prefixo + (armazenar ? "i1" : "u1");
+      }
+   }
+
+   private void acao133() {
+      pilhaTipos.pop(); // Tipo da expressao do indice.
+      String tipo = pilhaTipos.peek(); // Tipo do elemento, empilhado em #127.
+      codigoObjeto.append("conv.i4\n");
+      codigoObjeto.append(instrucaoElemento(tipo, false) + "\n");
+      if ("int64".equals(tipo)) {
+         codigoObjeto.append("conv.r8\n");
+      }
+   }
+
    private String tipoIdentificador(String nome) {
       switch (nome.charAt(0)) {
          case 'i': return "int64";
@@ -99,10 +170,16 @@ public class Semantico implements Constants {
 
    private void acao106() {
       pilhaTipos.pop();
-      if ("int64".equals(tipoIdentificador(identificador))) {
+      String tipo = tipoIdentificador(identificador);
+      if ("int64".equals(tipo)) {
          codigoObjeto.append("conv.i8\n");
       }
-      codigoObjeto.append("stloc " + identificador + "\n");
+      if (ehVetor(identificador)) {
+         codigoObjeto.append(instrucaoElemento(tipo, true) + "\n");
+      } else {
+         codigoObjeto.append("stloc " + identificador + "\n");
+      }
+      marcarUtilizado();
    }
 
    private void acao108() {
@@ -115,7 +192,21 @@ public class Semantico implements Constants {
       } else if ("bool".equals(tipo)) {
          codigoObjeto.append("call bool [mscorlib]System.Boolean::Parse(string)\n");
       }
-      codigoObjeto.append("stloc " + identificador + "\n");
+      if (ehVetor(identificador)) {
+         codigoObjeto.append(instrucaoElemento(tipo, true) + "\n");
+      } else {
+         codigoObjeto.append("stloc " + identificador + "\n");
+      }
+      marcarUtilizado();
+   }
+
+   private void marcarUtilizado() {
+      for (Simbolo simbolo : tabelaSimbolos) {
+         if (simbolo.identificador.equals(identificador)) {
+            simbolo.utilizado = true;
+            return;
+         }
+      }
    }
 
    private void acao127(Token token) {
@@ -123,7 +214,7 @@ public class Semantico implements Constants {
       String tipo = tipoIdentificador(nome);
       pilhaTipos.push(tipo);
       codigoObjeto.append("ldloc " + nome + "\n");
-      if ("int64".equals(tipo)) {
+      if ("int64".equals(tipo) && !ehVetor(nome)) {
          codigoObjeto.append("conv.r8\n");
       }
    }
@@ -296,13 +387,14 @@ public class Semantico implements Constants {
       codigoObjeto.append("ldstr " + token.getLexeme() + "\n");
    }
  
-   private void acao131() {
-      String tipo = pilhaTipos.pop();
-      if ("int64".equals(tipo)) {
-         pilhaTipos.push("int64");
-      } else {
-         pilhaTipos.push("float64");
-      }	  
+   private void acao131(Token token) throws SemanticError {
+      // Verificacao semantica especifica da equipe: compatibilidade do operando do + unario.
+      String tipo = pilhaTipos.peek();
+      if (!"int64".equals(tipo) && !"float64".equals(tipo)) {
+         throw new SemanticError("tipo incompativel em operador aritmetico unario +",
+               token.getPosition());
+      }
+      // O + unario preserva o tipo e o valor do operando.
    }     
 
    private void acao132() {

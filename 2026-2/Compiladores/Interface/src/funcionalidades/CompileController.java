@@ -1,7 +1,6 @@
 package funcionalidades;
 
 import java.io.StringReader;
-import java.io.File;
 import java.io.IOException;
 
 import compilador.LexicalError;
@@ -41,19 +40,18 @@ public class CompileController {
 
 		try {
 			sintatico.parse(lexico, semantico);
-			File arquivoGerado = arquivoController.salvarCodigoObjeto(semantico.getCodigoObjeto());
+			arquivoController.salvarCodigoObjeto(semantico.getCodigoObjeto());
 			console.writeLine("programa compilado com sucesso");
-			console.writeLine("código objeto salvo em: " + arquivoGerado.getAbsolutePath());
 		} catch (LexicalError erro) {
 			console.writeLine(String.format("linha %d: erro léxico",
 					apoioLexico.linhaDaPosicao(erro.getPosition())));
 		} catch (SyntaticError erro) {
-			console.writeLine(String.format("linha %d: encontrado %s esperado %s",
+			console.writeLine(String.format("linha %d: encontrado %s, erro sint\u00e1tico",
 					apoioLexico.linhaDaPosicao(erro.getPosition()),
-					apoioLexico.simboloEncontrado(erro.getPosition()),
-					erro.getMessage()));
+					apoioLexico.simboloEncontrado(erro.getPosition())));
 		} catch (SemanticError erro) {
-			throw new IllegalStateException("Erro semântico inesperado.", erro);
+			console.writeLine(String.format("linha %d: %s",
+					apoioLexico.linhaDaPosicao(erro.getPosition()), erro.getMessage()));
 		} catch (IOException erro) {
 			console.writeLine("Erro ao salvar o código objeto.");
 		}

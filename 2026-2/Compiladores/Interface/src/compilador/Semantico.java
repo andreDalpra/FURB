@@ -1,6 +1,7 @@
 package compilador;
 
 import java.util.Stack;
+import java.util.ArrayList;
 
 public class Semantico implements Constants {
     
@@ -8,6 +9,18 @@ public class Semantico implements Constants {
    private StringBuilder  codigoObjeto = new StringBuilder();
    private Stack<String>  pilhaTipos = new Stack<>();
    private String operador;
+   private String identificador = "";
+   private ArrayList<Simbolo> tabelaSimbolos = new ArrayList<>();
+
+   private static class Simbolo {
+      private String identificador;
+      private int tamanho;
+
+      private Simbolo(String identificador, int tamanho) {
+         this.identificador = identificador;
+         this.tamanho = tamanho;
+      }
+   }
 
    public void executeAction(int action, Token token) throws SemanticError {
       System.out.println("Acao #"+action+", Token: "+token);
@@ -15,6 +28,10 @@ public class Semantico implements Constants {
       switch (action) {
          case 101: acao101(); break;
          case 102: acao102(); break;
+         case 103: acao103(token); break;
+         case 104: acao104(); break;
+         case 106: acao106(); break;
+         case 108: acao108(); break;
          case 109: acao109(); break;
          case 116: acao116(); break;
          case 117: acao117(); break;
@@ -27,6 +44,7 @@ public class Semantico implements Constants {
          case 124: acao124(); break;
          case 125: acao125(); break;
          case 126: acao126(); break;
+         case 127: acao127(token); break;
          case 128: acao128(token); break;
          case 129: acao129(token); break;
          case 130: acao130(token); break;
@@ -50,6 +68,56 @@ public class Semantico implements Constants {
       codigoObjeto.append("ret\n");
       codigoObjeto.append("}\n");
       codigoObjeto.append("}");
+   }
+
+   private void acao103(Token token) {
+      identificador = token.getLexeme();
+   }
+
+   private void acao104() {
+      tabelaSimbolos.add(new Simbolo(identificador, 0));
+      String tipo = tipoIdentificador(identificador);
+      codigoObjeto.append(".locals(" + tipo + " " + identificador + ")\n");
+   }
+
+   private String tipoIdentificador(String nome) {
+      switch (nome.charAt(0)) {
+         case 'i': return "int64";
+         case 'f': return "float64";
+         case 's': return "string";
+         default: return "bool";
+      }
+   }
+
+   private void acao106() {
+      pilhaTipos.pop();
+      if ("int64".equals(tipoIdentificador(identificador))) {
+         codigoObjeto.append("conv.i8\n");
+      }
+      codigoObjeto.append("stloc " + identificador + "\n");
+   }
+
+   private void acao108() {
+      String tipo = tipoIdentificador(identificador);
+      codigoObjeto.append("call string [mscorlib]System.Console::ReadLine()\n");
+      if ("int64".equals(tipo)) {
+         codigoObjeto.append("call int64 [mscorlib]System.Int64::Parse(string)\n");
+      } else if ("float64".equals(tipo)) {
+         codigoObjeto.append("call float64 [mscorlib]System.Double::Parse(string)\n");
+      } else if ("bool".equals(tipo)) {
+         codigoObjeto.append("call bool [mscorlib]System.Boolean::Parse(string)\n");
+      }
+      codigoObjeto.append("stloc " + identificador + "\n");
+   }
+
+   private void acao127(Token token) {
+      String nome = token.getLexeme();
+      String tipo = tipoIdentificador(nome);
+      pilhaTipos.push(tipo);
+      codigoObjeto.append("ldloc " + nome + "\n");
+      if ("int64".equals(tipo)) {
+         codigoObjeto.append("conv.r8\n");
+      }
    }
 
    private void acao109() {
@@ -97,7 +165,10 @@ public class Semantico implements Constants {
 	    operador = token.getLexeme();	   
    }
    
-   private void acao122() {	  
+   private void acao122() {
+      String tipo2 = pilhaTipos.pop();
+      String tipo1 = pilhaTipos.pop();
+
 	  pilhaTipos.push("bool");
 	  
 	  if  ("=".equals(operador)) {

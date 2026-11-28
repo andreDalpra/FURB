@@ -8,6 +8,8 @@ public class Semantico implements Constants {
    //registros semanticos
    private StringBuilder  codigoObjeto = new StringBuilder();
    private Stack<String>  pilhaTipos = new Stack<>();
+   private Stack<String> pilhaRotulos = new Stack<>();
+   private int contadorRotulos = 0;
    private String operador;
    private String identificador = "";
    private ArrayList<Simbolo> tabelaSimbolos = new ArrayList<>();
@@ -33,6 +35,12 @@ public class Semantico implements Constants {
          case 106: acao106(); break;
          case 108: acao108(); break;
          case 109: acao109(); break;
+         case 110: acao110(token); break;
+         case 111: acao111(); break;
+         case 112: acao112(); break;
+         case 113: acao113(); break;
+         case 114: acao114(token); break;
+         case 115: acao115(); break;
          case 116: acao116(); break;
          case 117: acao117(); break;
          case 118: acao118(); break;
@@ -128,6 +136,51 @@ public class Semantico implements Constants {
       codigoObjeto.append("call void [mscorlib]System.Console::Write(" + tipo + ")\n");
     }
    
+   private String novoRotulo() {
+      return "R" + (++contadorRotulos);
+   }
+
+   private void acao110(Token token) {
+      pilhaTipos.pop();
+      String rotulo = novoRotulo();
+      pilhaRotulos.push(rotulo);
+      String desvio = "isTrueDo".equals(token.getLexeme()) ? "brfalse" : "brtrue";
+      codigoObjeto.append(desvio + " " + rotulo + "\n");
+   }
+
+   private void acao111() {
+      codigoObjeto.append(pilhaRotulos.pop() + ":\n");
+   }
+
+   private void acao112() {
+      String rotuloAlternativo = pilhaRotulos.pop();
+      String rotuloFim = novoRotulo();
+      codigoObjeto.append("br " + rotuloFim + "\n");
+      codigoObjeto.append(rotuloAlternativo + ":\n");
+      pilhaRotulos.push(rotuloFim);
+   }
+
+   private void acao113() {
+      String rotuloInicio = novoRotulo();
+      pilhaRotulos.push(rotuloInicio);
+      codigoObjeto.append(rotuloInicio + ":\n");
+   }
+
+   private void acao114(Token token) {
+      pilhaTipos.pop();
+      String rotuloFim = novoRotulo();
+      pilhaRotulos.push(rotuloFim);
+      String desvio = "isTrueDo".equals(token.getLexeme()) ? "brfalse" : "brtrue";
+      codigoObjeto.append(desvio + " " + rotuloFim + "\n");
+   }
+
+   private void acao115() {
+      String rotuloFim = pilhaRotulos.pop();
+      String rotuloInicio = pilhaRotulos.pop();
+      codigoObjeto.append("br " + rotuloInicio + "\n");
+      codigoObjeto.append(rotuloFim + ":\n");
+   }
+
    private void acao116(){
 	   String tipo1 = pilhaTipos.pop();
 	   String tipo2 = pilhaTipos.pop();
